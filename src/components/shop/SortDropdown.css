@@ -1,0 +1,36 @@
+/* Sort Dropdown — sizes in % of the 106-wide box so the scaled mobile open state keeps the composition */
+.sort {
+  z-index: 5;
+  background: var(--color-surface-page);
+  border: max(1px, calc(1 * var(--u))) solid var(--color-border-strong);
+  font-family: var(--font-sans); letter-spacing: -0.04em; line-height: 1.3;
+}
+.sort__trigger { position: absolute; left: 0; right: 0; top: 0; height: calc(30 * var(--u)); display: block; text-align: left; }
+.sort__label { position: absolute; left: 14.15%; top: calc(5 * var(--u)); font-size: max(9px, calc(16 * var(--u))); font-weight: 400; text-transform: capitalize; }
+.sort__chevron {
+  position: absolute; left: 71.7%; top: calc(12 * var(--u)); width: 13.21%; height: calc(7 * var(--u));
+  background: url('/images/icons/chevron-down.svg') center / 100% 100% no-repeat;
+}
+/* Divider / 04 under the trigger when open */
+.sort.is-open .sort__trigger { border-bottom: max(1px, calc(1 * var(--u))) solid var(--color-border-strong); }
+
+.sort__list { position: absolute; left: 1.89%; right: 1.89%; top: calc(40 * var(--u)); }
+.sort__option {
+  height: calc(29 * var(--u)); margin-bottom: calc(7 * var(--u));
+  padding: calc(4 * var(--u)) 0 0 12.26%;
+  background: var(--color-surface-page);
+  font-size: max(9px, calc(16 * var(--u))); color: var(--color-text-muted); white-space: nowrap; cursor: pointer;
+}
+.sort__option.is-selected { color: var(--color-text-primary); }
+.sort__option.is-disabled { cursor: default; }
+@media (hover: hover) and (pointer: fine) {
+  .sort__option:not(.is-disabled):hover { color: var(--color-text-primary); }
+}
+
+@media (max-width: 1279.98px) {
+  .sort__trigger { height: calc(30 * var(--u)); }
+  .sort__label { left: 14.29%; top: calc(6.2 * var(--u)); font-size: max(7px, calc(14 * var(--u))); }
+  .sort__chevron { left: 73.8%; top: calc(11.9 * var(--u)); width: 13.1%; height: calc(5 * var(--u)); background-image: url('/images/icons/chevron-down-m.svg'); }
+  .sort__list { top: calc(31.7 * var(--u)); }
+  .sort__option { height: calc(23 * var(--u)); margin-bottom: calc(5.5 * var(--u)); padding-top: calc(3 * var(--u)); font-size: max(7px, calc(12.6 * var(--u))); }
+}

@@ -26,7 +26,7 @@ for (const w of widthsArg.split(',').map(Number)) {
     scrollWidth: document.documentElement.scrollWidth,
     brokenImages: [...document.images].filter((i) => i.complete && i.naturalWidth === 0).map((i) => i.src),
   }));
-  const file = `${outDir}/${path === '/' ? 'home' : path.replace(/\W+/g, '-')}-${w}.png`;
+  const file = `${outDir}/${path === '/' ? 'home' : path.replace(/^\/+/, '').replace(/\W+/g, '-')}-${w}.png`;
   // grow the viewport to the page height first (fullPage capture resizes mid-shot, which resets inner scrollers)
   await page.setViewportSize({ width: w, height: metrics.height });
   await page.waitForTimeout(400);

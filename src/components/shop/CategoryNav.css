@@ -1,0 +1,33 @@
+/*
+ * Category Link — Desktop 215 × 51, text Pretendard 30 at y +7 (13.73%).
+ * Selected: Figma box (Helvetica, 30 high) at x +16 / y +14; the Pretendard line box (≈36) is centred on it → y +11.
+ */
+.catlink { background: var(--color-surface-page); }
+.catlink__btn { position: absolute; inset: 0; display: block; text-align: left; cursor: pointer; }
+.catlink__label {
+  position: absolute; left: 0; top: 13.73%;
+  font-family: var(--font-sans); font-weight: 700; line-height: normal; white-space: nowrap;
+  font-size: max(9px, calc(30 * var(--u)));
+  color: var(--color-text-primary);
+}
+@media (hover: hover) and (pointer: fine) {
+  .catlink:not(.is-selected) .catlink__btn:hover .catlink__label { font-weight: 800; }
+}
+.catlink.is-selected .catlink__label { left: calc(16 * var(--u)); top: calc(11 * var(--u)); font-weight: 800; color: var(--color-accent-brand); }
+
+/* Content / Graphic / 03 — two 6 × 6 accent squares (y 0 / 17) */
+.catlink__marker { display: none; }
+.catlink.is-selected .catlink__marker {
+  display: block; position: absolute; left: 0; top: calc(14 * var(--u));
+  width: calc(6 * var(--u)); height: calc(6 * var(--u)); background: var(--color-accent-brand);
+  box-shadow: 0 calc(17 * var(--u)) 0 var(--color-accent-brand);
+}
+
+@media (max-width: 1279.98px) {
+  .catlink__label { font-size: max(7px, calc(16 * var(--u))); }
+  .catlink.is-selected .catlink__label { left: calc(8.63 * var(--u)); top: calc(6.1 * var(--u)); }
+  .catlink.is-selected .catlink__marker {
+    top: calc(7.55 * var(--u)); width: calc(3.237 * var(--u)); height: calc(3.237 * var(--u));
+    box-shadow: 0 calc(9.17 * var(--u)) 0 var(--color-accent-brand);
+  }
+}

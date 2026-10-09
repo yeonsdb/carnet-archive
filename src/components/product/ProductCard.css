@@ -1,0 +1,50 @@
+/* Product Card — image area 587 × 783 (3:4), metadata below. Sizes scale with --u. */
+.pcard:not(.abs) { position: relative; }
+.pcard__media { position: relative; display: block; aspect-ratio: 587 / 783; overflow: hidden; }
+.pcard__layer { position: absolute; overflow: hidden; }
+.pcard__bg { inset: 0; }
+.pcard__layer > img { position: absolute; max-width: none; pointer-events: none; user-select: none; }
+.pcard__layer--cover > img { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+
+/* S-3 image swap (fine pointers only; touch keeps the model image) */
+.pcard__cutout { opacity: 0; }
+.pcard__model, .pcard__cutout { transition: opacity var(--motion-hover-duration) var(--motion-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .pcard__media:hover .pcard__model { opacity: 0; }
+  .pcard__media:hover .pcard__cutout { opacity: 1; }
+}
+
+/* Metadata — Desktop: Content / Product Metadata (row gap 20 / 105, name+price column 384, swatches 58) */
+.pcard__meta {
+  display: flex; align-items: flex-start; gap: calc(20 * var(--u));
+  margin-top: calc(15 * var(--u));
+  font-family: var(--font-sans); letter-spacing: -0.04em; line-height: normal;
+}
+.pcard__info { display: flex; flex-direction: column; gap: calc(5 * var(--u)); width: calc(384 * var(--u)); margin-right: calc(85 * var(--u)); }
+.pcard__name { font-weight: 600; font-size: max(9px, calc(16 * var(--u))); white-space: nowrap; }
+.pcard__price { font-weight: 400; font-size: max(9px, calc(16 * var(--u))); }
+.pcard__name-m { display: none; }
+.pcard__side { display: flex; align-items: flex-start; gap: calc(20 * var(--u)); }
+.pcard__swatches { display: flex; justify-content: flex-end; align-items: center; gap: calc(5 * var(--u)); width: calc(58 * var(--u)); }
+.pcard__swatch {
+  width: calc(16 * var(--u)); height: calc(16 * var(--u)); flex: none;
+  border: max(1px, calc(2 * var(--u))) solid #fff;
+  box-shadow: 0 0 calc(4 * var(--u)) rgba(0, 0, 0, 0.25);
+}
+.pcard__cart {
+  flex: none; width: calc(20 * var(--u)); height: calc(19 * var(--u));
+  background: url('/images/icons/cart-card.svg') center / 100% 100% no-repeat;
+}
+
+/* Mobile frame: Product Metadata (360 wide, justify-between, name 14 / price 10, swatches 38, gap 14) */
+@media (max-width: 1279.98px) {
+  .pcard__meta { margin-top: calc(6 * var(--u)); gap: 0; justify-content: space-between; align-items: center; }
+  .pcard__info { gap: 0; width: auto; flex: 0 1 calc(275 * var(--u)); min-width: 0; margin-right: 0; }
+  .pcard__name { font-size: max(7px, calc(14 * var(--u))); white-space: pre-line; }
+  .pcard__price { font-size: max(7px, calc(10 * var(--u))); }
+  .pcard__name-d { display: none; }
+  .pcard__name-m { display: inline; }
+  .pcard__side { align-items: center; gap: calc(14 * var(--u)); flex: none; }
+  .pcard__swatches { width: calc(38 * var(--u)); }
+  .pcard__cart { width: calc(17 * var(--u)); height: calc(16.15 * var(--u)); background-image: url('/images/icons/cart-card-m.svg'); }
+}
