@@ -9,8 +9,8 @@ await mkdir(outDir, { recursive: true });
 
 const browser = await chromium.launch({ channel: 'msedge' });
 for (const w of widthsArg.split(',').map(Number)) {
-  // scrollbar-free viewport so 1 design px == 1 CSS px at 1920 / 393
-  const ctx = await browser.newContext({ viewport: { width: w, height: 1000 }, deviceScaleFactor: 1 });
+  // scrollbar-free viewport so 1 design px == 1 CSS px at 1920 / 393; reduced motion → reveals show their final (Figma) state
+  const ctx = await browser.newContext({ viewport: { width: w, height: 1000 }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
   const page = await ctx.newPage();
   await page.goto(base + path, { waitUntil: 'networkidle' });
   await page.addStyleTag({ content: 'html{scrollbar-width:none} ::-webkit-scrollbar{display:none} *{animation:none!important;transition:none!important}' });

@@ -125,6 +125,17 @@ check('footer contact addresses are links (4 mailto + Instagram)', (await mail.c
 [b1, a1] = await hoverColor(mail.first(), mail.first());
 check('footer contact link hover #831A1F', a1 === ACCENT, `${b1} -> ${a1}`);
 
+// COLLECTIONS brush strokes paint in with scrolling (0 before the section, 1 once it is up)
+{
+  await page.setViewportSize({ width: 1920, height: 1000 });
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  const colTop = await page.evaluate(() => [...document.querySelectorAll('section.band')].find((b) => b.getAttribute('aria-label') === 'Collections').getBoundingClientRect().top + scrollY);
+  const brushAt = async (y) => { await page.evaluate((yy) => window.scrollTo(0, yy), y); await page.waitForTimeout(200);
+    return page.evaluate(() => parseFloat(getComputedStyle([...document.querySelectorAll('section.band')].find((b) => b.getAttribute('aria-label') === 'Collections').querySelector('.section')).getPropertyValue('--brush'))); };
+  const b0 = await brushAt(colTop - 1100), b1 = await brushAt(colTop - 500), b2 = await brushAt(colTop);
+  check('COLLECTIONS brush reveals with scroll (0 -> partial -> 1)', b0 === 0 && b1 > 0 && b1 < 1 && b2 === 1, `${b0} / ${b1} / ${b2}`);
+}
+
 // SHOP category cards: image and label both open /shop
 for (const [name, part] of [['ALL', 'image'], ['TOPS', 'label'], ['ACC', 'image'], ['BOTTOMS', 'label']]) {
   await page.goto(base + '/', { waitUntil: 'networkidle' });

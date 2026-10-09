@@ -90,6 +90,14 @@ const sel = await page.evaluate(() => [...document.querySelectorAll('.pp-size')]
 }));
 check('selected size shows the black 19×19 box (L), M plain', sel[0] === 'M:false:rgba(0, 0, 0, 0):190,19' && sel[1] === 'L:true:rgb(0, 0, 0):215,19', sel.join(' | '));
 
+// BUY IT NOW / CART: no gap between the two at scaled widths
+for (const w of [1600, 1366]) {
+  await page.setViewportSize({ width: w, height: 1000 });
+  const s = await page.evaluate(() => { const [b, c] = [...document.querySelectorAll('.pp-btn')].map((e) => e.getBoundingClientRect()); return { gap: c.left - b.right }; });
+  check(`BUY IT NOW / CART touch without a gap at ${w}px`, s.gap <= 0, `gap ${s.gap.toFixed(2)}px`);
+}
+await page.setViewportSize({ width: 1920, height: 1000 });
+
 // Q&A filter chips
 const rowsD = () => page.locator('.pq-row').count();
 const chip = (name) => page.getByRole('group', { name: '문의 유형' }).getByRole('button', { name, exact: true });

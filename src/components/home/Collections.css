@@ -5,6 +5,17 @@
 /* Sweep renders are flattened on white by the Figma export; multiply drops the white so only the stroke shows. */
 .col__sweep { mix-blend-mode: multiply; }
 
+/*
+ * Brush reveal (scroll-linked, see useBrushReveal): a soft-edged mask travels along the stroke from its upper-right end
+ * to its lower-left end (250deg ≈ the strokes' direction). --brush 0 = hidden, 1 = fully painted (the Figma state).
+ */
+.col__sweep--large, .col__sweep--small {
+  --p: var(--brush, 1);
+  -webkit-mask-image: linear-gradient(250deg, #000 calc(var(--p) * 115% - 15%), transparent calc(var(--p) * 115%));
+  mask-image: linear-gradient(250deg, #000 calc(var(--p) * 115% - 15%), transparent calc(var(--p) * 115%));
+}
+.col__sweep--small { --p: var(--brush-2, 1); }
+
 /* Decoration / Archive Texture (AW26): 50% opacity, Figma crop */
 .col__texture .rot__inner { overflow: hidden; opacity: 0.5; }
 .col__texture .rot__inner > img { left: 26.25%; width: 102.66%; inset: 0 auto 0 26.25%; }

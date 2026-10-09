@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Frame, Pic, Section, T, place, type Box } from '../../lib/artboard';
 import { Arrow } from '../ui/Arrow';
 import { RotatedBox, RotatedText } from '../ui/Rotated';
@@ -55,11 +55,45 @@ function SeasonItem({ text, textBox, align, arrow, arrowM, arrowDir, hit, hitM, 
  * H-6: the next/previous season control swaps the content in place. SS27 / AW25 have no design → not interactive.
  * H-5: collection images enlarge slightly on hover (fine pointers).
  */
+/**
+ * Brush reveal for the Archive Sweep strokes (feedback 2026-10-10): tied to scrolling, the strokes are painted in
+ * from the upper right towards the lower left as the section comes into view (and recede when scrolled back).
+ * Sets --brush (large stroke) and --brush-2 (small stroke, slightly later) from 0 to 1 on the section.
+ * Reduced motion: shown fully.
+ */
+function useBrushReveal() {
+  const ref = useRef<HTMLSpanElement>(null);
+  useEffect(() => {
+    const section = ref.current?.closest<HTMLElement>('.section');
+    if (!section) return;
+    const set = (p: number) => {
+      section.style.setProperty('--brush', p.toFixed(4));
+      section.style.setProperty('--brush-2', Math.min(1, Math.max(0, p * 1.35 - 0.35)).toFixed(4));
+    };
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { set(1); return; }
+    let raf = 0;
+    const update = () => {
+      raf = 0;
+      const vh = window.innerHeight;
+      const top = section.getBoundingClientRect().top;
+      // starts when the section top passes 95% of the viewport, complete when it reaches 15%
+      set(Math.min(1, Math.max(0, (vh * 0.95 - top) / (vh * 0.8))));
+    };
+    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
+    update();
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); cancelAnimationFrame(raf); };
+  }, []);
+  return ref;
+}
 export function Collections() {
   const [season, setSeason] = useState<Season>('SS26');
+  const brushRef = useBrushReveal();
 
   return (
     <Section d={[5834, 1481]} m={[2477, 687]} label="Collections">
+      <span ref={brushRef} hidden />
       <T as="h2" fs={[80, 20]} cls="f-display w600" d={[60, 6034]} m={[16, 2577]}>COLLECTIONS</T>
 
       {season === 'SS26' ? (
@@ -73,10 +107,10 @@ export function Collections() {
 
           {/* Decoration / Archive Sweep (noise effect) — 2x renders placed at their render bounds, trimmed at the frame's right
               edge (the export's grey off-frame area showed as a line; scripts/trim-frame-edge.mjs) */}
-          <Pic src={img('r-sweep-large')} fit="fill" className="col__sweep" d={[525, 5928.84, 1395, 655]} />
-          <Pic src={img('r-sweep-large-m')} fit="fill" className="col__sweep" m={[36.15, 2519.13, 356.67, 220.48]} />
-          <Pic src={img('r-sweep-small')} fit="fill" className="col__sweep" d={[1351.85, 5854.5, 567.7, 467.15]} />
-          <Pic src={img('r-sweep-small-m')} fit="fill" className="col__sweep" m={[220.32, 2496, 172.4, 200.24]} />
+          <Pic src={img('r-sweep-large')} fit="fill" className="col__sweep col__sweep--large" d={[525, 5928.84, 1395, 655]} />
+          <Pic src={img('r-sweep-large-m')} fit="fill" className="col__sweep col__sweep--large" m={[36.15, 2519.13, 356.67, 220.48]} />
+          <Pic src={img('r-sweep-small')} fit="fill" className="col__sweep col__sweep--small" d={[1351.85, 5854.5, 567.7, 467.15]} />
+          <Pic src={img('r-sweep-small-m')} fit="fill" className="col__sweep col__sweep--small" m={[220.32, 2496, 172.4, 200.24]} />
 
           <Pic src={img('r-ss26-main')} fit="fill" className="col__img" d={[909, 6191, 587, 786]} m={[16, 2623, 269, 361]} alt="SS26 SAMPLING" />
           <Pic src={img('ss26-secondary')} fit="cover" className="col__img" d={[1516, 6191.16, 344, 461]} m={[293, 2623, 84, 113]} alt="SS26 SAMPLING" />
