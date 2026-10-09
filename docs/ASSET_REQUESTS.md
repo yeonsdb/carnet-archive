@@ -11,7 +11,7 @@ Figma 레이어에 이미지 보정(노출·대비·채도·색온도·틴트)�
 
 | # | 페이지 | 노드 ID (Desktop / Mobile) | 레이어 | Figma 보정 | 현재 사용 파일 |
 |---|---|---|---|---|---|
-| 1 | SHOP | `1124:11517` / `1213:2079` | Product Card / 02 / TRACE PRISM DENIM JACKET › Image / State=Hover / Cutout (숨김) | 대비 +1 | `public/images/shop/cutout-02.webp` |
+| 1 | SHOP | `1124:11517` / `1213:2079`, `1213:2096` | Product Card / 02 / TRACE PRISM DENIM JACKET › Image / State=Hover / Cutout (숨김) | 대비 +1 | `public/images/shop/cutout-02.webp` |
 | 2 | SHOP | `1124:11526` / `1213:2273` | Product Card / 05 / HAND COATED MASS VEST › Image / State=Hover / Cutout (숨김) | 노출 +0.15, 채도 −0.77, 색온도 −0.38, 틴트 +0.37 | `public/images/shop/cutout-05.webp` |
 | 3 | SHOP | `1124:11338` | Product Card / 07 / TAR SUBMERGED NYLON TRUCKER JACKET › Image / State=Default / Model | 노출 +0.06 | `public/images/shop/model-07.webp` |
 | 4 | SHOP | `1124:11333` | Product Card / 08 / R/O CRUSTACEAN CROPED ZIP-UP HOODIE › Image / State=Default / Model | 노출 +0.06 | `public/images/shop/model-08.webp` |
