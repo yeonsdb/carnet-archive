@@ -27,7 +27,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
  * --st/--sh: desktop section top/height (design px), --mst/--msh: narrow-structure equivalents.
  * Children use page coordinates; .abs subtracts the section top.
  */
-.band { position: relative; width: 100%; }
+/* --bleed: white space on each side of the layout when the viewport is wider than it (0 otherwise) */
+.band { position: relative; width: 100%; --bleed: max(0px, (100cqw - var(--artboard) * var(--u)) / 2); }
 .section {
   position: relative;
   width: calc(var(--artboard) * var(--u));
@@ -45,6 +46,9 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
   height: calc(var(--h) * var(--u));
   translate: var(--ax, 0) 0;
 }
+
+/* sections whose images run past the layout edge on screens wider than it (body still clips horizontally) */
+.section.section--bleed-x { overflow-x: visible; overflow-y: clip; }
 
 @media (min-width: 1280px) {
   .hide-d { display: none !important; }

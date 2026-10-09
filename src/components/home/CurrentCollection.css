@@ -1,3 +1,16 @@
 .cc__texture { pointer-events: none; }
 .cc__new-in-border { border: max(1px, calc(1 * var(--u))) solid var(--color-accent-brand); }
 .cc__new-in-link { z-index: 1; }
+
+/*
+ * When the viewport is wider than the layout (white space beside it), the texture would otherwise stop with a hard
+ * edge at the layout edge (and the render holds unrelated green image content beyond the Figma frame).
+ * The layout edge sits at 80.8% of the texture box (D (1920 − 577) / 1661.73 · M (393 − 40) / 437.02): fade the last
+ * ~12% inside the layout to nothing so the texture dissolves into the white. Exactly 1920 / ≤ 786 are unchanged.
+ */
+@media (min-width: 1921px), (min-width: 787px) and (max-width: 1279.98px) {
+  .cc__texture {
+    -webkit-mask-image: linear-gradient(to right, #000 68.8%, transparent 80.8%);
+    mask-image: linear-gradient(to right, #000 68.8%, transparent 80.8%);
+  }
+}

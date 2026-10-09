@@ -28,23 +28,25 @@ const anim = await page.evaluate(() => {
 check('H-1 one dither reveal for the whole wordmark (CARNET + line + ARCHIVE), DOM text shown at the end',
   anim.groups === 1 && anim.parts === 'CARNET|line|ARCHIVE' && anim.visible === 'visible' && anim.canvas === 'none', JSON.stringify(anim));
 
-// H-2 gallery: opens at the Figma composition, wheel scrolls horizontally, page scroll resumes at the end
+// H-2 gallery: opens at the Figma composition; mouse drag scrolls it; the wheel scrolls the page (not the gallery)
 const g = page.locator('.hgallery');
 await g.scrollIntoViewIfNeeded();
 const start = await g.evaluate((el) => el.scrollLeft);
 check('H-2 gallery initial offset (≈365.8 design px)', Math.abs(start - 365.8) < 2, `scrollLeft=${start}`);
 const box = await g.boundingBox();
-await page.mouse.move(box.x + box.width / 2, box.y + box.height / 2);
+const cx = box.x + box.width / 2, cy = box.y + box.height / 2;
+await page.mouse.move(cx, cy);
+await page.mouse.down(); await page.mouse.move(cx - 150, cy, { steps: 6 }); await page.mouse.move(cx - 300, cy, { steps: 6 }); await page.mouse.up();
+const afterDrag = await g.evaluate((el) => el.scrollLeft);
+check('H-2 dragging left scrolls the gallery right by the drag distance', Math.abs(afterDrag - start - 300) < 2, `scrollLeft ${start}→${afterDrag}`);
+const cursor = await g.evaluate((el) => getComputedStyle(el).cursor);
+check('H-2 grab cursor over the gallery', cursor === 'grab', cursor);
 const pageY0 = await page.evaluate(() => scrollY);
 await page.mouse.wheel(0, 300);
-await page.waitForTimeout(300);
-const afterWheel = await g.evaluate((el) => el.scrollLeft);
+await page.waitForTimeout(400);
 const pageY1 = await page.evaluate(() => scrollY);
-check('H-2 wheel scrolls gallery horizontally', afterWheel > start && pageY1 === pageY0, `scrollLeft ${start}→${afterWheel}, pageY ${pageY0}→${pageY1}`);
-for (let i = 0; i < 15; i++) await page.mouse.wheel(0, 400);
-await page.waitForTimeout(300);
-const pageY2 = await page.evaluate(() => scrollY);
-check('H-2 page scrolls once gallery reaches its end', pageY2 > pageY1, `pageY ${pageY1}→${pageY2}`);
+const afterWheel = await g.evaluate((el) => el.scrollLeft);
+check('H-2 wheel over the gallery scrolls the page, not the gallery', pageY1 > pageY0 && afterWheel === afterDrag, `pageY ${pageY0}→${pageY1}, scrollLeft ${afterDrag}→${afterWheel}`);
 
 // H-3 look hover enlarges
 const look = page.locator('.hgallery__item').nth(4);

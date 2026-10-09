@@ -71,7 +71,7 @@ export function GlitchGroup({ d, m, children }: Props) {
       }
 
       // 2. split into square cells and keep only cells that contain ink (block = ink bounds inside the cell)
-      const size = Math.max(4, Math.round(fontPx * 0.16));
+      const size = Math.max(3, Math.round(fontPx * 0.09)); // block ≈ 9% of the letter size (feedback: smaller than 16%)
       const px = actx.getImageData(0, 0, art.width, art.height).data;
       const D = parseFloat(getComputedStyle(root).getPropertyValue('--motion-glitch-duration')) || 1400;
       const cells: Cell[] = [];

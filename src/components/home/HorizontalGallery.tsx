@@ -20,8 +20,10 @@ const NARROW = '(max-width: 1279.98px)';
 /**
  * H-2 / H-3 Horizontal gallery.
  * - Opens at the exact Figma composition (scrolled by `offset`), items outside the frame are reachable by scrolling.
- * - Mouse wheel over the gallery scrolls horizontally until an end is reached, then the page scrolls (approved Q8).
- * - Touch: native horizontal swipe. Pointer hover enlarges the hovered look (CSS, fine pointers only).
+ * - Mouse: drag with the cursor to scroll (feedback 2026-10-10 — replaces the wheel → horizontal mapping of Q8; the wheel
+ *   now scrolls the page as usual). Touch: native horizontal swipe. Hover enlarges the hovered look (fine pointers only).
+ * - Wider than the 1920 layout: the scroller extends to the viewport edges (--bleed), so the looks continue past the
+ *   layout edge instead of being cut off.
  */
 export function HorizontalGallery({ label, items, src, d, m }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -33,7 +35,8 @@ export function HorizontalGallery({ label, items, src, d, m }: Props) {
     if (!el) return;
     const mq = window.matchMedia(NARROW);
     const track = () => (mq.matches ? m : d);
-    const unit = () => el.clientWidth / (track().box[2] ?? 1);
+    const bleed = () => parseFloat(getComputedStyle(el).getPropertyValue('padding-left')) || 0;
+    const unit = () => (el.clientWidth - 2 * bleed()) / (track().box[2] ?? 1);
     let pos = track().offset;
     let userActive = false;
     const apply = () => { el.scrollLeft = pos * unit(); };
@@ -43,7 +46,7 @@ export function HorizontalGallery({ label, items, src, d, m }: Props) {
     apply();
     const ro = new ResizeObserver(apply);
     ro.observe(el);
-    const intents = ['wheel', 'pointerdown', 'touchstart', 'keydown'] as const;
+    const intents = ['pointerdown', 'touchstart', 'keydown'] as const;
     intents.forEach((t) => el.addEventListener(t, onIntent, { passive: true }));
     el.addEventListener('scroll', onScroll, { passive: true });
     mq.addEventListener('change', onBreakpoint);
@@ -55,22 +58,41 @@ export function HorizontalGallery({ label, items, src, d, m }: Props) {
     };
   }, [d, m]);
 
-  // Vertical wheel → horizontal scroll while the gallery can still move in that direction.
+  // Mouse drag → horizontal scroll (touch keeps native swipe). A drag suppresses the click that follows it.
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    const onWheel = (e: WheelEvent) => {
-      if (Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
-      const max = el.scrollWidth - el.clientWidth;
-      const canMove = e.deltaY > 0 ? el.scrollLeft < max - 1 : el.scrollLeft > 1;
-      if (!canMove) return;
-      e.preventDefault();
-      el.scrollLeft += e.deltaY;
+    let startX = 0, startLeft = 0, id = -1, moved = false;
+    const onDown = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse' || e.button !== 0) return;
+      id = e.pointerId; startX = e.clientX; startLeft = el.scrollLeft; moved = false;
     };
-    el.addEventListener('wheel', onWheel, { passive: false });
-    return () => el.removeEventListener('wheel', onWheel);
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerId !== id) return;
+      const dx = e.clientX - startX;
+      if (!moved && Math.abs(dx) > 3) { moved = true; el.setPointerCapture(id); el.classList.add('is-dragging'); }
+      if (moved) el.scrollLeft = startLeft - dx;
+    };
+    const onUp = (e: PointerEvent) => {
+      if (e.pointerId !== id) return;
+      id = -1;
+      el.classList.remove('is-dragging');
+      if (el.hasPointerCapture(e.pointerId)) el.releasePointerCapture(e.pointerId);
+    };
+    const onClick = (e: MouseEvent) => { if (moved) { e.preventDefault(); e.stopPropagation(); moved = false; } };
+    el.addEventListener('pointerdown', onDown);
+    el.addEventListener('pointermove', onMove);
+    el.addEventListener('pointerup', onUp);
+    el.addEventListener('pointercancel', onUp);
+    el.addEventListener('click', onClick, true);
+    return () => {
+      el.removeEventListener('pointerdown', onDown);
+      el.removeEventListener('pointermove', onMove);
+      el.removeEventListener('pointerup', onUp);
+      el.removeEventListener('pointercancel', onUp);
+      el.removeEventListener('click', onClick, true);
+    };
   }, []);
-
   const shift = (b: Box, off: number): Box => [b[0] + off, b[1], b[2], b[3]];
   const scroller = place({ d: d.box, m: m.box }, 'hgallery');
   const trackStyle = {
