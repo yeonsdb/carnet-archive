@@ -12,9 +12,8 @@
 }
 .catlink.is-inert .catlink__btn { cursor: default; }
 @media (hover: hover) and (pointer: fine) {
-  .catlink:not(.is-selected):not(.is-inert) .catlink__btn:hover .catlink__label { font-weight: 800; }
-  /* BOTTOMS / TOPS / ACC: colour change only */
-  .catlink.is-inert .catlink__btn:hover .catlink__label { color: var(--color-accent-brand); }
+  /* hover: colour change only (all categories) */
+  .catlink .catlink__btn:hover .catlink__label { color: var(--color-accent-brand); }
 }
 .catlink__label { transition: color var(--motion-hover-duration) var(--motion-ease-out); }
 .catlink.is-selected .catlink__label { left: calc(16 * var(--u)); top: calc(11 * var(--u)); font-weight: 800; color: var(--color-accent-brand); }

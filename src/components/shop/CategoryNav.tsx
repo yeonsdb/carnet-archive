@@ -14,9 +14,9 @@ const ITEMS: { key: CategoryKey | 'bottoms' | 'tops' | 'acc'; label: string; dy:
 ];
 
 /**
- * S-1 Category Link: ALL / OUTERWEAR — hover → State=Hover (Pretendard 800), click selects.
- * State=Selected (red, two square markers) is the current category and is distinct from hover.
- * BOTTOMS / TOPS / ACC — not interactive; hover changes the colour only (accent).
+ * S-1 Category Link: hover changes the colour only (accent) on every link (decision 2026-10-10).
+ * ALL / OUTERWEAR are selectable; State=Selected (red, two square markers) marks the current category.
+ * BOTTOMS / TOPS / ACC have no products (empty state not designed) → not clickable.
  * Helvetica Neue Heavy in the Selected design is mapped to Pretendard 800 (font policy).
  */
 export function CategoryNav({ value, onChange }: { value: CategoryKey; onChange: (k: CategoryKey) => void }) {
