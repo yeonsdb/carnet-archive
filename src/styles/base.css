@@ -38,7 +38,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 /* --ax / --max: horizontal anchor (0 = left edge, -50% = centre, -100% = right edge), as in Figma -translate-x */
 .abs {
   position: absolute;
-  left: calc(var(--x) * var(--u));
+  /* --ox / --mox: horizontal origin of a re-based layer (see GlitchGroup); 0 for section children */
+  left: calc((var(--x) - var(--ox, 0)) * var(--u));
   top: calc((var(--y) - var(--st)) * var(--u));
   width: calc(var(--w) * var(--u));
   height: calc(var(--h) * var(--u));
@@ -51,7 +52,7 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 @media (max-width: 1279.98px) {
   .section { height: calc(var(--msh) * var(--u)); }
   .abs {
-    left: calc(var(--mx) * var(--u));
+    left: calc((var(--mx) - var(--mox, 0)) * var(--u));
     top: calc((var(--my) - var(--mst)) * var(--u));
     width: calc(var(--mw) * var(--u));
     height: calc(var(--mh) * var(--u));
