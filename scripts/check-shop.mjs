@@ -30,20 +30,22 @@ check('S-3 model → cut-out on hover, back on leave', before === '0' && during 
 const filters = await page.evaluate(() => [...document.querySelectorAll('.pcard__layer')].map((e) => getComputedStyle(e).filter).filter((f) => f !== 'none'));
 check('no CSS filters on product images', filters.length === 0, filters.join(','));
 
-// S-1 categories: ALL/OUTERWEAR selectable; BOTTOMS/TOPS/ACC not clickable, colour-only hover
-const all = page.getByRole('button', { name: 'ALL' });
-await all.click();
-check('ALL selectable', (await all.getAttribute('aria-pressed')) === 'true');
-check('ALL lists all products', (await desktopCards.count()) === 10);
-const inert = page.locator('.catlink.is-inert').first();
-check('BOTTOMS/TOPS/ACC are not buttons', (await page.locator('.catlink.is-inert button').count()) === 0 && (await page.locator('.catlink.is-inert').count()) === 3);
-const label = inert.locator('.catlink__label');
-const c0 = await label.evaluate((el) => `${getComputedStyle(el).color} ${getComputedStyle(el).fontWeight}`);
-await inert.hover(); await page.waitForTimeout(400);
-const c1 = await label.evaluate((el) => `${getComputedStyle(el).color} ${getComputedStyle(el).fontWeight}`);
-await inert.click({ force: true });
-const stillAll = (await all.getAttribute('aria-pressed')) === 'true';
-check('inert category: colour changes, weight unchanged, click ignored', c0 === 'rgb(0, 0, 0) 700' && c1 === 'rgb(131, 26, 31) 700' && stillAll, `${c0} → ${c1}`);
+// S-1 categories: OUTERWEAR selected (all products); ALL / BOTTOMS / TOPS / ACC not clickable, colour-only hover
+const outer = page.getByRole('button', { name: 'OUTERWEAR' });
+check('OUTERWEAR selected, lists all products', (await outer.getAttribute('aria-pressed')) === 'true' && (await desktopCards.count()) === 10);
+check('ALL/BOTTOMS/TOPS/ACC are not buttons', (await page.locator('.catlink.is-inert button').count()) === 0 && (await page.locator('.catlink.is-inert').count()) === 4
+  && (await page.locator('.catlink.is-inert .catlink__label').first().textContent()) === 'ALL');
+for (const name of ['ALL', 'BOTTOMS']) {
+  const inert = page.locator('.catlink.is-inert').filter({ hasText: name });
+  const label = inert.locator('.catlink__label');
+  await page.mouse.move(5, 5); await page.waitForTimeout(350);
+  const c0 = await label.evaluate((el) => `${getComputedStyle(el).color} ${getComputedStyle(el).fontWeight}`);
+  await inert.hover(); await page.waitForTimeout(400);
+  const c1 = await label.evaluate((el) => `${getComputedStyle(el).color} ${getComputedStyle(el).fontWeight}`);
+  await inert.click({ force: true });
+  const stillOuter = (await outer.getAttribute('aria-pressed')) === 'true' && (await desktopCards.count()) === 10;
+  check(`inert ${name}: colour changes, weight unchanged, click ignored`, c0 === 'rgb(0, 0, 0) 700' && c1 === 'rgb(131, 26, 31) 700' && stillOuter, `${c0} -> ${c1}`);
+}
 
 // Sort dropdown
 await page.getByRole('button', { name: 'FILTER' }).click();

@@ -9,6 +9,16 @@
 .col__texture .rot__inner { overflow: hidden; opacity: 0.5; }
 .col__texture .rot__inner > img { left: 26.25%; width: 102.66%; inset: 0 auto 0 26.25%; }
 
+/* Narrow layout: VIEW ALL is a fixed 12px (feedback 2026-10-10), centred on the cell's mid line (y 3040, cell 3016 + 48/2) */
+@media (max-width: 1279.98px) {
+  .col__viewall-text {
+    font-size: 12px;
+    line-height: normal;
+    top: calc((3040 - var(--mst)) * var(--u));
+    translate: -100% -50%;
+  }
+}
+
 /* H-5: hovered collection image enlarges slightly */
 .col__img { transition: transform var(--motion-hover-duration) var(--motion-ease-out); }
 @media (hover: hover) and (pointer: fine) {

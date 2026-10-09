@@ -125,6 +125,29 @@ check('footer contact addresses are links (4 mailto + Instagram)', (await mail.c
 [b1, a1] = await hoverColor(mail.first(), mail.first());
 check('footer contact link hover #831A1F', a1 === ACCENT, `${b1} -> ${a1}`);
 
+// SHOP category cards: image and label both open /shop
+for (const [name, part] of [['ALL', 'image'], ['TOPS', 'label'], ['ACC', 'image'], ['BOTTOMS', 'label']]) {
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  const group = page.locator('.hover-group').filter({ has: page.locator('.hover-accent', { hasText: new RegExp(`^${name}$`) }) }).first();
+  const target = part === 'image' ? group.locator('a.swap__hit') : group.locator('.hover-accent', { hasText: new RegExp(`^${name}$`) });
+  await target.scrollIntoViewIfNeeded();
+  await target.click({ force: true });
+  await page.waitForURL('**/shop', { timeout: 5000 }).catch(() => {});
+  check(`SHOP category ${name}: clicking the ${part} opens /shop`, page.url().endsWith('/shop'), page.url());
+}
+
+// narrow layout: VIEW ALL is 12px, centred in its cell
+await page.setViewportSize({ width: 600, height: 900 });
+await page.goto(base + '/', { waitUntil: 'networkidle' });
+const va = await page.evaluate(() => {
+  const t = [...document.querySelectorAll('.col__viewall-text')].find((e) => e.offsetParent);
+  const cell = document.querySelector('.col__nav-viewall').getBoundingClientRect();
+  const r = t.getBoundingClientRect();
+  return { fs: getComputedStyle(t).fontSize, dy: Math.abs((r.top + r.bottom) / 2 - (cell.top + cell.bottom) / 2) };
+});
+check('narrow layout: VIEW ALL 12px, vertically centred in its cell', va.fs === '12px' && va.dy < 1.5, JSON.stringify(va));
+await page.setViewportSize({ width: 1920, height: 1000 });
+
 // NEW IN → /shop
 await page.goto(base + '/', { waitUntil: 'networkidle' });
 await page.getByRole('link', { name: /1ST DROP NEW IN/ }).click();

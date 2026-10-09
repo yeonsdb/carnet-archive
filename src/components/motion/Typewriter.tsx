@@ -2,9 +2,9 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { place, type PlaceProps } from '../../lib/artboard';
 import './Typewriter.css';
 
-const TYPE_MS = 40; // approved proposal (typing speed not specified)
+const TYPE_MS = 25; // 40 → 25 ms per character (feedback 2026-10-10: faster)
 const CURSOR_DELAY_MS = 1000; // Figma: Cursor / After Typing Delay=1000ms
-const CURSOR_BLINK_MS = 2000; // Figma: Blink Interval=2000ms
+const CURSOR_BLINK_MS = 500; // Figma Blink Interval=2000ms → 500ms (feedback 2026-10-10: faster blink)
 
 type Props = PlaceProps & {
   text: string;
@@ -17,7 +17,7 @@ type Props = PlaceProps & {
 /**
  * S-4 Brand Statement / Scroll=Typewriter (1124:11488).
  * Starts when scrolled into view, types the exact string (line breaks kept) one character at a time,
- * then shows the black cursor after 1000 ms and toggles it every 2000 ms. Plays once.
+ * then shows the black cursor after 1000 ms and toggles it every 500 ms. Plays once.
  */
 export function Typewriter({ text, fs, cls = '', cursor, ...pos }: Props) {
   const ref = useRef<HTMLParagraphElement>(null);

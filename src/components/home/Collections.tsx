@@ -25,7 +25,7 @@ function NavFrame({ d, viewAll, viewAllText }: { d: Box; viewAll: Box; viewAllTe
       <div className="hover-group">
         <Pic src={img('r-viewall-bg')} fit="fill" d={viewAll} className="hover-target" />
         <Frame className="col__nav-viewall hover-target" m={[285, 3016, 92, 48]} />
-        <T fs={[24, 16]} cls="f-sans w300 tr-4 c-inverse hover-accent hover-target" d={viewAllText} m={[363, 3031]} ax="r">VIEW ALL</T>
+        <T fs={[24, 16]} cls="f-sans w300 tr-4 c-inverse hover-accent hover-target col__viewall-text" d={viewAllText} m={[363, 3031]} ax="r">VIEW ALL</T>
       </div>
     </>
   );

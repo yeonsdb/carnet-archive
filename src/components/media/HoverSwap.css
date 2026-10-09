@@ -1,3 +1,6 @@
 .swap__hover { opacity: 0; transition: opacity var(--motion-hover-duration) var(--motion-ease-out); }
 .swap__hover.is-active { opacity: 1; }
 .swap__hit { z-index: 1; }
+.swap__hit--link { display: block; }
+/* linked card: the label is clickable too */
+.hover-group--link .hover-accent { cursor: pointer; }

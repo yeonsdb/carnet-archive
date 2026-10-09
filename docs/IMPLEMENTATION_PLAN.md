@@ -356,6 +356,10 @@ carnet-archive/
 | HOME hover 색 | SHOP 카테고리 이미지 hover → 해당 라벨, COLLECTIONS 시즌 이동(이름+화살표), VIEW ALL → #831A1F (피드백) | `.hover-group` / `.hover-target` / `.hover-accent` (CSS `:has`). SS27·AW25·VIEW ALL은 대상 없음 → 색만 변경 |
 | COLLECTIONS 오른쪽 세로선 | 제거 (피드백) | 곡선(Archive Sweep) 렌더에 Figma 프레임 밖 회색 영역이 포함돼 있었음 → 프레임 경계에서 잘라냄 (`scripts/trim-frame-edge.mjs`, 원본은 `.png.orig`) |
 | 푸터 CONTACT 주소 | 클릭 시 해당 주소로 (피드백) | 이메일 4개 → `mailto:`, IG `@CARNETARCHIVE` → `instagram.com/carnetarchive` (새 탭). 회사정보 EMAIL·모바일 CONTACT 버튼은 그대로 |
+| HOME 카테고리 카드 링크 | 이미지·텍스트 클릭 → 카테고리(SHOP) 페이지 (피드백, Q6 일부 변경) | 5개 카드 모두 `/shop` (상품이 OUTERWEAR 목록 하나뿐) |
+| SHOP 상단 ALL | 클릭 안 되게 (피드백) | BOTTOMS·TOPS·ACC와 같이 hover 색만 변경. OUTERWEAR 선택 상태 유지 |
+| 좁은 화면 VIEW ALL | 12px 고정 (피드백) | 셀 세로 가운데 정렬 |
+| SHOP 타이핑 | 더 빠르게, 커서 깜빡임 더 빠르게 (피드백) | 40 → 25ms/자, 깜빡임 2000 → 500ms (등장 지연 1000ms 유지) |
 | 메뉴·장바구니·알림 | Figma(구현 페이지·DS 페이지)와 DEV SPEC 어디에도 디자인 없음. DEV SPEC: "장바구니 알림 디자인…은 지정되지 않았다" | 보류. 헤더 아이콘·BUY/CART는 시각 요소만 |
 
 ---

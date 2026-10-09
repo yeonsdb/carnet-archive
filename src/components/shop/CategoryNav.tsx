@@ -5,7 +5,8 @@ export type CategoryKey = 'all' | 'outerwear';
 
 /** Navigation / Shop Categories — Desktop 1228:764 · Mobile 1228:765 (component set 1124:12447). */
 const ITEMS: { key: CategoryKey | 'bottoms' | 'tops' | 'acc'; label: string; dy: number; my: number; mh: number; active: boolean }[] = [
-  { key: 'all', label: 'ALL', dy: 273, my: 117, mh: 27, active: true },
+  // ALL is not clickable (feedback 2026-10-10) — colour change on hover only; OUTERWEAR (all products) is the list
+  { key: 'all', label: 'ALL', dy: 273, my: 117, mh: 27, active: false },
   { key: 'outerwear', label: 'OUTERWEAR', dy: 326, my: 145.15, mh: 27.516, active: true },
   // no products in these categories (empty state not designed) → not clickable, colour change on hover only
   { key: 'bottoms', label: 'BOTTOMS', dy: 379, my: 174, mh: 27, active: false },
@@ -15,8 +16,8 @@ const ITEMS: { key: CategoryKey | 'bottoms' | 'tops' | 'acc'; label: string; dy:
 
 /**
  * S-1 Category Link: hover changes the colour only (accent) on every link (decision 2026-10-10).
- * ALL / OUTERWEAR are selectable; State=Selected (red, two square markers) marks the current category.
- * BOTTOMS / TOPS / ACC have no products (empty state not designed) → not clickable.
+ * OUTERWEAR is the selected category (State=Selected: red, two square markers).
+ * ALL is not clickable (feedback); BOTTOMS / TOPS / ACC have no products (empty state not designed) → not clickable.
  * Helvetica Neue Heavy in the Selected design is mapped to Pretendard 800 (font policy).
  */
 export function CategoryNav({ value, onChange }: { value: CategoryKey; onChange: (k: CategoryKey) => void }) {
