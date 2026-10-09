@@ -6,35 +6,34 @@ import './ProductGallery.css';
 type Layout = { items: Box[]; prev: Box; next: Box };
 
 /**
- * Lay the track out for the active index: the active image is enlarged (×889/597) and centred on the Figma active slot;
- * neighbours keep their own size and sit at the Figma gaps (active ↔ neighbour, neighbour ↔ neighbour); the Previous /
- * Next buttons keep their Figma offset from the active image, so they always fall in the empty gap next to it.
- * With 05 active this reproduces the Figma frame exactly.
+ * Lay the track out for the active index. The Previous / Next buttons stay at their Figma boxes; the images move:
+ * the active image is enlarged (×889/597) and centred on the Figma active slot (always between the buttons — the widest
+ * active image, 05, is the Figma case); the neighbours sit just outside the buttons at the Figma gaps
+ * (04 → Previous, Next → 06), and the rest follow at the Figma gaps between items. So no image ever passes behind or
+ * in front of a button. With 05 active this reproduces the Figma frame exactly.
  */
 function layout(active: number, L: GalleryLayout, boxOf: (i: number) => Box): Layout {
   const items: Box[] = new Array(GALLERY.length);
   const [, ay, aw = 0, ah = 0] = boxOf(active);
   const w = aw * GALLERY_SCALE, h = ah * GALLERY_SCALE;
-  const left = L.center - w / 2;
-  items[active] = [left, ay + ah / 2 + L.drop - h / 2, w, h];
+  items[active] = [L.center - w / 2, ay + ah / 2 + L.drop - h / 2, w, h];
 
-  let edge = left;
+  let edge = L.prev[0] - L.prevGap; // right edge of the left neighbour
   for (let i = active - 1; i >= 0; i--) {
     const [, y, bw = 0, bh = 0] = boxOf(i);
-    edge -= (i === active - 1 ? L.neighbourLeft : L.gaps[i] ?? L.gap) + bw;
+    if (i < active - 1) edge -= L.gaps[i] ?? L.gap;
+    edge -= bw;
     items[i] = [edge, y, bw, bh];
   }
-  edge = left + w;
+  edge = L.next[0] + L.next[2] + L.nextGap; // left edge of the right neighbour
   for (let i = active + 1; i < GALLERY.length; i++) {
     const [, y, bw = 0, bh = 0] = boxOf(i);
-    edge += i === active + 1 ? L.neighbourRight : L.gaps[i - 1] ?? L.gap;
+    if (i > active + 1) edge += L.gaps[i - 1] ?? L.gap;
     items[i] = [edge, y, bw, bh];
     edge += bw;
   }
-  const [bw, bh, by] = L.button;
-  return { items, prev: [left - L.prevGap - bw, by, bw, bh], next: [left + w + L.nextGap, by, bw, bh] };
+  return { items, prev: L.prev, next: L.next };
 }
-
 /**
  * P-1 / P-2 Gallery — starts on 05 (enlarged). Previous / Next move the active image (400 ms, approved motion value);
  * buttons are disabled at either end. Only the initial state is drawn in Figma; other states follow the rule above.

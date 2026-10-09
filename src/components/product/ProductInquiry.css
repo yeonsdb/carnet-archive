@@ -8,7 +8,8 @@
   color: var(--color-text-muted);
   border: max(1px, calc(1 * var(--u))) solid var(--color-border-muted);
 }
-.pq-chip.is-selected { background: var(--color-surface-inverse); color: var(--color-text-inverse); border: 0; }
+.pq-chip { cursor: pointer; }
+.pq-chip.is-selected { background: var(--color-surface-inverse); color: var(--color-text-inverse); border: 0; cursor: default; }
 @media (max-width: 1279.98px) {
   .pq-chip { height: calc(23 * var(--u)); width: calc(var(--mw) * var(--u)); padding: 0; }
 }

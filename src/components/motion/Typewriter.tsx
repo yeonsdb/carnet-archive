@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { place, type PlaceProps } from '../../lib/artboard';
 import './Typewriter.css';
 
-const TYPE_MS = 25; // 40 → 25 ms per character (feedback 2026-10-10: faster)
+const TYPE_MS = 33; // 33 ms per character (feedback 2026-10-10)
 const CURSOR_DELAY_MS = 1000; // Figma: Cursor / After Typing Delay=1000ms
 const CURSOR_BLINK_MS = 500; // Figma Blink Interval=2000ms → 500ms (feedback 2026-10-10: faster blink)
 

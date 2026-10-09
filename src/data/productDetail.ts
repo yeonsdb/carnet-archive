@@ -36,32 +36,29 @@ export type GalleryLayout = {
   center: number;
   /** the enlarged item also moves down: Figma 05 centre y (581.5) − inactive model centre y (501.5) */
   drop: number;
-  /** gap active ↔ left / right neighbour (Figma 04 ↔ 05, 05 ↔ 06) */
-  neighbourLeft: number;
-  neighbourRight: number;
+  /** Previous / Next buttons — fixed at their Figma boxes (feedback 2026-10-10: buttons stay, images move) */
+  prev: readonly [number, number, number, number];
+  next: readonly [number, number, number, number];
+  /** gap between a button and the neighbouring image (Figma: 04 → Previous, Next → 06) */
+  prevGap: number;
+  nextGap: number;
   /** gap between items i and i + 1 when neither is active (Figma); `gap` (their mean) where Figma has no pair */
   gaps: (number | undefined)[];
   gap: number;
-  /** Previous button right edge → active left edge, active right edge → Next button left edge (Figma) */
-  prevGap: number;
-  nextGap: number;
-  /** button width, height, top */
-  button: readonly [number, number, number];
 };
 
 export const GALLERY_LAYOUT: { d: GalleryLayout; m: GalleryLayout } = {
   d: {
-    center: 946, drop: 80, neighbourLeft: 207, neighbourRight: 186,
+    center: 946, drop: 80,
+    prev: [636, 466, 54, 105], next: [1235, 466, 54, 105], prevGap: 115, nextGap: 61,
     gaps: [211, 147, 139, undefined, undefined, 126, 122], gap: 149,
-    prevGap: 38, nextGap: 71, button: [54, 105, 466],
   },
   m: {
-    center: 189.395, drop: 34.24, neighbourLeft: 88.58, neighbourRight: 79.59,
+    center: 189.395, drop: 34.24,
+    prev: [56.74, 218.78, 23.107, 44.931], next: [313.06, 218.78, 23.107, 44.931], prevGap: 49.21, nextGap: 26.1,
     gaps: [90.28, 62.9, 59.48, undefined, undefined, 53.92, 52.2], gap: 63.76,
-    prevGap: 16.26, nextGap: 30.38, button: [23.107, 44.931, 218.78],
   },
 };
-
 const g = (n: string) => `/images/product/gallery-${n}.webp`;
 export const GALLERY: GalleryImage[] = [
   { id: '01', label: 'Product Front', src: g('01'), d: [-1014, 326, 270, 297], m: [-649.31, 158.88, 115.536, 127.091], fit: 'cover' },

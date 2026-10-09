@@ -43,7 +43,8 @@ for (const name of ['ALL', 'BOTTOMS']) {
   await inert.hover(); await page.waitForTimeout(400);
   const c1 = await label.evaluate((el) => `${getComputedStyle(el).color} ${getComputedStyle(el).fontWeight}`);
   const outerWhileHover = await outer.locator('.catlink__label').evaluate((el) => getComputedStyle(el).color);
-  check(`hovering ${name}: selected OUTERWEAR label turns black`, outerWhileHover === 'rgb(0, 0, 0)', outerWhileHover);
+  const markerWhileHover = await page.locator('.catlink.is-selected .catlink__marker').evaluate((el) => `${getComputedStyle(el).backgroundColor}|${getComputedStyle(el).boxShadow}`);
+  check(`hovering ${name}: selected OUTERWEAR label and square markers turn black`, outerWhileHover === 'rgb(0, 0, 0)' && markerWhileHover.startsWith('rgb(0, 0, 0)|rgb(0, 0, 0)'), `${outerWhileHover} / ${markerWhileHover}`);
   await inert.click({ force: true });
   const stillOuter = (await outer.getAttribute('aria-pressed')) === 'true' && (await desktopCards.count()) === 10;
   check(`inert ${name}: colour changes, weight unchanged, click ignored`, c0 === 'rgb(0, 0, 0) 700' && c1 === 'rgb(131, 26, 31) 700' && stillOuter, `${c0} -> ${c1}`);

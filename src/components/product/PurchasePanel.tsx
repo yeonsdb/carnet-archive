@@ -89,7 +89,8 @@ export function PurchasePanel() {
       </button>
 
       <T fs={[16]} cls="f-sans w600 tr-4 lh-13" d={[1136, 1288]}>TOTAL</T>
-      <T as="output" fs={[20]} cls="f-sans w700 tr-4 lh-13" d={[1730, 1284]}>{formatPrice(DETAIL.price * qty)}</T>
+      {/* right-aligned on the Figma box's right edge (1730 + 94) so a longer total grows to the left */}
+      <T as="output" fs={[20]} cls="f-sans w700 tr-4 lh-13" d={[1824, 1284]} ax="r">{formatPrice(DETAIL.price * qty)}</T>
 
       <PanelButton label="BUY IT NOW" className="pp-btn--buy" d={[1102, 1335, 378, 78]} m={[16, 766, 180.262, 44.197]} lx={[134, 27]} mlx={[52, 11.88]} />
       <PanelButton label="CART" className="pp-btn--cart" d={[1480, 1335, 379, 78]} m={[196, 766, 180.738, 44.197]} lx={[164, 27]} mlx={[73, 11.88]} />

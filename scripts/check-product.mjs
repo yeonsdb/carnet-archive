@@ -53,6 +53,13 @@ async function sweepOverlap() {
 }
 const badD = await sweepOverlap();
 check('gallery buttons never overlap an image (desktop, 01–08)', badD.length === 0, badD.join(','));
+// buttons stay at their Figma boxes in every state (images move instead)
+const btnX = async () => page.evaluate(() => [...document.querySelectorAll('.pgallery__btn')].map((b) => Math.round(b.getBoundingClientRect().x)).join(','));
+const btnStart = await btnX();
+await next.click(); await page.waitForTimeout(450); await next.click(); await page.waitForTimeout(450);
+const btnAfter = await btnX();
+await prev.click(); await page.waitForTimeout(450); await prev.click(); await page.waitForTimeout(450);
+check('gallery buttons stay fixed (Previous 636, Next 1235)', btnStart === '636,1235' && btnAfter === btnStart, `${btnStart} / ${btnAfter}`);
 
 // tab labels centred in their tabs
 const offCentre = await page.evaluate(() => [...document.querySelectorAll('.ptabs__tab')].map((t) => {
@@ -68,6 +75,8 @@ const plus = page.getByRole('button', { name: '수량 늘리기' });
 check('quantity starts at 1, minus disabled', !(await minus.isEnabled()) && (await total()) === '870,000원', await total());
 await plus.click(); await plus.click();
 check('quantity + → 3, TOTAL 2,610,000원', (await total()) === '2,610,000원', await total());
+const totalRight = await page.locator('output').filter({ hasText: '원' }).first().evaluate((el) => Math.round(el.getBoundingClientRect().right));
+check('TOTAL amount right-aligned at 1824 (grows to the left)', Math.abs(totalRight - 1824) <= 1, `right=${totalRight}`);
 await minus.click();
 check('quantity − → 2, TOTAL 1,740,000원', (await total()) === '1,740,000원', await total());
 
@@ -80,6 +89,25 @@ const sel = await page.evaluate(() => [...document.querySelectorAll('.pp-size')]
   return `${e.textContent}:${e.classList.contains('is-selected')}:${s.borderTopColor}:${Math.round(r.left)},${Math.round(r.width)}`;
 }));
 check('selected size shows the black 19×19 box (L), M plain', sel[0] === 'M:false:rgba(0, 0, 0, 0):190,19' && sel[1] === 'L:true:rgb(0, 0, 0):215,19', sel.join(' | '));
+
+// Q&A filter chips
+const rowsD = () => page.locator('.pq-row').count();
+const chip = (name) => page.getByRole('group', { name: '문의 유형' }).getByRole('button', { name, exact: true });
+await chip('사이즈 문의').click();
+const nSize = await rowsD();
+const sizeCats = await page.locator('.pq-row .pq-badge').allTextContents();
+await chip('배송 문의').click();
+const nShip = await rowsD();
+await chip('상품 문의').click();
+const nNone = await rowsD();
+const empty = await page.getByText('등록된 문의가 없습니다.').first().isVisible();
+await chip('ALL').click();
+const nAll = await rowsD();
+const allTops = await page.evaluate(() => [...document.querySelectorAll('.pq-row')].map((r) => Math.round(r.getBoundingClientRect().top + scrollY)).join(','));
+check('Q&A filters: 사이즈 4 / 배송 1 / 상품 0 (empty message) / ALL 5',
+  nSize === 4 && sizeCats.every((c) => c === '사이즈 문의') && nShip === 1 && nNone === 0 && empty && nAll === 5, `${nSize}/${nShip}/${nNone}/${nAll} empty=${empty}`);
+check('Q&A ALL keeps the Figma row positions', allTops === '8556,8733,8896,9057,9220', allTops);
+check('Q&A selected chip is black (aria-pressed)', (await chip('ALL').getAttribute('aria-pressed')) === 'true');
 
 // BUY / CART visual only
 const url0 = page.url();
