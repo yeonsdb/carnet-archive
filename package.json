@@ -11,7 +11,8 @@
     "check:home": "node scripts/check-home.mjs",
     "images": "node scripts/optimize-images.mjs",
     "check:shop": "node scripts/check-shop.mjs",
-    "check:product": "node scripts/check-product.mjs"
+    "check:product": "node scripts/check-product.mjs",
+    "check:site": "node scripts/check-site.mjs"
   },
   "dependencies": {
     "react": "^19.3.0",
