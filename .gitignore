@@ -1,5 +1,8 @@
 node_modules
+# original Figma exports (large PNG); optimized WebP files live in public/images
+assets-src
 dist
+.captures
 .vercel
 *.local
 .DS_Store

@@ -1,0 +1,114 @@
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+
+body {
+  margin: 0;
+  container-type: inline-size;
+  overflow-x: clip;
+  background: var(--color-surface-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+p, h1, h2, h3, ul, li { margin: 0; padding: 0; }
+ul { list-style: none; }
+img { display: block; }
+a { color: inherit; text-decoration: none; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+
+:focus-visible { outline: 2px solid var(--color-accent-brand); outline-offset: 2px; }
+
+/* ---------- Artboard sections ---------- */
+/*
+ * Each section is a scaled slice of the Figma frame.
+ * --st/--sh: desktop section top/height (design px), --mst/--msh: narrow-structure equivalents.
+ * Children use page coordinates; .abs subtracts the section top.
+ */
+.band { position: relative; width: 100%; }
+.section {
+  position: relative;
+  width: calc(var(--artboard) * var(--u));
+  height: calc(var(--sh) * var(--u));
+  margin: 0 auto;
+  overflow: clip;
+}
+/* --ax / --max: horizontal anchor (0 = left edge, -50% = centre, -100% = right edge), as in Figma -translate-x */
+.abs {
+  position: absolute;
+  left: calc(var(--x) * var(--u));
+  top: calc((var(--y) - var(--st)) * var(--u));
+  width: calc(var(--w) * var(--u));
+  height: calc(var(--h) * var(--u));
+  translate: var(--ax, 0) 0;
+}
+
+@media (min-width: 1280px) {
+  .hide-d { display: none !important; }
+}
+@media (max-width: 1279.98px) {
+  .section { height: calc(var(--msh) * var(--u)); }
+  .abs {
+    left: calc(var(--mx) * var(--u));
+    top: calc((var(--my) - var(--mst)) * var(--u));
+    width: calc(var(--mw) * var(--u));
+    height: calc(var(--mh) * var(--u));
+    translate: var(--max, 0) 0;
+  }
+  .hide-m { display: none !important; }
+}
+
+/* ---------- Text ---------- */
+.t {
+  white-space: nowrap;
+  line-height: normal;
+  font-size: max(9px, calc(var(--fs) * var(--u)));
+}
+@media (max-width: 1279.98px) {
+  .t { font-size: max(7px, calc(var(--mfs) * var(--u))); }
+}
+.pre { white-space: pre; }
+.pre-wrap { white-space: pre-wrap; }
+
+/* S-Core Dream: Figma "auto" line height = 1.2 × size (80 → 96, 40 → 48, 20 → 24); browsers' `normal` differs */
+/* …and its glyphs sit ~0.075em lower in browsers than in Figma (measured at 80 / 54 / 40px). */
+.f-display { font-family: var(--font-display); line-height: 1.2; margin-top: -0.075em; }
+.f-sans { font-family: var(--font-sans); }
+.f-mono { font-family: var(--font-mono); }
+.w300 { font-weight: 300; } .w400 { font-weight: 400; } .w500 { font-weight: 500; }
+.w600 { font-weight: 600; } .w700 { font-weight: 700; } .w800 { font-weight: 800; }
+.tr-2 { letter-spacing: -0.02em; } .tr-3 { letter-spacing: -0.03em; } .tr-4 { letter-spacing: -0.04em; }
+.tr-42 { letter-spacing: -0.042em; } .tr-w5 { letter-spacing: 0.05em; }
+.c-inverse { color: var(--color-text-inverse); }
+.c-accent { color: var(--color-accent-brand); }
+.c-secondary { color: var(--color-text-secondary); }
+.ta-r { text-align: right; } .ta-c { text-align: center; }
+
+/* ---------- Media ---------- */
+.media { overflow: hidden; }
+.media > img { position: absolute; max-width: none; pointer-events: none; user-select: none; }
+.fit-fill > img { inset: 0; width: 100%; height: 100%; object-fit: fill; }
+.fit-cover > img { inset: 0; width: 100%; height: 100%; object-fit: cover; }
+/* Figma flips the layer box (the crop window stays attached to the flipped content) */
+.flip-x { scale: -1 1; }
+.crop > img { left: var(--cl); top: var(--ct); width: var(--cw); height: var(--ch); }
+@media (max-width: 1279.98px) {
+  .crop > img { left: var(--mcl, var(--cl)); top: var(--mct, var(--ct)); width: var(--mcw, var(--cw)); height: var(--mch, var(--ch)); }
+}
+
+.glyph > img { position: absolute; max-width: none; pointer-events: none; }
+
+/* horizontal rules drawn as boxes (Figma 0-height vectors) */
+.rule { border-top: max(1px, calc(1 * var(--u))) solid currentColor; height: 0; }
+
+/* ---------- Utilities ---------- */
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}

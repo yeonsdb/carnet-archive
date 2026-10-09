@@ -1,0 +1,48 @@
+/* Design tokens — source: docs/design-tokens.json (Carnet / Primitives · Semantic · Responsive) */
+:root {
+  /* color / semantic */
+  --color-surface-page: #ffffff;
+  --color-surface-inverse: #000000;
+  --color-text-primary: #000000;
+  --color-text-inverse: #ffffff;
+  --color-text-secondary: #767676;
+  --color-text-muted: #8b8b8b;
+  --color-text-pagination-inactive: #8f8f8f;
+  --color-accent-brand: #831a1f;
+  --color-border-strong: #000000;
+  --color-border-inverse: #ffffff;
+  --color-border-muted: #8b8b8b;
+  --color-border-tab-inactive: #8b8b8b;
+  --color-border-subtle: #cfcfcf;
+  --color-decoration-light: #d9d9d9;
+  --color-decoration-archive-teal: #15464a;
+
+  /* font families (Helvetica Neue tokens are mapped to Pretendard) */
+  --font-sans: 'Pretendard', system-ui, -apple-system, 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, 'Pretendard', monospace;
+  --font-display: 'S-Core Dream', 'Pretendard', sans-serif;
+
+  /* motion (approved proposal values, docs/IMPLEMENTATION_PLAN.md §8) */
+  --motion-hover-scale: 1.05;
+  --motion-hover-duration: 300ms;
+  --motion-ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --motion-glitch-duration: 800ms;
+  --motion-cursor-delay: 1000ms;
+  --motion-cursor-blink-interval: 2000ms;
+
+  /*
+   * Layout unit: 1 design px.
+   * Desktop structure (>= 1280px): 1920 frame scaled to the viewport (capped at 1920).
+   * Narrow structure (< 1280px): 393 frame scaled to the viewport (capped at 2x = 786px).
+   * 100cqw = body width without the scrollbar (body is the inline-size container).
+   */
+  --artboard: 1920;
+  --u: calc(min(100cqw, 1920px) / 1920);
+}
+
+@media (max-width: 1279.98px) {
+  :root {
+    --artboard: 393;
+    --u: calc(min(100cqw, 786px) / 393);
+  }
+}
