@@ -57,12 +57,12 @@ function SeasonItem({ text, textBox, align, arrow, arrowM, arrowDir, hit, hitM, 
  */
 /**
  * Brush reveal for the Archive Sweep strokes (feedback 2026-10-10): when the section scrolls into view, the strokes are
- * painted in from the upper right towards the lower left at a steady pace (large stroke 2.4 s, small stroke 0.5 s later,
+ * painted in from the upper right towards the lower left at a steady pace (large stroke 1.6 s, small stroke 0.35 s later,
  * ease-in-out), so the movement is visible however fast the page is scrolled. Plays once.
  * Sets --brush (large) and --brush-2 (small) from 0 to 1 on the section. Reduced motion: shown fully.
  */
-const BRUSH_MS = 2400;
-const BRUSH_2_DELAY_MS = 500;
+const BRUSH_MS = 1600; // 2.4 s was too slow, scroll-linked too fast (feedback)
+const BRUSH_2_DELAY_MS = 350;
 
 function useBrushReveal() {
   const ref = useRef<HTMLSpanElement>(null);

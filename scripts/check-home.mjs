@@ -139,7 +139,7 @@ check('footer contact link hover #831A1F', a1 === ACCENT, `${b1} -> ${a1}`);
   const mid = await read();
   await page.waitForTimeout(2600);
   const fin = await read();
-  check('COLLECTIONS brush paints in over ~2.4s once in view (0 -> partial -> 1)', b0 === 0 && mid[0] > 0 && mid[0] < 1 && mid[1] < mid[0] && fin[0] === 1 && fin[1] === 1, `${b0} / ${mid} / ${fin}`);
+  check('COLLECTIONS brush paints in over ~1.6s once in view (0 -> partial -> 1)', b0 === 0 && mid[0] > 0 && mid[0] < 1 && mid[1] < mid[0] && fin[0] === 1 && fin[1] === 1, `${b0} / ${mid} / ${fin}`);
 }
 
 // SHOP category cards: image and label both open /shop
