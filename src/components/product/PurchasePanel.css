@@ -15,7 +15,8 @@
   .pp-label, .pp-size { font-weight: 500; }
 }
 
-/* Color Swatch — Desktop 17 × 17, 2px white stroke · Mobile 12 × 12, 1px; drop shadow 0 0 4 rgba(0,0,0,.25) */
+/* Color Swatch — Desktop 19 × 19, 2px white inside stroke · Mobile 12 × 12 + 1px white outside stroke (14 × 14 box);
+   drop shadow 0 0 4 rgba(0,0,0,.25) */
 .pp-swatch {
   background: var(--sw);
   border: calc(2 * var(--u)) solid var(--color-border-inverse);

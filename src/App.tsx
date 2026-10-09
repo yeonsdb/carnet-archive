@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { BrowserRouter, Outlet, Route, Routes, useLocation } from 'react-router-dom';
+import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
 import { HomePage } from './pages/HomePage';
@@ -31,6 +31,8 @@ export function App() {
           <Route index element={<HomePage />} />
           <Route path="shop" element={<ShopPage />} />
           <Route path="product/:slug" element={<ProductPage />} />
+          {/* no 404 design: unknown paths go to HOME */}
+          <Route path="*" element={<Navigate to="/" replace />} />
         </Route>
       </Routes>
     </BrowserRouter>
