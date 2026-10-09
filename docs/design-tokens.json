@@ -1,0 +1,329 @@
+{
+  "$schema": "https://design-tokens.github.io/community-group/format/",
+  "$description": "CARNET-ARCHIVE design tokens. Figma 파일 NlZVjrzU6j4MDxumEG3bq7 / 페이지 '카르넷_구현'(1113:10489)의 PC 3개 + 모바일 3개 프레임에서 실측한 값만 기록. $extensions.carnet.status: measured(레이어 실측) | variable(Figma 변수로 존재 + 실사용 확인) | inferred(실측값에서 계산) | unverified(디자인에서 확인 불가, 구현 전 확인 필요). responsive 값은 { desktop: 1920 프레임, mobile: 393 프레임 }.",
+  "$extensions": {
+    "carnet.source": {
+      "fileKey": "NlZVjrzU6j4MDxumEG3bq7",
+      "page": "1113:10489 (카르넷_구현)",
+      "frames": {
+        "desktop.home": "1113:10490 (1920x8812)",
+        "desktop.shop": "1124:11259 (1920x6376)",
+        "desktop.productDetail": "1124:11643 (1920x11639)",
+        "mobile.home": "1184:617 (393x4028)",
+        "mobile.shop": "1195:1732 (393x4097)",
+        "mobile.productDetail": "1213:2342 (393x4704)"
+      },
+      "extractedAt": "2026-10-09"
+    }
+  },
+
+  "color": {
+    "$type": "color",
+    "primitive": {
+      "white":   { "$value": "#FFFFFF", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/FFFFFF" } },
+      "black":   { "$value": "#000000", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/000000" } },
+      "red-900": { "$value": "#831A1F", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/831A1F" } },
+      "teal-900":{ "$value": "#15464A", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/15464A" } },
+      "gray-600":{ "$value": "#767676", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/767676" } },
+      "gray-550":{ "$value": "#8B8B8B", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/8B8B8B" } },
+      "gray-500":{ "$value": "#8F8F8F", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/8F8F8F" } },
+      "gray-400":{ "$value": "#A4A4A4", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/A4A4A4", "carnet.note": "탭 테두리 #8B8B8B 통일 결정 이후 semantic 토큰에서 참조하지 않음" } },
+      "gray-300":{ "$value": "#CFCFCF", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/CFCFCF" } },
+      "gray-200":{ "$value": "#D9D9D9", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/D9D9D9", "carnet.note": "실측상 아이콘 Boolean(Subtract) 내부 컷아웃 도형에만 쓰여 화면에 노출되지 않음" } },
+      "gray-150":{ "$value": "#E9E9E9", "$extensions": { "carnet.status": "measured", "carnet.note": "모바일 상세(1213:2342)의 stroke 5곳에서만 사용. Figma 변수에 없음 → 확인 필요" } },
+      "chalk":   { "$value": "#F4F4F4", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/F4F4F4" } },
+      "charcoal":{ "$value": "#4E4952", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/4E4952" } },
+      "moss":    { "$value": "#4A6058", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/4A6058" } }
+    },
+    "bg": {
+      "page":    { "$value": "{color.primitive.white}", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/surface/page" } },
+      "inverse": { "$value": "{color.primitive.black}", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/surface/inverse", "carnet.usage": "Header, Footer, Primary 버튼, 활성 필터칩, 답변완료 배지" } },
+      "overlay-dark": { "$value": "#00000080", "$extensions": { "carnet.status": "measured", "carnet.usage": "상세 'Overlay / Product Description' (#000000, opacity 0.5)" } }
+    },
+    "text": {
+      "primary":   { "$value": "{color.primitive.black}",   "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/text/primary" } },
+      "inverse":   { "$value": "{color.primitive.white}",   "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/text/inverse" } },
+      "secondary": { "$value": "{color.primitive.gray-600}", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/text/secondary", "carnet.usage": "Stockist 도시명(SEOUL)" } },
+      "muted":     { "$value": "{color.primitive.gray-550}", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/text/muted", "carnet.usage": "비활성 탭, 정렬 옵션, 비활성 문의 필터, INCH, 안내 각주" } },
+      "pagination-inactive": { "$value": "{color.primitive.gray-500}", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/text/pagination-inactive" } },
+      "accent":    { "$value": "{color.primitive.red-900}", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/accent/brand", "carnet.usage": "선택된 카테고리, 1ST DROP NEW IN, Stockist hover, 인덱스 숫자" } }
+    },
+    "border": {
+      "strong":       { "$value": "{color.primitive.black}",    "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/border/strong" } },
+      "inverse":      { "$value": "{color.primitive.white}",    "$extensions": { "carnet.status": "measured", "carnet.usage": "Footer 구분선, 헤더 메뉴 아이콘, 컬러 스와치 테두리(2px)" } },
+      "muted":        { "$value": "{color.primitive.gray-550}", "$extensions": { "carnet.status": "measured", "carnet.usage": "PC 비활성 탭 하단선, 비활성 문의 필터 테두리" } },
+      "tab-inactive": { "$value": "{color.primitive.gray-550}", "$extensions": { "carnet.status": "decided", "carnet.figmaVar": "color/border/tab-inactive", "carnet.note": "2026-10-09 결정: PC·모바일 비활성 탭 테두리 #8B8B8B로 통일. 기존 Figma 변수 값(→color/A4A4A4)과 모바일 상세 탭 3곳의 #A4A4A4는 이 결정에 맞춰 갱신 대상" } },
+      "subtle":       { "$value": "{color.primitive.gray-300}", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/border/subtle", "carnet.usage": "수량 스테퍼, 상세 보조 구분선" } },
+      "accent":       { "$value": "{color.primitive.red-900}",  "$extensions": { "carnet.status": "measured", "carnet.usage": "1ST DROP NEW IN 버튼 테두리, 아이콘 선" } }
+    },
+    "decoration": {
+      "archive-teal": { "$value": "{color.primitive.teal-900}", "$extensions": { "carnet.status": "variable", "carnet.figmaVar": "color/decoration/archive-teal", "carnet.usage": "Collections 'Archive Sweep / Small' 곡선 stroke" } }
+    },
+    "product-swatch": {
+      "black":    { "$value": "{color.primitive.black}" },
+      "chalk":    { "$value": "{color.primitive.chalk}",    "$extensions": { "carnet.figmaVar": "color/product/chalk" } },
+      "charcoal": { "$value": "{color.primitive.charcoal}", "$extensions": { "carnet.figmaVar": "color/product/charcoal" } },
+      "green":    { "$value": "{color.primitive.moss}",     "$extensions": { "carnet.figmaVar": "color/product/green" } }
+    }
+  },
+
+  "font": {
+    "family": {
+      "$type": "fontFamily",
+      "display-kr": { "$value": ["S-Core Dream", "sans-serif"], "$extensions": { "carnet.usage": "섹션 헤딩(COLLECTIONS/SHOP/STOCKISTS), 캠페인 문구, 컬렉션 타이틀" } },
+      "sans":       { "$value": ["Pretendard", "sans-serif"], "$extensions": { "carnet.usage": "워드마크, 상품 정보, 카테고리, 상세 정보 전반" } },
+      "mono":       { "$value": ["IBM Plex Mono", "monospace"], "$extensions": { "carnet.usage": "브랜드 철학/스테이트먼트, 아카이브 코드, Footer" } },
+      "grotesk":    { "$value": ["Helvetica Neue", "Helvetica", "Arial", "sans-serif"], "$extensions": { "carnet.usage": "PC Shop/Detail 헤더 로고, 선택된 카테고리, FILTER 드롭다운, PC Shop/Detail Footer 일부", "carnet.note": "같은 역할에 Pretendard와 혼용됨 → DESIGN_SYSTEM.md '불일치' 참조" } }
+    },
+    "weight": {
+      "$type": "fontWeight",
+      "light": { "$value": 300 },
+      "regular": { "$value": 400 },
+      "medium": { "$value": 500 },
+      "semibold": { "$value": 600 },
+      "bold": { "$value": 700 },
+      "extrabold": { "$value": 800 },
+      "heavy": { "$value": 900, "$extensions": { "carnet.note": "Helvetica Neue 'Heavy'. 웹폰트 weight 매핑은 사용 폰트 파일에 따라 확인 필요" } }
+    },
+    "letterSpacing": {
+      "$type": "dimension",
+      "none": { "$value": "0em" },
+      "tight-2": { "$value": "-0.02em", "$extensions": { "carnet.figma": "-2%" } },
+      "tight-3": { "$value": "-0.03em", "$extensions": { "carnet.figma": "-3%" } },
+      "tight-4": { "$value": "-0.04em", "$extensions": { "carnet.figma": "-4%", "carnet.note": "가장 많이 쓰이는 값. -4.2%(TOPS/ACC 라벨 2곳)는 근사 중복으로 이 토큰에 통합 권장" } },
+      "wide-5":  { "$value": "0.05em",  "$extensions": { "carnet.figma": "5%", "carnet.usage": "Collections 대체 화면 아카이브 코드(IBM Plex Mono 24)" } }
+    },
+    "lineHeight": {
+      "$type": "number",
+      "auto":  { "$value": "normal", "$extensions": { "carnet.note": "Figma 'Auto'. 대부분 텍스트가 Auto" } },
+      "body":  { "$value": 1.3, "$extensions": { "carnet.figma": "130%" } },
+      "fixed-15": { "$value": "15px", "$extensions": { "carnet.usage": "Pretendard SemiBold 14/8 인덱스 숫자" } },
+      "fixed-20": { "$value": "20px", "$extensions": { "carnet.usage": "IBM Plex Mono Medium 22 (Brand Philosophy 키워드, PC)" } }
+    }
+  },
+
+  "typography": {
+    "$type": "typography",
+    "$description": "각 스타일은 desktop/mobile 값을 가짐. family/weight/letterSpacing/lineHeight가 desktop과 같으면 mobile에는 fontSize만 기록. color는 기본 색.",
+    "display": {
+      "wordmark":   { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 800, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "170px", "mobile": "48px" }, "color": "{color.text.inverse}" } },
+      "page-title": { "$value": { "fontFamily": "{font.family.display-kr}", "fontWeight": 800, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "160px", "mobile": "40px" }, "color": "{color.text.primary}" }, "$extensions": { "carnet.usage": "Shop 'SHOP' 타이틀 (S-Core Dream 7 ExtraBold)" } }
+    },
+    "heading": {
+      "section":          { "$value": { "fontFamily": "{font.family.display-kr}", "fontWeight": 700, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "80px", "mobile": "20px" }, "color": "{color.text.primary}" }, "$extensions": { "carnet.usage": "COLLECTIONS / SHOP / STOCKISTS / AW26: (S-Core Dream 6 Bold)" } },
+      "campaign":         { "$value": { "fontFamily": "{font.family.display-kr}", "fontWeight": 800, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "54px", "mobile": "10px" }, "color": "{color.text.inverse}" }, "$extensions": { "carnet.usage": "Brand Campaign 문구 (S-Core Dream 7 ExtraBold)" } },
+      "collection-title": { "$value": { "fontFamily": "{font.family.display-kr}", "fontWeight": 500, "letterSpacing": "-0.03em", "lineHeight": "normal", "fontSize": { "desktop": "40px", "mobile": "14px" }, "color": "{color.text.primary}" }, "$extensions": { "carnet.usage": "[UNEARTH: FILE-2711] (S-Core Dream 5 Medium)" } },
+      "season-label":     { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 600, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "50px", "mobile": "16px" }, "color": "{color.text.primary}" }, "$extensions": { "carnet.usage": "'AW26 / 'SS26 회전 라벨" } }
+    },
+    "body": {
+      "mono-keyword":   { "$value": { "fontFamily": "{font.family.mono}", "fontWeight": 500, "letterSpacing": "0em", "lineHeight": { "desktop": "20px", "mobile": "normal" }, "fontSize": { "desktop": "22px", "mobile": "10px" }, "color": "{color.text.primary}" }, "$extensions": { "carnet.usage": "METICULOUS DESIGN 등 Brand Philosophy 키워드; 캠페인 타이프라이터 텍스트(흰색, lineHeight Auto)" } },
+      "mono-statement": { "$value": { "fontFamily": "{font.family.mono}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "10px" }, "color": "{color.text.primary}" } },
+      "mono-code":      { "$value": { "fontFamily": "{font.family.mono}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "14px", "mobile": "10px" }, "color": "{color.text.primary}" }, "$extensions": { "carnet.usage": "회전 라벨의 컬렉션 코드/이름" } },
+      "mono-typewriter":{ "$value": { "fontFamily": "{font.family.mono}", "fontWeight": 300, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": null }, "color": "{color.text.primary}" }, "$extensions": { "carnet.status": "measured", "carnet.note": "PC Shop 그리드 내 '//: A CONTINUOUS…'. 모바일 Shop 프레임에 없음 → 모바일 노출 여부 미확인" } }
+    },
+    "label": {
+      "category":    { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 500, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "24px", "mobile": "14px" }, "color": "{color.text.primary}" } },
+      "link-large":  { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 300, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "24px", "mobile": "16px" }, "color": "{color.text.primary}" }, "$extensions": { "carnet.usage": "시즌 이동 링크, VIEW ALL(흰색)" } },
+      "cta-accent":  { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 500, "letterSpacing": "-0.03em", "lineHeight": "normal", "fontSize": { "desktop": "20px", "mobile": "12px" }, "color": "{color.text.accent}" }, "$extensions": { "carnet.usage": "1ST DROP NEW IN" } },
+      "index":       { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 600, "letterSpacing": "0em", "lineHeight": "15px", "fontSize": { "desktop": "14px", "mobile": "8px" }, "color": "{color.text.accent}" }, "$extensions": { "carnet.usage": "캠페인 인덱스 숫자 17/18/19/22" } },
+      "category-link":          { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 700, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "30px", "mobile": "unverified" }, "color": "{color.text.primary}" }, "$extensions": { "carnet.note": "모바일은 컴포넌트 인스턴스를 116x27로 축소 배치(원본 215x51). 실효 크기 약 16px로 추정되나 텍스트 크기 값 미확인" } },
+      "category-link-hover":    { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 800, "fontSize": { "desktop": "30px", "mobile": "unverified" } } },
+      "category-link-selected": { "$value": { "fontFamily": "{font.family.grotesk}", "fontWeight": 900, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "30px", "mobile": "16px" }, "color": "{color.text.accent}" } }
+    },
+    "stockist": {
+      "name":  { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 500, "letterSpacing": { "desktop": "-0.02em", "mobile": "unverified" }, "lineHeight": "normal", "fontSize": { "desktop": "28px", "mobile": "14px" }, "color": "{color.text.primary}" } },
+      "name-hover": { "$value": { "fontWeight": 600, "color": "{color.text.accent}" } },
+      "index": { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 300, "lineHeight": "normal", "fontSize": { "desktop": "24px", "mobile": "14px" }, "color": "{color.text.primary}" } },
+      "city":  { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "10px", "mobile": "10px" }, "color": "{color.text.secondary}" } }
+    },
+    "product": {
+      "name":  { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 600, "letterSpacing": { "desktop": "-0.04em", "mobile": "unverified" }, "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "14px" }, "color": "{color.text.primary}" } },
+      "price": { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 400, "letterSpacing": { "desktop": "-0.04em", "mobile": "unverified" }, "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "10px" }, "color": "{color.text.primary}" } }
+    },
+    "control": {
+      "filter-label":   { "$value": { "fontFamily": "{font.family.grotesk}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": 1.3, "textTransform": "capitalize", "fontSize": { "desktop": "16px", "mobile": "14px" }, "color": "{color.text.primary}" } },
+      "filter-option":  { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 400, "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "unverified" }, "color": "{color.text.muted}" }, "$extensions": { "carnet.note": "Open 상태는 PC 컴포넌트에만 존재" } },
+      "pagination":        { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": 1.3, "textTransform": "capitalize", "fontSize": { "desktop": "16px", "mobile": "14px" }, "color": "{color.text.pagination-inactive}" } },
+      "pagination-active": { "$value": { "fontWeight": 500, "color": "{color.text.primary}" } }
+    },
+    "header": {
+      "logo": { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 700, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "16px" }, "color": "{color.text.inverse}" }, "$extensions": { "carnet.note": "PC Shop/Detail 프레임은 Helvetica Neue Bold 16 사용 → 불일치" } }
+    },
+    "footer": {
+      "label":   { "$value": { "fontFamily": "{font.family.mono}", "fontWeight": 600, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "10px" }, "color": "{color.text.inverse}" } },
+      "value":   { "$value": { "fontFamily": "{font.family.mono}", "fontWeight": 400, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "10px" }, "color": "{color.text.inverse}" } },
+      "heading": { "$value": { "fontFamily": "{font.family.mono}", "fontWeight": 700, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "24px", "mobile": "16px" }, "color": "{color.text.inverse}" } },
+      "legal-link": { "$value": { "fontFamily": "{font.family.mono}", "fontWeight": 500, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": null }, "color": "{color.text.inverse}" }, "$extensions": { "carnet.note": "모바일 Footer에는 법적 링크(TERMS OF USE 등) 없음" } }
+    },
+    "detail": {
+      "product-name":  { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 600, "letterSpacing": "-0.04em", "lineHeight": { "desktop": "normal", "mobile": 1.3 }, "fontSize": { "desktop": "24px", "mobile": "14px" } } },
+      "product-price": { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": { "desktop": 600, "mobile": 500 }, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "24px", "mobile": "14px" } } },
+      "info-label":    { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": { "desktop": 600, "mobile": 500 }, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "10px" } } },
+      "info-value":    { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "10px" } } },
+      "tab-active":    { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": { "desktop": 600, "mobile": 500 }, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "10px" }, "color": "{color.text.primary}" } },
+      "tab-inactive":  { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "10px" }, "color": "{color.text.muted}" } },
+      "button":        { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 600, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "20px", "mobile": "14px" } } },
+      "order-total":   { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 700, "letterSpacing": "-0.04em", "lineHeight": 1.3, "fontSize": { "desktop": "20px", "mobile": "unverified" } } },
+      "section-title": { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 500, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "25px", "mobile": "14px" } }, "$extensions": { "carnet.usage": "상품 Q&A (카운트 '(5)'는 같은 크기 Regular)" } },
+      "body":          { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": 1.3, "fontSize": { "desktop": "16px", "mobile": "12px" } }, "$extensions": { "carnet.usage": "문의 본문, 선택 상품명/가격" } },
+      "caption":       { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": 1.3, "fontSize": { "desktop": "14px", "mobile": "unverified" } }, "$extensions": { "carnet.usage": "문의 날짜" } },
+      "badge":         { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 500, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "14px", "mobile": "10px" } }, "$extensions": { "carnet.usage": "답변완료(흰색/검정 배경), 문의 유형(#8B8B8B)" } },
+      "notice-title":  { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 700, "letterSpacing": "-0.04em", "lineHeight": 1.3, "fontSize": { "desktop": "24px", "mobile": "12px" }, "color": "{color.text.inverse}" } },
+      "guide-body":    { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": 1.3, "fontSize": { "desktop": "16px", "mobile": "8px" } } },
+      "size-table":    { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": { "desktop": 400, "mobile": 500 }, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "14px", "mobile": "8px" } } },
+      "unit-toggle":   { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": { "desktop": 600, "mobile": 500 }, "letterSpacing": "0em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "12px" } }, "$extensions": { "carnet.usage": "CM(활성, 검정) / INCH(비활성 Regular, #8B8B8B)" } },
+      "description":   { "$value": { "fontFamily": "{font.family.mono}", "fontWeight": 400, "letterSpacing": "-0.04em", "lineHeight": "normal", "fontSize": { "desktop": "16px", "mobile": "8px" }, "color": "{color.text.inverse}" } },
+      "write-link":    { "$value": { "fontFamily": "{font.family.sans}", "fontWeight": 500, "letterSpacing": "-0.04em", "lineHeight": "normal", "textDecoration": "underline", "fontSize": { "desktop": "16px", "mobile": "10px" }, "color": { "desktop": "{color.text.primary}", "mobile": "{color.text.muted}" } }, "$extensions": { "carnet.note": "PC는 검정, 모바일은 #8B8B8B → 불일치" } }
+    }
+  },
+
+  "space": {
+    "$type": "dimension",
+    "$description": "실측 간격. figmaVar가 있는 값은 Carnet / Semantic 변수와 일치.",
+    "0":   { "$value": "0px",   "$extensions": { "carnet.figmaVar": "spacing/0" } },
+    "2":   { "$value": "2px",   "$extensions": { "carnet.usage": "Stockist hover 시 이름-도시 gap, 카테고리 링크 행 간격(51px 행, 53px 피치)" } },
+    "4":   { "$value": "4px",   "$extensions": { "carnet.figmaVar": "spacing/4", "carnet.usage": "Stockist 이름-도시 gap" } },
+    "5":   { "$value": "5px",   "$extensions": { "carnet.figmaVar": "spacing/5", "carnet.usage": "상품명-가격, 스와치 간격, 날짜-배지, 모바일 문의필터 gap" } },
+    "6":   { "$value": "6px",   "$extensions": { "carnet.status": "measured", "carnet.usage": "모바일 상품 이미지-메타 간격" } },
+    "8":   { "$value": "8px",   "$extensions": { "carnet.status": "measured", "carnet.usage": "모바일 그리드 gutter, 모바일 카테고리 카드 열 간격" } },
+    "9":   { "$value": "9px",   "$extensions": { "carnet.figmaVar": "spacing/9", "carnet.usage": "문의 필터 상하 padding" } },
+    "10":  { "$value": "10px",  "$extensions": { "carnet.figmaVar": "spacing/10" } },
+    "12":  { "$value": "12px",  "$extensions": { "carnet.status": "measured", "carnet.usage": "PC 문의 필터 칩 간 간격" } },
+    "13":  { "$value": "13px",  "$extensions": { "carnet.status": "measured", "carnet.usage": "PC Footer 필드 행 간격(21px 텍스트, 34px 피치)" } },
+    "14":  { "$value": "14px",  "$extensions": { "carnet.status": "measured", "carnet.usage": "모바일 카드 메타 스와치-아이콘 gap" } },
+    "15":  { "$value": "15px",  "$extensions": { "carnet.status": "measured", "carnet.figmaVar": "layout/product-meta-gap", "carnet.usage": "PC 상품 이미지-메타 간격, Footer Contact 행 간격" } },
+    "16":  { "$value": "16px",  "$extensions": { "carnet.status": "measured", "carnet.usage": "모바일 페이지 좌우 여백" } },
+    "19":  { "$value": "19px",  "$extensions": { "carnet.status": "measured", "carnet.usage": "모바일 섹션 헤딩-콘텐츠, 카테고리 카드 행 간격" } },
+    "20":  { "$value": "20px",  "$extensions": { "carnet.figmaVar": "spacing/20", "carnet.usage": "PC 열 gutter, 메타 행 gap, 모바일 문의 블록 gap" } },
+    "23":  { "$value": "23px",  "$extensions": { "carnet.status": "measured", "carnet.usage": "문의 필터 좌우 padding" } },
+    "24":  { "$value": "24px",  "$extensions": { "carnet.figmaVar": "spacing/24" } },
+    "28":  { "$value": "28px",  "$extensions": { "carnet.figmaVar": "spacing/28", "carnet.usage": "문의 행 내부 세로 gap" } },
+    "29":  { "$value": "29px",  "$extensions": { "carnet.status": "measured", "carnet.usage": "모바일 상품 카드 간 세로 간격(메타 하단→다음 이미지)" } },
+    "30":  { "$value": "30px",  "$extensions": { "carnet.figmaVar": "spacing/30" } },
+    "40":  { "$value": "40px",  "$extensions": { "carnet.status": "measured", "carnet.usage": "PC 섹션 헤딩(80px)-콘텐츠 간격 (SHOP, STOCKISTS)" } },
+    "45":  { "$value": "45px",  "$extensions": { "carnet.status": "measured", "carnet.usage": "PC 홈 카테고리 카드 행 간격" } },
+    "60":  { "$value": "60px",  "$extensions": { "carnet.figmaVar": "spacing/60", "carnet.usage": "PC 페이지 좌우 여백, 헤더 높이" } },
+    "100": { "$value": "100px", "$extensions": { "carnet.status": "measured", "carnet.usage": "PC 홈 Brand Philosophy→Shop 섹션 간격" } },
+    "135": { "$value": "135px", "$extensions": { "carnet.figmaVar": "layout/product-grid-row-gap" } },
+    "200": { "$value": "200px", "$extensions": { "carnet.status": "measured", "carnet.usage": "PC 홈 주요 섹션 간 간격(Shop→Campaign, Campaign→Collections, Collections→Stockists)" } }
+  },
+
+  "size": {
+    "$type": "dimension",
+    "border-hairline": { "$value": "1px", "$extensions": { "carnet.figmaVar": "border/hairline" } },
+    "border-swatch":   { "$value": "2px", "$extensions": { "carnet.usage": "컬러 스와치 흰색 테두리, New In 화살표(PC)" } },
+    "radius-none":     { "$value": "0px", "$extensions": { "carnet.figmaVar": "radius/none", "carnet.note": "UI 요소는 모두 직각. radius 5는 아이콘 내부 도형에만 존재" } },
+    "icon": {
+      "header": { "$value": { "desktop": "20px", "mobile": "18px" }, "$extensions": { "carnet.usage": "메뉴(20x12 / 18x11), 계정·장바구니(20x19 / 18x17)" } },
+      "card-cart": { "$value": { "desktop": "20px", "mobile": "17px" } },
+      "arrow": { "$value": { "desktop": "27px", "mobile": "15px" }, "$extensions": { "carnet.usage": "New In 화살표 가로 길이. 시즌 내비 화살표 PC 43x27, 모바일 19x12" } },
+      "swatch": { "$value": { "desktop": "16px", "mobile": "16px" }, "$extensions": { "carnet.note": "상세 페이지 스와치는 PC 17px / 모바일 12px" } }
+    }
+  },
+
+  "layout": {
+    "$type": "dimension",
+    "frame-width":    { "$value": { "desktop": "1920px", "mobile": "393px" }, "$extensions": { "carnet.figmaVar": "layout/desktop-width (desktop)" } },
+    "content-width":  { "$value": { "desktop": "1800px", "mobile": "361px" }, "$extensions": { "carnet.figmaVar": "layout/content-width (desktop)" } },
+    "page-gutter":    { "$value": { "desktop": "60px", "mobile": "16px" }, "$extensions": { "carnet.figmaVar": "layout/page-gutter (desktop)" } },
+    "header-height":  { "$value": { "desktop": "60px", "mobile": "60px" }, "$extensions": { "carnet.figmaVar": "layout/header-height", "carnet.note": "모바일 프레임은 상단 53px iOS 상태바 목업과 겹쳐 있음(구현 대상 아님)" } },
+    "footer-height":  { "$value": { "desktop": "600px", "mobile": "276px" } },
+    "grid": {
+      "columns": { "$value": { "desktop": 12, "mobile": 4 }, "$type": "number", "$extensions": { "carnet.note": "PC는 12열(Shop/Detail 표시) + 15열(Home 표시) 레이아웃 그리드 2종이 함께 정의됨" } },
+      "gutter":  { "$value": { "desktop": "20px", "mobile": "8px" } },
+      "margin":  { "$value": { "desktop": "60px", "mobile": "16px" } }
+    },
+    "product-grid": {
+      "columns":      { "$value": { "desktop": 3, "mobile": 2 }, "$type": "number", "$extensions": { "carnet.note": "desktop 3열 = 실측. mobile 2열 = 요구사항(모바일 Shop 프레임은 1열 361px로 그려져 있음)" } },
+      "card-width":   { "$value": { "desktop": "587px", "mobile": "calc((100% - 8px) / 2)" }, "$extensions": { "carnet.figmaVar": "layout/product-card-width", "carnet.status": "desktop measured / mobile inferred (393 기준 176.5px)" } },
+      "column-gap":   { "$value": { "desktop": "20px", "mobile": "8px" }, "$extensions": { "carnet.figmaVar": "layout/product-column-gap" } },
+      "row-gap":      { "$value": { "desktop": "135px", "mobile": "29px" }, "$extensions": { "carnet.figmaVar": "layout/product-grid-row-gap", "carnet.note": "mobile 29px는 1열 레이아웃 실측값. 2열에서의 행 간격은 미확인" } },
+      "media-meta-gap": { "$value": { "desktop": "15px", "mobile": "6px" } }
+    },
+    "detail": {
+      "content-width":  { "$value": { "desktop": "1345px", "mobile": "361px" }, "$extensions": { "carnet.figmaVar": "layout/detail-content-width" } },
+      "inquiry-width":  { "$value": { "desktop": "1496px", "mobile": "361px" } },
+      "size-table-width": { "$value": { "desktop": "1194px", "mobile": "361px" } },
+      "tab-height":     { "$value": { "desktop": "61px", "mobile": "32px" }, "$extensions": { "carnet.figmaVar": "layout/detail-tab-height (desktop)" } },
+      "purchase-button-height": { "$value": { "desktop": "78px", "mobile": "44px" }, "$extensions": { "carnet.figmaVar": "layout/purchase-button-height (desktop)" } }
+    }
+  },
+
+  "aspectRatio": {
+    "$type": "string",
+    "$description": "이미지 비율. PC와 모바일에서 동일하게 유지되는 것을 실측으로 확인.",
+    "product":            { "$value": "3 / 4", "$extensions": { "carnet.measured": "587x783 (0.750) / 361x482 (0.749)" } },
+    "category-portrait":  { "$value": "3 / 4", "$extensions": { "carnet.measured": "ALL 587x783, TOPS 708x944 / 361x482, 176x235" } },
+    "category-landscape": { "$value": "465 / 357", "$extensions": { "carnet.measured": "465x357, 587x451 (≈1.30) / 177x136, 176x135", "carnet.note": "표준 4:3(1.333)이 아닌 약 1.30. 의도된 비율인지 확인 필요" } },
+    "editorial":          { "$value": "3 / 4", "$extensions": { "carnet.measured": "Archive 587x786, 344x460, 465x625(0.744) / 269x361, 84x113; 상세 Story 1345x1795 / 361x482" } },
+    "hero":               { "$value": "16 / 9", "$extensions": { "carnet.measured": "1920x1080 / 이미지 602x339를 393 폭에서 좌우 크롭(가시 영역 393x339)" } },
+    "campaign":           { "$value": "1920 / 770", "$extensions": { "carnet.measured": "1920x770 (2.494) / 이미지 520x209를 393 폭에서 좌우 크롭" } },
+    "stockist-editorial": { "$value": "900 / 511", "$extensions": { "carnet.measured": "900x511 / 361x205 (1.761)" } },
+    "detail-texture":     { "$value": "1345 / 641", "$extensions": { "carnet.measured": "1345x641 / 361x172 (2.099)" } },
+    "detail-gallery-active": { "$value": "436 / 889", "$extensions": { "carnet.measured": "436x889 / 187x380 (0.49)" } },
+    "detail-gallery-item":   { "$value": "unverified", "$extensions": { "carnet.measured": "265x597, 272x597, 283x586, 226x589 등 컷아웃마다 상이 (0.38~0.48)" } }
+  },
+
+  "component": {
+    "header": {
+      "height":     { "$value": { "desktop": "60px", "mobile": "60px" } },
+      "background": { "$value": "{color.bg.inverse}" },
+      "padding-x":  { "$value": { "desktop": "60px", "mobile": "16px" } },
+      "icon-gap":   { "$value": { "desktop": "21px", "mobile": "18px" }, "$extensions": { "carnet.usage": "계정 아이콘 끝 → 장바구니 아이콘 시작" } }
+    },
+    "footer": {
+      "height":     { "$value": { "desktop": "600px", "mobile": "276px" } },
+      "background": { "$value": "{color.bg.inverse}" },
+      "padding-x":  { "$value": { "desktop": "60px", "mobile": "16px" } },
+      "field-row-pitch":   { "$value": { "desktop": "34px", "mobile": "18px" } },
+      "contact-row-height":{ "$value": { "desktop": "35px", "mobile": "unverified" } },
+      "contact-row-pitch": { "$value": { "desktop": "50px", "mobile": "unverified" } },
+      "contact-column-x":  { "$value": { "desktop": "1152px", "mobile": "16px" }, "$extensions": { "carnet.note": "PC Contact 블록 폭 708px (우측 정렬 끝 1860)" } },
+      "divider":    { "$value": "1px solid {color.border.inverse}" }
+    },
+    "button": {
+      "primary":   { "$value": { "background": "{color.bg.inverse}", "color": "{color.text.inverse}", "border": "none", "height": { "desktop": "78px", "mobile": "44px" }, "radius": "0" }, "$extensions": { "carnet.usage": "BUY IT NOW" } },
+      "secondary": { "$value": { "background": "{color.bg.page}", "color": "{color.text.primary}", "border": "1px solid {color.border.strong}", "height": { "desktop": "78px", "mobile": "44px" }, "radius": "0" }, "$extensions": { "carnet.usage": "CART" } },
+      "outline-accent": { "$value": { "background": "transparent", "color": "{color.text.accent}", "border": "1px solid {color.border.accent}", "width": { "desktop": "259px", "mobile": "142px" }, "height": { "desktop": "44px", "mobile": "34px" } }, "$extensions": { "carnet.usage": "1ST DROP NEW IN →" } },
+      "outline":   { "$value": { "background": "{color.bg.page}", "color": "{color.text.primary}", "border": "1px solid {color.border.strong}", "width": { "desktop": "334px", "mobile": "176px" }, "height": { "desktop": "81px", "mobile": "48px" } }, "$extensions": { "carnet.usage": "상품 설명 더보기 ∨" } },
+      "view-all":  { "$value": { "background": "{color.bg.inverse}", "color": "{color.text.inverse}", "width": { "desktop": "364px", "mobile": "92px" }, "height": { "desktop": "78px", "mobile": "48px" } } },
+      "gallery-nav": { "$value": { "width": "54px", "height": "105px" }, "$extensions": { "carnet.note": "PC 상세 갤러리 이전/다음. 배경 색 값은 DESIGN_SYSTEM.md 미확인 목록 참조. 모바일 프레임에 없음" } },
+      "quantity-stepper": { "$value": { "cell": { "desktop": "34px", "mobile": "19px" }, "border": "1px solid {color.border.subtle}", "background": "{color.bg.page}" } }
+    },
+    "navigation": {
+      "category-link": { "$value": { "width": { "desktop": "215px", "mobile": "116px" }, "height": { "desktop": "51px", "mobile": "27~28px" }, "row-pitch": { "desktop": "53px", "mobile": "28~29px" }, "selected-marker": { "desktop": "6x6 사각형 2개(세로 간격 11px)", "mobile": "3x3 사각형 2개" } } },
+      "detail-tab":    { "$value": { "height": { "desktop": "61px", "mobile": "32px" }, "tab-count": 4, "active-border": "1px {color.border.strong} (top/left/right)", "inactive-border": "1px bottom {color.border.muted}" } },
+      "season-nav":    { "$value": { "height": { "desktop": "78px", "mobile": "48px" }, "border": "1px solid {color.border.strong}", "background": "{color.bg.page}" } },
+      "pagination":    { "$value": { "item-pitch": { "desktop": "30px", "mobile": "24px" } } }
+    },
+    "product-card": {
+      "media-ratio":   { "$value": "{aspectRatio.product}" },
+      "media-bg":      { "$value": "unverified", "$extensions": { "carnet.note": "'Background / Product Image' 레이어는 이미지 채움(배경 사진) 위에 모델 컷아웃을 겹친 구조" } },
+      "meta-gap":      { "$value": { "desktop": "15px", "mobile": "6px" } },
+      "name-price-gap":{ "$value": { "desktop": "5px", "mobile": "0px" } },
+      "swatch-size":   { "$value": "16px" },
+      "swatch-gap":    { "$value": "5px" },
+      "swatch-border": { "$value": "2px solid {color.border.inverse}" },
+      "cart-icon":     { "$value": { "desktop": "20x19", "mobile": "17x16" }, "$extensions": { "carnet.usage": "fill/stroke {color.text.accent}" } }
+    },
+    "filter": {
+      "sort-dropdown": { "$value": { "width": "106px", "height-closed": "30px", "height-open": "225px", "option-height": "29px", "option-pitch": "36px", "border": "1px solid {color.border.strong}", "background": "{color.bg.page}" }, "$extensions": { "carnet.note": "모바일 FILTER 버튼 84x30" } },
+      "inquiry-chip":  { "$value": { "padding": "9px 23px", "gap-between": { "desktop": "12px", "mobile": "5px" }, "height": { "desktop": "37px", "mobile": "23px" }, "active": { "background": "{color.bg.inverse}", "color": "{color.text.inverse}" }, "inactive": { "background": "{color.bg.page}", "color": "{color.text.muted}", "border": "1px solid {color.border.muted}" } }, "$extensions": { "carnet.note": "모바일 칩은 padding 9/23이 설정돼 있으나 실제 높이 23px로 축소 → padding 값 신뢰 불가" } },
+      "view-toggle":   { "$value": { "desktop": "16x16 사각형 2개(채움/외곽선)", "mobile": "1열 아이콘 15x14 + 2열 아이콘 14x14" } }
+    },
+    "stockist-row": {
+      "height":   { "$value": { "desktop": "33px", "mobile": "17px" } },
+      "width":    { "$value": { "desktop": "812px", "mobile": "361px" } },
+      "pitch":    { "$value": { "desktop": "~102px", "mobile": "50px" } },
+      "name-city-gap": { "$value": { "default": "4px", "hover": "2px" } },
+      "divider":  { "$value": "1px solid {color.border.strong}" }
+    },
+    "motion": {
+      "cursor-delay":          { "$value": "1000ms", "$type": "duration", "$extensions": { "carnet.figmaVar": "motion/cursor-delay-ms" } },
+      "cursor-blink-interval": { "$value": "2000ms", "$type": "duration", "$extensions": { "carnet.figmaVar": "motion/cursor-blink-interval-ms" } },
+      "hover-scale":           { "$value": "unverified", "$extensions": { "carnet.note": "DEV NOTE: '크기가 약간 커짐'. 배율/duration/easing 값 없음" } },
+      "transition-duration":   { "$value": "unverified" },
+      "gallery-initial-index": { "$value": 4, "$type": "number", "$extensions": { "carnet.figmaVar": "gallery/product-initial-index", "carnet.note": "0-based → 5번째 이미지(05 Model Front)" } }
+    }
+  }
+}
