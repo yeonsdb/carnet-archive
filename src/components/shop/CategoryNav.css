@@ -14,6 +14,8 @@
 @media (hover: hover) and (pointer: fine) {
   /* hover: colour change only (all categories) */
   .catlink .catlink__btn:hover .catlink__label { color: var(--color-accent-brand); }
+  /* while another category is hovered, the selected one's label turns black (only the hovered item is red) */
+  ul:has(.catlink:not(.is-selected) .catlink__btn:hover) .catlink.is-selected .catlink__label { color: var(--color-text-primary); }
 }
 .catlink__label { transition: color var(--motion-hover-duration) var(--motion-ease-out); }
 .catlink.is-selected .catlink__label { left: calc(16 * var(--u)); top: calc(11 * var(--u)); font-weight: 800; color: var(--color-accent-brand); }

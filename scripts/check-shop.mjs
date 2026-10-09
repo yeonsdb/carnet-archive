@@ -42,10 +42,15 @@ for (const name of ['ALL', 'BOTTOMS']) {
   const c0 = await label.evaluate((el) => `${getComputedStyle(el).color} ${getComputedStyle(el).fontWeight}`);
   await inert.hover(); await page.waitForTimeout(400);
   const c1 = await label.evaluate((el) => `${getComputedStyle(el).color} ${getComputedStyle(el).fontWeight}`);
+  const outerWhileHover = await outer.locator('.catlink__label').evaluate((el) => getComputedStyle(el).color);
+  check(`hovering ${name}: selected OUTERWEAR label turns black`, outerWhileHover === 'rgb(0, 0, 0)', outerWhileHover);
   await inert.click({ force: true });
   const stillOuter = (await outer.getAttribute('aria-pressed')) === 'true' && (await desktopCards.count()) === 10;
   check(`inert ${name}: colour changes, weight unchanged, click ignored`, c0 === 'rgb(0, 0, 0) 700' && c1 === 'rgb(131, 26, 31) 700' && stillOuter, `${c0} -> ${c1}`);
 }
+await page.mouse.move(5, 5); await page.waitForTimeout(400);
+const outerRest = await outer.locator('.catlink__label').evaluate((el) => getComputedStyle(el).color);
+check('cursor away: OUTERWEAR label red again', outerRest === 'rgb(131, 26, 31)', outerRest);
 
 // Sort dropdown
 await page.getByRole('button', { name: 'FILTER' }).click();
