@@ -26,7 +26,7 @@
   --motion-hover-scale: 1.05;
   --motion-hover-duration: 300ms;
   --motion-ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
-  --motion-glitch-duration: 800ms;
+  --motion-glitch-duration: 1400ms; /* 800ms → 1400ms (feedback: slower wordmark reveal) */
   --motion-cursor-delay: 1000ms;
   --motion-cursor-blink-interval: 2000ms;
   --motion-gallery-duration: 400ms;
