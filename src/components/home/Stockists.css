@@ -1,0 +1,29 @@
+.stockists__list { display: contents; }
+
+.stockist { font-family: var(--font-sans); white-space: nowrap; line-height: normal; }
+.stockist__content { position: absolute; left: 0; top: 0; display: flex; align-items: flex-start; gap: calc(4 * var(--u)); }
+.stockist__name {
+  font-size: max(9px, calc(28 * var(--u)));
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  transition: color var(--motion-hover-duration) var(--motion-ease-out);
+}
+.stockist__city { font-size: max(9px, calc(10 * var(--u))); font-weight: 400; letter-spacing: -0.04em; color: var(--color-text-secondary); }
+.stockist__index {
+  position: absolute; right: 0; top: 6.06%;
+  font-size: max(9px, calc(24 * var(--u))); font-weight: 300; letter-spacing: -0.04em;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .stockist:hover .stockist__content { gap: calc(2 * var(--u)); }
+  .stockist:hover .stockist__name { color: var(--color-accent-brand); font-weight: 600; }
+}
+
+@media (max-width: 1279.98px) {
+  .stockist__content { top: calc(1 * var(--u)); }
+  .stockist__name { font-size: calc(14 * var(--u)); }
+  .stockist__city { font-size: max(7px, calc(10 * var(--u))); }
+  .stockist__index { top: 5.88%; font-size: calc(14 * var(--u)); text-align: right; }
+}
+
+.stockists__viewall .rot__text { line-height: calc(15 * var(--u)); }

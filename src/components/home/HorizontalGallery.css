@@ -1,0 +1,23 @@
+.hgallery {
+  overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+.hgallery::-webkit-scrollbar { display: none; }
+.hgallery:focus-visible { outline-offset: -2px; }
+
+.hgallery__track { position: relative; height: 100%; width: calc(var(--tw) * var(--u)); }
+@media (max-width: 1279.98px) {
+  .hgallery__track { width: calc(var(--mtw) * var(--u)); }
+}
+
+/* H-3: hovered look enlarges (scale / duration: approved motion tokens) */
+.hgallery__item {
+  transform-origin: 50% 100%;
+  transition: transform var(--motion-hover-duration) var(--motion-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .hgallery__item:hover { transform: scale(var(--motion-hover-scale)); z-index: 1; }
+}

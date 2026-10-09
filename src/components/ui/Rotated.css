@@ -1,0 +1,18 @@
+.rot { display: flex; align-items: center; justify-content: center; }
+.rot__inner {
+  position: relative;
+  flex: none;
+  width: calc(var(--iw) * var(--u));
+  height: calc(var(--ih) * var(--u));
+  transform: rotate(var(--deg, 0deg)) var(--rx,);
+}
+.rot--text .rot__text { flex: none; transform: rotate(var(--deg, 0deg)); }
+@media (max-width: 1279.98px) {
+  .rot__inner {
+    width: calc(var(--miw) * var(--u));
+    height: calc(var(--mih) * var(--u));
+    transform: rotate(var(--mdeg, var(--deg, 0deg))) var(--rx,);
+  }
+  .rot--text .rot__text { transform: rotate(var(--mdeg, var(--deg, 0deg))); }
+}
+.rot__inner > img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; pointer-events: none; }

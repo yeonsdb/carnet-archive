@@ -1,0 +1,3 @@
+.cc__texture { pointer-events: none; }
+.cc__new-in-border { border: max(1px, calc(1 * var(--u))) solid var(--color-accent-brand); }
+.cc__new-in-link { z-index: 1; }

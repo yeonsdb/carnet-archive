@@ -1,0 +1,8 @@
+/* Desktop keywords: Carnet / T23 (IBM Plex Mono Medium 22, line-height 20px); mobile: line-height auto */
+.bp__keyword { line-height: calc(20 * var(--u)); }
+@media (max-width: 1279.98px) {
+  .bp__keyword { line-height: normal; }
+}
+.bp__fill { background: var(--color-surface-inverse); }
+.bp__line { border: max(1px, calc(1 * var(--u))) solid var(--color-border-strong); }
+.bp__statement-m { white-space: pre-wrap; }

@@ -1,0 +1,2 @@
+/* Decoration / Index: Pretendard SemiBold 14, line-height 15px (mobile 8 / 15px; "22" uses 130%) */
+.campaign__index { line-height: calc(15 * var(--u)); }

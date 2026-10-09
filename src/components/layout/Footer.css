@@ -1,0 +1,2 @@
+.site-footer { background: var(--color-surface-inverse); color: var(--color-text-inverse); }
+.site-footer__contact { border: max(1px, calc(1 * var(--u))) solid var(--color-border-inverse); }

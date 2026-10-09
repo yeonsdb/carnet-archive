@@ -1,0 +1,5 @@
+/* Wordmark / Separator — 2px white (desktop), 1px (mobile) */
+.hero__separator { height: 0; border-top: max(1px, calc(2 * var(--u))) solid var(--color-text-inverse); }
+@media (max-width: 1279.98px) {
+  .hero__separator { border-top-width: max(1px, calc(1 * var(--u))); }
+}

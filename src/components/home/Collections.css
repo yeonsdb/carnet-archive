@@ -1,0 +1,16 @@
+.col__nav { background: var(--color-surface-page); border: max(1px, calc(1 * var(--u))) solid var(--color-border-strong); }
+.col__nav-viewall { background: var(--color-surface-inverse); border: max(1px, calc(1 * var(--u))) solid var(--color-border-strong); }
+.col__switch { z-index: 2; background: transparent; }
+.col__sweep, .col__texture { pointer-events: none; }
+/* Sweep renders are flattened on white by the Figma export; multiply drops the white so only the stroke shows. */
+.col__sweep { mix-blend-mode: multiply; }
+
+/* Decoration / Archive Texture (AW26): 50% opacity, Figma crop */
+.col__texture .rot__inner { overflow: hidden; opacity: 0.5; }
+.col__texture .rot__inner > img { left: 26.25%; width: 102.66%; inset: 0 auto 0 26.25%; }
+
+/* H-5: hovered collection image enlarges slightly */
+.col__img { transition: transform var(--motion-hover-duration) var(--motion-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .col__img:hover { transform: scale(var(--motion-hover-scale)); z-index: 1; }
+}
