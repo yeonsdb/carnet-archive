@@ -40,8 +40,9 @@
 @media (max-width: 1279.98px) {
   .pcard__meta { margin-top: calc(6 * var(--u)); gap: 0; justify-content: space-between; align-items: center; }
   .pcard__info { gap: 0; width: auto; flex: 0 1 calc(275 * var(--u)); min-width: 0; margin-right: 0; }
-  .pcard__name { font-size: max(7px, calc(14 * var(--u))); white-space: pre-line; }
-  .pcard__price { font-size: max(7px, calc(10 * var(--u))); }
+  /* Figma text boxes: name 14px → 17 per line, price 10px → 12 (meta 29 / 46 high) */
+  .pcard__name { font-size: max(7px, calc(14 * var(--u))); line-height: calc(17 * var(--u)); white-space: pre-line; }
+  .pcard__price { font-size: max(7px, calc(10 * var(--u))); line-height: calc(12 * var(--u)); }
   .pcard__name-d { display: none; }
   .pcard__name-m { display: inline; }
   .pcard__side { align-items: center; gap: calc(14 * var(--u)); flex: none; }

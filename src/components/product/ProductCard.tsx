@@ -7,7 +7,7 @@ const pct = (v: number, of: number) => `${(v / of) * 100}%`;
 
 function Layer({ layer, src, className }: { layer: CardLayer; src: string; className: string }) {
   const [x, y, w, h] = layer.box;
-  const style = { left: pct(x, CARD_W), top: pct(y, CARD_H), width: pct(w, CARD_W), height: pct(h, CARD_H), filter: layer.filter } as CSSProperties;
+  const style = { left: pct(x, CARD_W), top: pct(y, CARD_H), width: pct(w, CARD_W), height: pct(h, CARD_H) } as CSSProperties;
   const img = layer.crop
     ? { left: `${layer.crop[0]}%`, top: `${layer.crop[1]}%`, width: `${layer.crop[2]}%`, height: `${layer.crop[3]}%` }
     : undefined;

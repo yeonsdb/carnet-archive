@@ -9,7 +9,8 @@
     "preview": "vite preview",
     "capture": "node scripts/capture.mjs",
     "check:home": "node scripts/check-home.mjs",
-    "images": "node scripts/optimize-images.mjs"
+    "images": "node scripts/optimize-images.mjs",
+    "check:shop": "node scripts/check-shop.mjs"
   },
   "dependencies": {
     "react": "^19.3.0",

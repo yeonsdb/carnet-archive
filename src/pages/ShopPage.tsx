@@ -54,6 +54,7 @@ export function ShopPage() {
 
   const products = useMemo(() => {
     const inCategory = PRODUCTS.filter((p) => category === 'all' || p.category === category);
+    // ALL and OUTERWEAR both list every product (all ten products are outerwear)
     return sortProducts(inCategory, sort);
   }, [category, sort]);
   const mobileProducts = products.filter((p) => p.inMobile);

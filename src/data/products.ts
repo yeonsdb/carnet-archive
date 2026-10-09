@@ -7,7 +7,7 @@ import type { Crop } from '../lib/artboard';
  * Mobile cards are the same composition scaled (361 / 587), so one geometry serves both layouts.
  */
 
-export type CardLayer = { box: readonly [number, number, number, number]; crop?: Crop; filter?: string };
+export type CardLayer = { box: readonly [number, number, number, number]; crop?: Crop };
 
 export type Product = {
   id: string;
@@ -36,16 +36,18 @@ export const PRODUCTS: Product[] = [
     model: { box: [33, 6, 543, 777], crop: [-158.75, 0, 277.17, 109.52] }, cutout: { box: [60, 111, 455, 562] }, inMobile: true },
   { id: '02', slug: 'trace-prism-denim-jacket', name: 'TRACE PRISM DENIM JACKET', price: 1280000, category: 'outerwear', colors: ['#f4f4f4'],
     model: { box: [33, 0, 522, 783], crop: [-21.26, -2.55, 301.46, 113.67] },
-    // Figma: contrast +1 on a hidden layer (cannot be exported) → CSS approximation
-    cutout: { box: [68, 141, 451, 501], filter: 'contrast(1.6)' }, inMobile: true },
+    // Hover 1124:11517 carries a Figma image adjustment (contrast +1) that cannot be exported while the layer is hidden;
+    // the layer's original image is used as-is until the adjusted asset is supplied (no CSS approximation).
+    cutout: { box: [68, 141, 451, 501] }, inMobile: true },
   { id: '03', slug: 'ro-binary-star-mass-cropped-jacket', name: 'R/O BINARY STAR MASS CROPPED JACKET', price: 1280000, category: 'outerwear', colors: ['#000000'],
     model: { box: [48, 6, 495, 777], crop: [-194.08, -13.31, 324.64, 116.91] }, cutout: { box: [84, 142, 420, 557] }, inMobile: true },
   { id: '04', slug: 'paper-crustacean-padded-short-bomber-jacket', name: 'PAPER CRUSTACEAN PADDED SHORT BOMBER JACKET', price: 870000, category: 'outerwear', colors: ['#000000', '#4e4952'],
     model: { box: [66, 0, 470, 783], crop: [-88.94, -11.88, 562.44, 190.8] }, cutout: { box: [69, 158, 449, 517] }, inMobile: true },
   { id: '05', slug: 'hand-coated-mass-vest', name: 'HAND COATED MASS VEST (*PATINA SERIES)', nameMobile: 'HAND COATED MASS VEST\n(*PATINA SERIES)', price: 930000, category: 'outerwear', colors: ['#f4f4f4'],
     model: { box: [41, 0, 465, 783], crop: [-176.86, -1.28, 301.81, 101.28] },
-    // Figma: exposure +0.15, saturation −0.77, temperature −0.38, tint +0.37 on a hidden layer → CSS approximation
-    cutout: { box: [110, 155, 362, 441], filter: 'brightness(1.12) saturate(0.23)' }, inMobile: true },
+    // Hover 1124:11526 carries Figma image adjustments (exposure +0.15, saturation −0.77, temperature −0.38, tint +0.37)
+    // that cannot be exported while hidden; original image used as-is until the adjusted asset is supplied.
+    cutout: { box: [110, 155, 362, 441] }, inMobile: true },
   { id: '06', slug: 'excavated-rider-denim-jacket', name: 'EXCAVATED RIDER DENIM JACKET', price: 970000, category: 'outerwear', colors: ['#000000'],
     model: { box: [8, 0, 547, 783], crop: [-20.11, -2.04, 283.82, 112.13] }, cutout: { box: [80, 155, 427, 515] }, inMobile: true },
   { id: '07', slug: 'tar-submerged-nylon-trucker-jacket', name: 'TAR SUBMERGED NYLON TRUCKER JACKET', price: 1280000, category: 'outerwear', colors: ['#000000'],
