@@ -22,8 +22,7 @@ const NARROW = '(max-width: 1279.98px)';
  * - Opens at the exact Figma composition (scrolled by `offset`), items outside the frame are reachable by scrolling.
  * - Mouse: drag with the cursor to scroll (feedback 2026-10-10 — replaces the wheel → horizontal mapping of Q8; the wheel
  *   now scrolls the page as usual). Touch: native horizontal swipe. Hover enlarges the hovered look (fine pointers only).
- * - Wider than the 1920 layout: the scroller extends to the viewport edges (--bleed), so the looks continue past the
- *   layout edge instead of being cut off.
+ * - Looks beyond the layout edge are cut off at the layout edge (as in the PRODUCT gallery; feedback 2026-10-10).
  */
 export function HorizontalGallery({ label, items, src, d, m }: Props) {
   const ref = useRef<HTMLDivElement>(null);
@@ -35,8 +34,7 @@ export function HorizontalGallery({ label, items, src, d, m }: Props) {
     if (!el) return;
     const mq = window.matchMedia(NARROW);
     const track = () => (mq.matches ? m : d);
-    const bleed = () => parseFloat(getComputedStyle(el).getPropertyValue('padding-left')) || 0;
-    const unit = () => (el.clientWidth - 2 * bleed()) / (track().box[2] ?? 1);
+    const unit = () => el.clientWidth / (track().box[2] ?? 1);
     let pos = track().offset;
     let userActive = false;
     const apply = () => { el.scrollLeft = pos * unit(); };

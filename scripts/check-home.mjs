@@ -132,8 +132,14 @@ check('footer contact link hover #831A1F', a1 === ACCENT, `${b1} -> ${a1}`);
   const colTop = await page.evaluate(() => [...document.querySelectorAll('section.band')].find((b) => b.getAttribute('aria-label') === 'Collections').getBoundingClientRect().top + scrollY);
   const brushAt = async (y) => { await page.evaluate((yy) => window.scrollTo(0, yy), y); await page.waitForTimeout(200);
     return page.evaluate(() => parseFloat(getComputedStyle([...document.querySelectorAll('section.band')].find((b) => b.getAttribute('aria-label') === 'Collections').querySelector('.section')).getPropertyValue('--brush'))); };
-  const b0 = await brushAt(colTop - 1100), b1 = await brushAt(colTop - 500), b2 = await brushAt(colTop);
-  check('COLLECTIONS brush reveals with scroll (0 -> partial -> 1)', b0 === 0 && b1 > 0 && b1 < 1 && b2 === 1, `${b0} / ${b1} / ${b2}`);
+  const b0 = await brushAt(colTop - 1100); // section still below the screen: not painted
+  await brushAt(colTop - 300);              // in view → the paint starts
+  await page.waitForTimeout(700);
+  const read = () => page.evaluate(() => { const s = getComputedStyle([...document.querySelectorAll('section.band')].find((b) => b.getAttribute('aria-label') === 'Collections').querySelector('.section')); return [parseFloat(s.getPropertyValue('--brush')), parseFloat(s.getPropertyValue('--brush-2'))]; });
+  const mid = await read();
+  await page.waitForTimeout(2600);
+  const fin = await read();
+  check('COLLECTIONS brush paints in over ~2.4s once in view (0 -> partial -> 1)', b0 === 0 && mid[0] > 0 && mid[0] < 1 && mid[1] < mid[0] && fin[0] === 1 && fin[1] === 1, `${b0} / ${mid} / ${fin}`);
 }
 
 // SHOP category cards: image and label both open /shop

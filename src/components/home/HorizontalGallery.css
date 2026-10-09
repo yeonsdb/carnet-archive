@@ -5,20 +5,15 @@
   scrollbar-width: none;
   -webkit-overflow-scrolling: touch;
   cursor: grab;
-  /* wider than the layout: reach the viewport edges; items keep their place via the matching padding */
-  margin-left: calc(-1 * var(--bleed));
-  width: calc(var(--w) * var(--u) + 2 * var(--bleed));
-  padding-left: var(--bleed);
 }
 .hgallery::-webkit-scrollbar { display: none; }
 .hgallery:focus-visible { outline-offset: -2px; }
 .hgallery.is-dragging { cursor: grabbing; user-select: none; }
 .hgallery.is-dragging .hgallery__item { pointer-events: none; }
 
-.hgallery__track { position: relative; height: 100%; width: calc(var(--tw) * var(--u) + var(--bleed)); }
+.hgallery__track { position: relative; height: 100%; width: calc(var(--tw) * var(--u)); }
 @media (max-width: 1279.98px) {
-  .hgallery { width: calc(var(--mw) * var(--u) + 2 * var(--bleed)); }
-  .hgallery__track { width: calc(var(--mtw) * var(--u) + var(--bleed)); }
+  .hgallery__track { width: calc(var(--mtw) * var(--u)); }
 }
 
 /* H-3: hovered look enlarges (scale / duration: approved motion tokens) */

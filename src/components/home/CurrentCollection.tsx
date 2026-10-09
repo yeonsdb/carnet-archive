@@ -29,7 +29,7 @@ const GALLERY_M = { box: [0, 493, 393, 338], offset: 343, width: 1103 } as const
 /** 02 / Current Collection — Desktop 1228:759 · Mobile 1228:760 */
 export function CurrentCollection() {
   return (
-    <Section d={[1080, 1292]} m={[399, 532]} label="AW26 컬렉션" className="section--bleed-x">
+    <Section d={[1080, 1292]} m={[399, 532]} label="AW26 컬렉션">
       {/* Decoration / Current Collection / Texture — 2x Figma render (rotation, flip, 40% opacity and colour adjustment baked in) */}
       <Pic src="/images/home/r-collection-texture.webp" fit="fill" d={[577, 850, 1661.73, 1445.3]} m={[40, 386, 437.02, 380.1]} className="cc__texture" />
 

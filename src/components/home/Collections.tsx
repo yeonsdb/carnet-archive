@@ -56,34 +56,43 @@ function SeasonItem({ text, textBox, align, arrow, arrowM, arrowDir, hit, hitM, 
  * H-5: collection images enlarge slightly on hover (fine pointers).
  */
 /**
- * Brush reveal for the Archive Sweep strokes (feedback 2026-10-10): tied to scrolling, the strokes are painted in
- * from the upper right towards the lower left as the section comes into view (and recede when scrolled back).
- * Sets --brush (large stroke) and --brush-2 (small stroke, slightly later) from 0 to 1 on the section.
- * Reduced motion: shown fully.
+ * Brush reveal for the Archive Sweep strokes (feedback 2026-10-10): when the section scrolls into view, the strokes are
+ * painted in from the upper right towards the lower left at a steady pace (large stroke 2.4 s, small stroke 0.5 s later,
+ * ease-in-out), so the movement is visible however fast the page is scrolled. Plays once.
+ * Sets --brush (large) and --brush-2 (small) from 0 to 1 on the section. Reduced motion: shown fully.
  */
+const BRUSH_MS = 2400;
+const BRUSH_2_DELAY_MS = 500;
+
 function useBrushReveal() {
   const ref = useRef<HTMLSpanElement>(null);
   useEffect(() => {
     const section = ref.current?.closest<HTMLElement>('.section');
     if (!section) return;
-    const set = (p: number) => {
-      section.style.setProperty('--brush', p.toFixed(4));
-      section.style.setProperty('--brush-2', Math.min(1, Math.max(0, p * 1.35 - 0.35)).toFixed(4));
+    const set = (a: number, b: number) => {
+      section.style.setProperty('--brush', a.toFixed(4));
+      section.style.setProperty('--brush-2', b.toFixed(4));
     };
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { set(1); return; }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { set(1, 1); return; }
+    set(0, 0);
+    const ease = (x: number) => (x < 0.5 ? 2 * x * x : 1 - (-2 * x + 2) ** 2 / 2);
+    const clamp = (x: number) => Math.min(1, Math.max(0, x));
     let raf = 0;
-    const update = () => {
-      raf = 0;
-      const vh = window.innerHeight;
-      const top = section.getBoundingClientRect().top;
-      // starts when the section top passes 95% of the viewport, complete when it reaches 15%
-      set(Math.min(1, Math.max(0, (vh * 0.95 - top) / (vh * 0.8))));
+    const play = () => {
+      const t0 = performance.now();
+      const frame = (now: number) => {
+        const t = now - t0;
+        set(ease(clamp(t / BRUSH_MS)), ease(clamp((t - BRUSH_2_DELAY_MS) / BRUSH_MS)));
+        if (t < BRUSH_MS + BRUSH_2_DELAY_MS) raf = requestAnimationFrame(frame);
+      };
+      raf = requestAnimationFrame(frame);
     };
-    const onScroll = () => { if (!raf) raf = requestAnimationFrame(update); };
-    update();
-    window.addEventListener('scroll', onScroll, { passive: true });
-    window.addEventListener('resize', onScroll);
-    return () => { window.removeEventListener('scroll', onScroll); window.removeEventListener('resize', onScroll); cancelAnimationFrame(raf); };
+    // start once the top of the section (where the strokes are) is a quarter of the way up the screen
+    const io = new IntersectionObserver(([e]) => {
+      if (e.isIntersecting) { io.disconnect(); play(); }
+    }, { rootMargin: '0px 0px -25% 0px' });
+    io.observe(section);
+    return () => { io.disconnect(); cancelAnimationFrame(raf); };
   }, []);
   return ref;
 }
