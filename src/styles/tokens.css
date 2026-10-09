@@ -29,6 +29,7 @@
   --motion-glitch-duration: 800ms;
   --motion-cursor-delay: 1000ms;
   --motion-cursor-blink-interval: 2000ms;
+  --motion-gallery-duration: 400ms;
 
   /*
    * Layout unit: 1 design px.

@@ -1,0 +1,6 @@
+/* Overlay / Product Description — black 50% */
+.pstory__overlay { background: rgba(0, 0, 0, 0.5); }
+.pstory__mark { background: var(--color-surface-page); }
+.pstory__mark--line { background: none; border: max(1px, calc(1 * var(--u))) solid var(--color-border-inverse); }
+/* Overlay / Story Fade — black (bottom) → transparent (top) */
+.pstory__fade { background: linear-gradient(to top, #000, rgba(0, 0, 0, 0)); }

@@ -1,0 +1,33 @@
+.ptabs { display: flex; align-items: stretch; z-index: 1; }
+.ptabs__tab {
+  position: relative;
+  flex: none;
+  width: calc(var(--tw) * var(--u));
+  height: 100%;
+  border-bottom: max(1px, calc(1 * var(--u))) solid var(--color-border-tab-inactive);
+}
+.ptabs__tab.is-active {
+  border: max(1px, calc(1 * var(--u))) solid var(--color-border-strong);
+  border-bottom: 0;
+}
+/* label: Pretendard 16, x from Figma, top 21; inactive Regular #8B8B8B, active SemiBold black */
+.ptabs__label {
+  position: absolute;
+  left: calc(var(--lx) * var(--u));
+  top: calc(21 * var(--u));
+  white-space: nowrap;
+  line-height: normal;
+  font-size: max(9px, calc(16 * var(--u)));
+  font-weight: 400;
+  color: var(--color-text-muted);
+}
+.ptabs__tab.is-active .ptabs__label { font-weight: 600; color: var(--color-text-primary); }
+/* the active tab's frame has no bottom edge: keep the label where an inactive tab would put it */
+.ptabs__tab.is-active .ptabs__label { top: calc(21 * var(--u) - max(1px, calc(1 * var(--u)))); left: calc(var(--lx) * var(--u) - max(1px, calc(1 * var(--u)))); }
+
+@media (max-width: 1279.98px) {
+  .ptabs__tab { width: calc(var(--mtw) * var(--u)); }
+  /* label: Pretendard 10, top 9; active Medium */
+  .ptabs__label { left: calc(var(--mlx) * var(--u)); top: calc(9 * var(--u)); font-size: max(7px, calc(10 * var(--u))); }
+  .ptabs__tab.is-active .ptabs__label { font-weight: 500; top: calc(9 * var(--u) - max(1px, calc(1 * var(--u)))); left: calc(var(--mlx) * var(--u) - max(1px, calc(1 * var(--u)))); }
+}

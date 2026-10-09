@@ -1,0 +1,51 @@
+/* labels: Desktop SemiBold 16 · Mobile Medium 10 */
+.pp-label { font-weight: 600; }
+/* size options: Desktop Regular · Mobile Medium (selected state is not designed; the choice shows in the selected line) */
+.pp-size { font-weight: 400; cursor: pointer; }
+@media (max-width: 1279.98px) {
+  .pp-label, .pp-size { font-weight: 500; }
+}
+
+/* Color Swatch — Desktop 17 × 17, 2px white stroke · Mobile 12 × 12, 1px; drop shadow 0 0 4 rgba(0,0,0,.25) */
+.pp-swatch {
+  background: var(--sw);
+  border: calc(2 * var(--u)) solid var(--color-border-inverse);
+  box-shadow: 0 0 calc(4 * var(--u)) rgba(0, 0, 0, 0.25);
+}
+@media (max-width: 1279.98px) {
+  .pp-swatch { border-width: max(1px, calc(1 * var(--u))); }
+}
+
+/* Quantity Stepper — #CFCFCF boxes */
+.pp-qty-box { color: var(--color-border-subtle); background: var(--color-surface-page); }
+.pp-qty { font-weight: 600; text-align: center; }
+@media (max-width: 1279.98px) {
+  .pp-qty { font-weight: 500; }
+}
+.pp-step { cursor: pointer; }
+.pp-step:disabled { cursor: default; }
+.pp-step__img { position: absolute; inset: 0; width: 100%; height: 100%; max-width: none; }
+.pp-step--plus {
+  background: var(--color-surface-page);
+  border: max(1px, calc(1 * var(--u))) solid var(--color-border-subtle);
+}
+/* Content / Graphic / 02 (+): 12 × 12 at (10.86, 11) in the 33.86 box — same ratio on mobile (6.72 at 6.08, 6.16 in 18.96) */
+.pp-step__plus { position: absolute; left: 32.07%; top: 32.49%; width: 35.44%; height: 35.44%; max-width: none; translate: calc(-1 * max(1px, calc(1 * var(--u)))) calc(-1 * max(1px, calc(1 * var(--u)))); }
+
+/* Buy Now (black) · Add to Cart (white, black stroke); label at the Figma offset */
+.pp-btn { cursor: default; }
+.pp-btn--buy { background: var(--color-surface-inverse); color: var(--color-text-inverse); }
+.pp-btn--cart { background: var(--color-surface-page); border: max(1px, calc(1 * var(--u))) solid var(--color-border-strong); }
+.pp-btn__label {
+  position: absolute;
+  left: calc(var(--lx) * var(--u));
+  top: calc(var(--ly) * var(--u));
+  white-space: nowrap;
+  line-height: normal;
+  font-weight: 600;
+  font-size: max(9px, calc(20 * var(--u)));
+}
+.pp-btn--cart .pp-btn__label { translate: calc(-1 * max(1px, calc(1 * var(--u)))) calc(-1 * max(1px, calc(1 * var(--u)))); }
+@media (max-width: 1279.98px) {
+  .pp-btn__label { left: calc(var(--mlx) * var(--u)); top: calc(var(--mly) * var(--u)); font-size: max(7px, calc(14 * var(--u))); }
+}

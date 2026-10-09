@@ -10,7 +10,8 @@
     "capture": "node scripts/capture.mjs",
     "check:home": "node scripts/check-home.mjs",
     "images": "node scripts/optimize-images.mjs",
-    "check:shop": "node scripts/check-shop.mjs"
+    "check:shop": "node scripts/check-shop.mjs",
+    "check:product": "node scripts/check-product.mjs"
   },
   "dependencies": {
     "react": "^19.3.0",

@@ -1,0 +1,9 @@
+/* white boxes behind the measurement labels */
+.sg-mask { background: var(--color-surface-page); }
+.sg-mask--fill { position: absolute; inset: 0; }
+.sg-cell { background: var(--color-surface-page); }
+/* CM: Desktop SemiBold 16 · Mobile Medium 12;  MODEL WEARS SIZE M: Desktop SemiBold · Mobile Medium */
+.sg-unit, .sg-model { font-weight: 600; }
+@media (max-width: 1279.98px) {
+  .sg-unit, .sg-model { font-weight: 500; }
+}

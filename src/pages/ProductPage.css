@@ -1,0 +1,5 @@
+/* Purchase guide labels: Desktop SemiBold 16 · Mobile Medium 10 */
+.pg-label { font-weight: 600; }
+@media (max-width: 1279.98px) {
+  .pg-label { font-weight: 500; }
+}
