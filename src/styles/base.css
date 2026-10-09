@@ -94,6 +94,17 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 .wrap { white-space: normal; }
 .ta-r { text-align: right; } .ta-c { text-align: center; }
 
+/*
+ * Hover colour groups: hovering any .hover-target inside a .hover-group turns its .hover-accent parts (text, arrows)
+ * #831A1F. The group adds no box (display: contents), so absolutely placed parts keep their positions.
+ */
+.hover-group { display: contents; }
+.hover-accent { transition: color var(--motion-hover-duration) var(--motion-ease-out); }
+@media (hover: hover) and (pointer: fine) {
+  .hover-group:has(.hover-target:hover) .hover-accent { color: var(--color-accent-brand); }
+  a.hover-accent:hover { color: var(--color-accent-brand); }
+}
+
 /* ---------- Media ---------- */
 .media { overflow: hidden; }
 .media > img { position: absolute; max-width: none; pointer-events: none; user-select: none; }

@@ -22,7 +22,9 @@ page.on('console', (m) => { if (m.type() === 'error') errors.push(`${page.url()}
 page.on('response', (r) => { if (r.status() >= 400) errors.push(`${r.status()} ${r.url()}`); });
 
 // 1. link inventory: only the agreed links exist (logo → /, NEW IN → /shop, product cards → /product/:slug)
-const allowed = (href) => href === '/' || href === '/shop' || /^\/product\/[a-z0-9-]+$/.test(href);
+// + footer contact directory: mailto: addresses and the Instagram profile
+const allowed = (href) => href === '/' || href === '/shop' || /^\/product\/[a-z0-9-]+$/.test(href)
+  || /^mailto:[A-Z]+@CARNETARCHIVE\.COM$/.test(href) || href === 'https://www.instagram.com/carnetarchive/';
 for (const pg of PAGES) {
   await page.goto(base + pg.path, { waitUntil: 'networkidle' });
   const hrefs = await page.evaluate(() => [...document.querySelectorAll('a')].map((a) => a.getAttribute('href')));

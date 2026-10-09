@@ -353,6 +353,9 @@ carnet-archive/
 | HOME 워드마크 효과 | CARNET-ARCHIVE(라인 포함) 전체를 한 번에 왼→오 노출, 더 천천히 (피드백) | 그룹 하나로 노출, 시간 0.8s → 1.4s. 모션 스타일: Jitter 'Dithering Effect' 템플릿처럼 글자 모양 위에만 작은 블록(글자 크기의 9%)이 깜빡이다(불투명/반투명) 실제 글자로 바뀜, 왼→오 + 무작위 분산. 재생 중 canvas, 끝나면 실제 DOM 텍스트 |
 | HOME 가로 갤러리 (H-2) | 마우스 휠 대신 커서(드래그)로 스크롤 (피드백, Q8 대체) | 마우스 드래그 → 가로 스크롤, grab 커서, 휠은 페이지 스크롤. 터치는 기본 스와이프 |
 | 레이아웃보다 넓은 화면의 AW26 섹션 오른쪽 경계선 | 제거 (피드백) | 갤러리를 화면 끝까지 확장. 텍스처는 Figma 프레임 밖에 다른 이미지가 있어 레이아웃 경계 안쪽 12%에서 흰색으로 페이드 (1920·393 화면은 변화 없음) |
+| HOME hover 색 | SHOP 카테고리 이미지 hover → 해당 라벨, COLLECTIONS 시즌 이동(이름+화살표), VIEW ALL → #831A1F (피드백) | `.hover-group` / `.hover-target` / `.hover-accent` (CSS `:has`). SS27·AW25·VIEW ALL은 대상 없음 → 색만 변경 |
+| COLLECTIONS 오른쪽 세로선 | 제거 (피드백) | 곡선(Archive Sweep) 렌더에 Figma 프레임 밖 회색 영역이 포함돼 있었음 → 프레임 경계에서 잘라냄 (`scripts/trim-frame-edge.mjs`, 원본은 `.png.orig`) |
+| 푸터 CONTACT 주소 | 클릭 시 해당 주소로 (피드백) | 이메일 4개 → `mailto:`, IG `@CARNETARCHIVE` → `instagram.com/carnetarchive` (새 탭). 회사정보 EMAIL·모바일 CONTACT 버튼은 그대로 |
 | 메뉴·장바구니·알림 | Figma(구현 페이지·DS 페이지)와 DEV SPEC 어디에도 디자인 없음. DEV SPEC: "장바구니 알림 디자인…은 지정되지 않았다" | 보류. 헤더 아이콘·BUY/CART는 시각 요소만 |
 
 ---

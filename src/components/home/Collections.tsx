@@ -9,7 +9,7 @@ const img = (name: string) => `/images/home/${name}.webp`;
 
 /** Transparent hit area for a season switch (the visual is drawn by the text / arrow / background layers). */
 function SeasonSwitch({ d, m, label, onClick }: { d?: Box; m?: Box; label: string; onClick: () => void }) {
-  const p = place({ d, m }, 'col__switch');
+  const p = place({ d, m }, 'col__switch hover-target');
   return <button type="button" className={p.className} style={p.style} aria-label={label} onClick={onClick} />;
 }
 
@@ -21,10 +21,31 @@ function NavFrame({ d, viewAll, viewAllText }: { d: Box; viewAll: Box; viewAllTe
   return (
     <>
       <Frame className="col__nav" d={d} m={[16, 3016, 269, 48]} />
-      <Pic src={img('r-viewall-bg')} fit="fill" d={viewAll} />
-      <Frame className="col__nav-viewall" m={[285, 3016, 92, 48]} />
-      <T fs={[24, 16]} cls="f-sans w300 tr-4 c-inverse" d={viewAllText} m={[363, 3031]} ax="r">VIEW ALL</T>
+      {/* hovering the VIEW ALL cell turns its text #831A1F (no target design — colour only) */}
+      <div className="hover-group">
+        <Pic src={img('r-viewall-bg')} fit="fill" d={viewAll} className="hover-target" />
+        <Frame className="col__nav-viewall hover-target" m={[285, 3016, 92, 48]} />
+        <T fs={[24, 16]} cls="f-sans w300 tr-4 c-inverse hover-accent hover-target" d={viewAllText} m={[363, 3031]} ax="r">VIEW ALL</T>
+      </div>
     </>
+  );
+}
+
+/**
+ * Season navigation item (collection name + arrow): hovering it turns both #831A1F.
+ * With `onClick` a transparent button covers the item; without it (SS27 / AW25, no design) it is colour-only.
+ */
+function SeasonItem({ text, textBox, align, arrow, arrowM, arrowDir, hit, hitM, label, onClick }: {
+  text: string; textBox: Box; align?: 'r'; arrow: Box; arrowM: Box; arrowDir: 'left' | 'right';
+  hit?: Box; hitM?: Box; label?: string; onClick?: () => void;
+}) {
+  return (
+    <div className="hover-group">
+      <T fs={[24]} cls="f-sans w300 tr-4 hover-accent hover-target" d={textBox} ax={align}>{text}</T>
+      <Arrow variant="nav" dir={arrowDir} className="hover-accent hover-target" d={arrow} />
+      <Arrow variant="navM" dir={arrowDir} m={arrowM} />
+      {onClick && hit && <SeasonSwitch d={hit} m={hitM} label={label ?? text} onClick={onClick} />}
+    </div>
   );
 }
 
@@ -46,19 +67,16 @@ export function Collections() {
           <Pic src={img('r-ss26-detail')} fit="fill" className="col__img" d={[60, 6517, 344, 460]} m={[293, 2751, 84, 111]} alt="SS26 SAMPLING" />
 
           <NavFrame d={[60, 7036.99, 1799, 77.852]} viewAll={[1496, 7037, 364, 77.838]} viewAllText={[1825.91, 7061.32]} />
-          <T fs={[24]} cls="f-sans w300 tr-4" d={[1386, 7060.64]} ax="r">AW26: [UNEARTH: FILE-2711]</T>
-          <Arrow variant="nav" dir="right" d={[1409, 7060.64, 43, 27.12]} />
-          <T fs={[24]} cls="f-sans w300 tr-4" d={[160, 7062.61]}>AW25: AW25 LAMB&apos;S HEAD AND THE SHELL</T>
-          <Arrow variant="nav" d={[94, 7062.61, 43, 27.12]} />
-          <Arrow variant="navM" dir="right" m={[248, 3034, 19, 12.16]} />
-          <Arrow variant="navM" m={[33, 3039, 19, 12.16]} />
-          <SeasonSwitch d={[1096, 7060.64, 356, 28.6]} m={[16, 3016, 269, 48]} label="AW26 컬렉션 보기" onClick={() => setSeason('AW26')} />
+          <SeasonItem text="AW26: [UNEARTH: FILE-2711]" textBox={[1386, 7060.64]} align="r" arrow={[1409, 7060.64, 43, 27.12]} arrowM={[248, 3034, 19, 12.16]} arrowDir="right"
+            hit={[1096, 7060.64, 356, 28.6]} hitM={[16, 3016, 269, 48]} label="AW26 컬렉션 보기" onClick={() => setSeason('AW26')} />
+          <SeasonItem text="AW25: AW25 LAMB'S HEAD AND THE SHELL" textBox={[160, 7062.61]} arrow={[94, 7062.61, 43, 27.12]} arrowM={[33, 3039, 19, 12.16]} arrowDir="left" />
 
-          {/* Decoration / Archive Sweep (noise effect) — 2x renders placed at their render bounds */}
-          <Pic src={img('r-sweep-large')} fit="fill" className="col__sweep" d={[525, 5928.84, 1617, 655]} />
-          <Pic src={img('r-sweep-large-m')} fit="fill" className="col__sweep" m={[36.15, 2519.13, 472.06, 220.48]} />
-          <Pic src={img('r-sweep-small')} fit="fill" className="col__sweep" d={[1351.85, 5854.5, 651.65, 467.15]} />
-          <Pic src={img('r-sweep-small-m')} fit="fill" className="col__sweep" m={[220.32, 2496, 236.36, 200.24]} />
+          {/* Decoration / Archive Sweep (noise effect) — 2x renders placed at their render bounds, trimmed at the frame's right
+              edge (the export's grey off-frame area showed as a line; scripts/trim-frame-edge.mjs) */}
+          <Pic src={img('r-sweep-large')} fit="fill" className="col__sweep" d={[525, 5928.84, 1395, 655]} />
+          <Pic src={img('r-sweep-large-m')} fit="fill" className="col__sweep" m={[36.15, 2519.13, 356.67, 220.48]} />
+          <Pic src={img('r-sweep-small')} fit="fill" className="col__sweep" d={[1351.85, 5854.5, 567.7, 467.15]} />
+          <Pic src={img('r-sweep-small-m')} fit="fill" className="col__sweep" m={[220.32, 2496, 172.4, 200.24]} />
 
           <Pic src={img('r-ss26-main')} fit="fill" className="col__img" d={[909, 6191, 587, 786]} m={[16, 2623, 269, 361]} alt="SS26 SAMPLING" />
           <Pic src={img('ss26-secondary')} fit="cover" className="col__img" d={[1516, 6191.16, 344, 461]} m={[293, 2623, 84, 113]} alt="SS26 SAMPLING" />
@@ -73,13 +91,9 @@ export function Collections() {
           </RotatedBox>
 
           <NavFrame d={[60, 7036, 1800, 78]} viewAll={[1496.8, 7036.16, 363.2, 77.84]} viewAllText={[1826, 7060.48]} />
-          <T fs={[24]} cls="f-sans w300 tr-4" d={[1386.74, 7059.7]} ax="r">SS27: BRUTALIST</T>
-          <Arrow variant="nav" dir="right" d={[1409.75, 7059.7, 43.02, 27.17]} />
-          <T fs={[24]} cls="f-sans w300 tr-4" d={[160.06, 7061.67]}>SS26: SAMPLING</T>
-          <Arrow variant="nav" d={[94.02, 7061.67, 43.02, 27.17]} />
-          <Arrow variant="navM" dir="right" m={[248, 3034, 19, 12.16]} />
-          <Arrow variant="navM" m={[33, 3034, 19, 12.16]} />
-          <SeasonSwitch d={[94, 7061.67, 239, 28.6]} m={[16, 3016, 269, 48]} label="SS26 컬렉션으로 돌아가기" onClick={() => setSeason('SS26')} />
+          <SeasonItem text="SS27: BRUTALIST" textBox={[1386.74, 7059.7]} align="r" arrow={[1409.75, 7059.7, 43.02, 27.17]} arrowM={[248, 3034, 19, 12.16]} arrowDir="right" />
+          <SeasonItem text="SS26: SAMPLING" textBox={[160.06, 7061.67]} arrow={[94.02, 7061.67, 43.02, 27.17]} arrowM={[33, 3034, 19, 12.16]} arrowDir="left"
+            hit={[94, 7061.67, 239, 28.6]} hitM={[16, 3016, 269, 48]} label="SS26 컬렉션으로 돌아가기" onClick={() => setSeason('SS26')} />
 
           <RotatedText fs={[50, 16]} deg={[-90, 90]} cls="f-sans w600 tr-4" d={[1813, 6200, 60, 142]} m={[303, 2939, 19, 46]}>‘AW26</RotatedText>
           <RotatedText fs={[14, 10]} deg={[-90, 90]} cls="f-mono w400 tr-4 ta-r" d={[1844, 6345, 18, 158]} m={[292, 2872, 13, 113]}>[UNEARTH: FILE-2711]</RotatedText>

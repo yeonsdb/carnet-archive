@@ -18,9 +18,10 @@ type Props = {
  */
 export function HoverSwap({ base, hover, under }: Props) {
   const [active, setActive] = useState(false);
-  const hit = place({ d: base.d, m: base.m }, 'swap__hit');
+  const hit = place({ d: base.d, m: base.m }, 'swap__hit hover-target');
+  // .hover-group: parts marked .hover-accent (e.g. the card label) turn #831A1F while the image is hovered
   return (
-    <>
+    <div className="hover-group">
       {under}
       <Pic {...base} className="swap__base" />
       <Pic {...hover} className={`swap__hover${active ? ' is-active' : ''}`} />
@@ -31,6 +32,6 @@ export function HoverSwap({ base, hover, under }: Props) {
         onPointerEnter={(e) => e.pointerType === 'mouse' && setActive(true)}
         onPointerLeave={() => setActive(false)}
       />
-    </>
+    </div>
   );
 }

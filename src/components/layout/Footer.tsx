@@ -1,5 +1,5 @@
-import { Fragment } from 'react';
-import { Frame, Section, T } from '../../lib/artboard';
+import { Fragment, type CSSProperties } from 'react';
+import { Frame, Section, T, place } from '../../lib/artboard';
 import { Arrow } from '../ui/Arrow';
 import './Footer.css';
 
@@ -7,7 +7,8 @@ import './Footer.css';
  * 08 / Footer — Desktop 1113:10599 (600 high) · Mobile 1213:3405 (276 high).
  * Coordinates are relative to the footer top. Font: IBM Plex Mono everywhere (Home footer is the reference;
  * the Helvetica Neue licence line in Shop / Product frames is unified to Plex Mono, see docs/IMPLEMENTATION_PLAN.md §8).
- * Legal links, e-mail addresses and the mobile CONTACT button have no target defined — not interactive.
+ * Contact directory addresses are links (feedback 2026-10-10): e-mail → mailto:, IG handle → Instagram profile.
+ * Legal links, the company-info e-mail and the mobile CONTACT button have no target defined — not interactive.
  */
 
 type Field = { label: string; d: number; m: number; vd: number; vm: number; value: string; valueM?: string };
@@ -22,11 +23,11 @@ const FIELDS: Field[] = [
 ];
 
 const CONTACTS = [
-  { label: 'GENERAL REQUESTS', value: 'CARNET@CARNETARCHIVE.COM', y: 289, x: 1630, anchor: 'l' as const },
-  { label: 'SALES', value: 'SALES@CARNETARCHIVE.COM', y: 339, x: 1860, anchor: 'r' as const },
-  { label: 'PRESS@CARNETARCHIVE.COM', value: 'PRESS@CARNETARCHIVE.COM', y: 389, x: 1860, anchor: 'r' as const },
-  { label: 'E-SHOP', value: 'SHOP@CARNETARCHIVE.COM', y: 439, x: 1861, anchor: 'r' as const },
-  { label: 'IG', value: '@CARNETARCHIVE', y: 489, x: 1861, anchor: 'r' as const },
+  { label: 'GENERAL REQUESTS', value: 'CARNET@CARNETARCHIVE.COM', y: 289, x: 1630, anchor: 'l' as const, href: 'mailto:CARNET@CARNETARCHIVE.COM' },
+  { label: 'SALES', value: 'SALES@CARNETARCHIVE.COM', y: 339, x: 1860, anchor: 'r' as const, href: 'mailto:SALES@CARNETARCHIVE.COM' },
+  { label: 'PRESS@CARNETARCHIVE.COM', value: 'PRESS@CARNETARCHIVE.COM', y: 389, x: 1860, anchor: 'r' as const, href: 'mailto:PRESS@CARNETARCHIVE.COM' },
+  { label: 'E-SHOP', value: 'SHOP@CARNETARCHIVE.COM', y: 439, x: 1861, anchor: 'r' as const, href: 'mailto:SHOP@CARNETARCHIVE.COM' },
+  { label: 'IG', value: '@CARNETARCHIVE', y: 489, x: 1861, anchor: 'r' as const, href: 'https://www.instagram.com/carnetarchive/' },
 ];
 
 export function Footer() {
@@ -62,7 +63,11 @@ export function Footer() {
       {CONTACTS.map((c) => (
         <Fragment key={c.label + c.y}>
           <T fs={[16]} cls="f-mono w600 c-inverse" d={[1152, c.y]}>{c.label}</T>
-          <T fs={[16]} cls="f-mono w400 c-inverse" d={[c.x, c.y]} ax={c.anchor}>{c.value}</T>
+          {c.href ? (
+            <a href={c.href} {...(c.href.startsWith('http') ? { target: '_blank', rel: 'noopener noreferrer' } : {})} {...place({ d: [c.x, c.y], ax: c.anchor }, 't f-mono w400 c-inverse hover-accent', { '--fs': 16, '--mfs': 16 } as CSSProperties)}>{c.value}</a>
+          ) : (
+            <T fs={[16]} cls="f-mono w400 c-inverse" d={[c.x, c.y]} ax={c.anchor}>{c.value}</T>
+          )}
           <Frame className="rule c-inverse" d={[1152, c.y + 35, 708]} />
         </Fragment>
       ))}

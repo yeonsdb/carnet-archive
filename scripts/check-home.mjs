@@ -93,6 +93,38 @@ await page.waitForTimeout(400);
 const nameStyle = await row.locator('.stockist__name').evaluate((el) => `${getComputedStyle(el).color} ${getComputedStyle(el).fontWeight}`);
 check('H-8 stockist hover → #831A1F SemiBold', nameStyle === 'rgb(131, 26, 31) 600', nameStyle);
 
+// Hover colour #831A1F: category label while its image is hovered; season nav (name + arrow); VIEW ALL; footer links
+await page.setViewportSize({ width: 1920, height: 1000 });
+await page.goto(base + '/', { waitUntil: 'networkidle' });
+const ACCENT = 'rgb(131, 26, 31)';
+const colorOf = (loc) => loc.evaluate((el) => getComputedStyle(el).color);
+const hoverColor = async (target, part) => {
+  await page.mouse.move(5, 5); await page.waitForTimeout(350);
+  const before = await colorOf(part);
+  await target.hover({ force: true }); await page.waitForTimeout(400);
+  return [before, await colorOf(part)];
+};
+for (const name of ['ALL', 'OUTERWEAR', 'BOTTOMS', 'TOPS', 'ACC']) {
+  const group = page.locator('.hover-group').filter({ has: page.locator('.hover-accent', { hasText: new RegExp(`^${name}$`) }) }).first();
+  const [b, a] = await hoverColor(group.locator('.swap__hit'), group.locator('.hover-accent', { hasText: new RegExp(`^${name}$`) }));
+  check(`SHOP category ${name}: label turns #831A1F while its image is hovered`, b !== ACCENT && a === ACCENT, `${b} -> ${a}`);
+}
+const navNext = page.locator('.hover-group').filter({ hasText: 'AW26: [UNEARTH: FILE-2711]' });
+let [b1, a1] = await hoverColor(navNext.locator('.col__switch'), navNext.locator('.t'));
+const arrowNext = await colorOf(navNext.locator('span.hover-accent').first());
+check('COLLECTIONS next season: name + arrow turn #831A1F on hover', b1 !== ACCENT && a1 === ACCENT && arrowNext === ACCENT, `${b1} -> ${a1}, arrow ${arrowNext}`);
+const navPrev = page.locator('.hover-group').filter({ hasText: "AW25: AW25 LAMB'S HEAD AND THE SHELL" });
+[b1, a1] = await hoverColor(navPrev.locator('.t'), navPrev.locator('.t'));
+check('COLLECTIONS previous season (no design): colour-only hover', b1 !== ACCENT && a1 === ACCENT, `${b1} -> ${a1}`);
+const viewAll = page.locator('.hover-group').filter({ hasText: 'VIEW ALL' }).first();
+[b1, a1] = await hoverColor(viewAll.locator('.media'), viewAll.locator('.t'));
+check('COLLECTIONS VIEW ALL: text turns #831A1F on hover', b1 !== ACCENT && a1 === ACCENT, `${b1} -> ${a1}`);
+const mail = page.locator('footer a[href^="mailto:"]');
+const ig = page.locator('footer a[href*="instagram.com"]');
+check('footer contact addresses are links (4 mailto + Instagram)', (await mail.count()) === 4 && (await ig.count()) === 1 && (await ig.getAttribute('target')) === '_blank');
+[b1, a1] = await hoverColor(mail.first(), mail.first());
+check('footer contact link hover #831A1F', a1 === ACCENT, `${b1} -> ${a1}`);
+
 // NEW IN → /shop
 await page.goto(base + '/', { waitUntil: 'networkidle' });
 await page.getByRole('link', { name: /1ST DROP NEW IN/ }).click();
