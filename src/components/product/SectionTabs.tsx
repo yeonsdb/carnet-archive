@@ -13,6 +13,7 @@ export function scrollToSection(key: TabKey) {
  * Tab Bar / Active=… / Click=Scroll To Anchor — D 1124:12567 (4 bars of 4 × 449.75 × 61) · M 1213:2777 etc. (361 × 32).
  * The bar is repeated at the top of each section and doubles as that section's anchor (id = section key).
  * Active tab: black frame (left / right / top); inactive: #8B8B8B bottom line (DS: mobile inactive unified to #8B8B8B).
+ * Labels are centred in each tab (feedback 2026-10-10; the Figma labels sat at slightly different x per bar).
  */
 export function SectionTabs({ active }: { active: TabKey }) {
   const bar = TAB_BARS.find((b) => b.active === active)!;
@@ -23,8 +24,6 @@ export function SectionTabs({ active }: { active: TabKey }) {
         const vars = {
           '--tw': 449.75,
           '--mtw': bar.m.widths[i],
-          '--lx': bar.d.labelX[i] - (60 + 449.75 * i),
-          '--mlx': bar.m.labelX[i],
         } as CSSProperties;
         const isActive = tab.key === active;
         return (

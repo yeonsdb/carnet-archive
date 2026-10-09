@@ -1,7 +1,16 @@
 /* labels: Desktop SemiBold 16 · Mobile Medium 10 */
 .pp-label { font-weight: 600; }
-/* size options: Desktop Regular · Mobile Medium (selected state is not designed; the choice shows in the selected line) */
-.pp-size { font-weight: 400; cursor: pointer; }
+/* size options: Desktop Regular · Mobile Medium, letter centred in the option box.
+   Selected (Figma 1254:7038): transparent, 1px black inside stroke, drop shadow 0 0 4 rgba(0,0,0,.25) */
+.pp-size {
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 400; cursor: pointer;
+  border: max(1px, calc(1 * var(--u))) solid transparent;
+}
+.pp-size.is-selected {
+  border-color: var(--color-border-strong);
+  box-shadow: 0 0 calc(4 * var(--u)) rgba(0, 0, 0, 0.25);
+}
 @media (max-width: 1279.98px) {
   .pp-label, .pp-size { font-weight: 500; }
 }

@@ -1,23 +1,11 @@
-/* Track / Product Images — items keep their Figma page coordinates; the whole track slides horizontally. */
-.pgallery__track {
-  position: absolute;
-  inset: 0;
-  transform: translateX(calc(var(--gx) * var(--u)));
-  transition: transform var(--motion-gallery-duration) var(--motion-ease-out);
+/* Items and buttons are re-laid out per active image (see layout() in ProductGallery.tsx); boxes animate. */
+.pgallery__item,
+.pgallery__btn {
+  transition-property: left, top, width, height;
+  transition-duration: var(--motion-gallery-duration);
+  transition-timing-function: var(--motion-ease-out);
 }
-@media (max-width: 1279.98px) {
-  .pgallery__track { transform: translateX(calc(var(--mgx) * var(--u))); }
-}
-
-.pgallery__item {
-  transform-origin: 50% 50%;
-  transition: transform var(--motion-gallery-duration) var(--motion-ease-out);
-}
-/* State=Active / Enlarged */
-.pgallery__item.is-active { z-index: 1; transform: translateY(calc(var(--gdy) * var(--u))) scale(var(--gs)); }
-@media (max-width: 1279.98px) {
-  .pgallery__item.is-active { transform: translateY(calc(var(--mgdy) * var(--u))) scale(var(--gs)); }
-}
+.pgallery__item.is-active { z-index: 1; }
 
 /* Button / Previous · Next (Previous = Next mirrored, as in Figma) */
 .pgallery__btn { z-index: 2; }

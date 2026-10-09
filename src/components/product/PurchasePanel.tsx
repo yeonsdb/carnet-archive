@@ -48,12 +48,14 @@ export function PurchasePanel() {
       <T fs={[16, 10]} cls="f-sans w400 tr-4" d={[192, 1259]} m={[68, 582]}>3%</T>
       <T fs={[16, 10]} cls="f-sans w400 tr-4" d={[192, 1291]} m={[68, 600]}>3,000원 (30,000원 이상 구매 시 무료)</T>
 
-      <Frame className="pp-swatch" d={[192, 1324, 17, 17]} m={[68, 618, 12, 12]} style={{ '--sw': DETAIL.swatches[0] } as CSSProperties} />
-      <Frame className="pp-swatch" d={[215, 1324, 17, 17]} m={[84, 618, 12, 12]} style={{ '--sw': DETAIL.swatches[1] } as CSSProperties} />
+      <Frame className="pp-swatch" d={[190, 1323, 19, 19]} m={[68, 618, 12, 12]} style={{ '--sw': DETAIL.swatches[0] } as CSSProperties} />
+      <Frame className="pp-swatch" d={[215, 1323, 19, 19]} m={[84, 618, 12, 12]} style={{ '--sw': DETAIL.swatches[1] } as CSSProperties} />
 
       <div role="radiogroup" aria-label="SIZE">
         {DETAIL.sizes.map((s, i) => {
-          const p = place({ d: [i === 0 ? 192 : 218, 1355], m: [i === 0 ? 68 : 87, 636] }, 't f-sans tr-4 pp-size', { '--fs': 16, '--mfs': 10 } as CSSProperties);
+          // Size option box (Figma 1254:7038): 19 × 19 on the swatch columns; selected = 1px black inside stroke + shadow.
+          // The mobile frame has no selected design: the same treatment is applied on the mobile swatch columns (12 × 12).
+          const p = place({ d: [i === 0 ? 190 : 215, 1355, 19, 19], m: [i === 0 ? 68 : 84, 636, 12, 12] }, `t f-sans tr-4 pp-size${size === s ? ' is-selected' : ''}`, { '--fs': 16, '--mfs': 10 } as CSSProperties);
           return (
             <button key={s} type="button" role="radio" aria-checked={size === s} className={p.className} style={p.style} onClick={() => setSize(s)}>
               {s}

@@ -29,11 +29,38 @@ export type GalleryImage = {
  * enlarged box divided by the enlargement ratio (889 / 597 — same ratio on mobile) around the same centre line.
  */
 export const GALLERY_SCALE = 889 / 597;
-/** the enlarged item also moves down: Figma 05 centre y (581.5) − inactive model centre y (501.5); mobile 268.21 − 233.97 */
-export const GALLERY_DROP = { d: 80, m: 34.24 } as const;
-/** horizontal centre of the active slot (05 in Figma) */
-export const GALLERY_CENTER = { d: 946, m: 189.395 } as const;
 export const GALLERY_INITIAL = 4; // index of 05
+
+export type GalleryLayout = {
+  /** horizontal centre of the active slot (05 in Figma) */
+  center: number;
+  /** the enlarged item also moves down: Figma 05 centre y (581.5) − inactive model centre y (501.5) */
+  drop: number;
+  /** gap active ↔ left / right neighbour (Figma 04 ↔ 05, 05 ↔ 06) */
+  neighbourLeft: number;
+  neighbourRight: number;
+  /** gap between items i and i + 1 when neither is active (Figma); `gap` (their mean) where Figma has no pair */
+  gaps: (number | undefined)[];
+  gap: number;
+  /** Previous button right edge → active left edge, active right edge → Next button left edge (Figma) */
+  prevGap: number;
+  nextGap: number;
+  /** button width, height, top */
+  button: readonly [number, number, number];
+};
+
+export const GALLERY_LAYOUT: { d: GalleryLayout; m: GalleryLayout } = {
+  d: {
+    center: 946, drop: 80, neighbourLeft: 207, neighbourRight: 186,
+    gaps: [211, 147, 139, undefined, undefined, 126, 122], gap: 149,
+    prevGap: 38, nextGap: 71, button: [54, 105, 466],
+  },
+  m: {
+    center: 189.395, drop: 34.24, neighbourLeft: 88.58, neighbourRight: 79.59,
+    gaps: [90.28, 62.9, 59.48, undefined, undefined, 53.92, 52.2], gap: 63.76,
+    prevGap: 16.26, nextGap: 30.38, button: [23.107, 44.931, 218.78],
+  },
+};
 
 const g = (n: string) => `/images/product/gallery-${n}.webp`;
 export const GALLERY: GalleryImage[] = [
@@ -62,13 +89,13 @@ export const TABS: { key: TabKey; label: string }[] = [
 
 /**
  * Tab Bar / Active=… / Click=Scroll To Anchor — repeated at the top of each section.
- * d: bar top, label x per tab (absolute, Figma). m: bar top, tab widths, label offsets inside each tab.
+ * d: bar top (tabs 4 × 449.75). m: bar top and tab widths. Labels are centred in each tab.
  */
-export const TAB_BARS: { active: TabKey; d: { y: number; labelX: number[] }; m: { y: number; widths: number[]; labelX: number[] } }[] = [
-  { active: 'product-info', d: { y: 1663, labelX: [183, 636, 1096, 1548] }, m: { y: 872, widths: [90, 91, 90, 90], labelX: [19, 22, 27, 28] } },
-  { active: 'size-guide', d: { y: 6436, labelX: [183, 635, 1096, 1548] }, m: { y: 2211, widths: [91, 90, 90, 90], labelX: [20, 21, 27, 28] } },
-  { active: 'product-inquiry', d: { y: 8177, labelX: [183, 635, 1096, 1548] }, m: { y: 2877, widths: [91, 90, 90, 90], labelX: [20, 21, 27, 28] } },
-  { active: 'purchase-guide', d: { y: 9604, labelX: [183, 635, 1096, 1548] }, m: { y: 3893, widths: [91, 90, 90, 90], labelX: [20, 21, 27, 28] } },
+export const TAB_BARS: { active: TabKey; d: { y: number }; m: { y: number; widths: number[] } }[] = [
+  { active: 'product-info', d: { y: 1663 }, m: { y: 872, widths: [90, 91, 90, 90] } },
+  { active: 'size-guide', d: { y: 6436 }, m: { y: 2211, widths: [91, 90, 90, 90] } },
+  { active: 'product-inquiry', d: { y: 8177 }, m: { y: 2877, widths: [91, 90, 90, 90] } },
+  { active: 'purchase-guide', d: { y: 9604 }, m: { y: 3893, widths: [91, 90, 90, 90] } },
 ];
 
 export type Inquiry = {
