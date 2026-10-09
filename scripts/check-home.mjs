@@ -14,12 +14,19 @@ page.on('console', (m) => { if (m.type() === 'error') errors.push(m.text()); });
 await page.goto(base + '/', { waitUntil: 'networkidle' });
 
 // H-1 glitch reveal runs on the wordmark
-const anim = await page.evaluate(() => [...document.querySelectorAll('.glitch-group__main')].map((el) => ({
-  name: getComputedStyle(el).animationName,
-  parts: [...el.children].filter((c) => !c.classList.contains('glitch-group__layer')).map((c) => c.textContent || 'line'),
-})));
-check('H-1 one glitch reveal for the whole wordmark (CARNET + line + ARCHIVE)',
-  anim.length === 1 && anim[0].name === 'glitch-reveal' && anim[0].parts.join('|') === 'CARNET|line|ARCHIVE', JSON.stringify(anim));
+// one block-dither reveal for the whole wordmark; ends with the real DOM text visible
+await page.waitForSelector('.glitch-group.is-done', { timeout: 6000 });
+const anim = await page.evaluate(() => {
+  const main = document.querySelector('.glitch-group__main');
+  return {
+    groups: document.querySelectorAll('.glitch-group').length,
+    parts: [...main.children].map((c) => c.textContent || 'line').join('|'),
+    visible: getComputedStyle(main).visibility,
+    canvas: getComputedStyle(document.querySelector('.glitch-group__canvas')).display,
+  };
+});
+check('H-1 one dither reveal for the whole wordmark (CARNET + line + ARCHIVE), DOM text shown at the end',
+  anim.groups === 1 && anim.parts === 'CARNET|line|ARCHIVE' && anim.visible === 'visible' && anim.canvas === 'none', JSON.stringify(anim));
 
 // H-2 gallery: opens at the Figma composition, wheel scrolls horizontally, page scroll resumes at the end
 const g = page.locator('.hgallery');

@@ -1,51 +1,10 @@
-/* Wordmark group: one reveal for CARNET + separator + ARCHIVE */
+/* Wordmark group: block-dither decode for CARNET + separator + ARCHIVE (see GlitchText.tsx) */
 .glitch-group { pointer-events: none; }
 .glitch-group__layer { position: absolute; inset: 0; }
+.glitch-group__canvas { position: absolute; inset: 0; width: 100%; height: 100%; display: none; }
 
-/* left → right reveal of the whole group, with stuttering steps (vertical inset < 0 keeps glyph overhangs) */
-.glitch-group__main {
-  animation: glitch-reveal var(--motion-glitch-duration) linear both;
-}
-.glitch-group__slice-a,
-.glitch-group__slice-b { opacity: 0; }
-.glitch-group__slice-a { animation: glitch-slice-a var(--motion-glitch-duration) steps(1, end) both; }
-.glitch-group__slice-b { animation: glitch-slice-b var(--motion-glitch-duration) steps(1, end) both; }
-
-@keyframes glitch-reveal {
-  0%   { clip-path: inset(-20% 100% -20% 0); }
-  8%   { clip-path: inset(-20% 86% -20% 0); }
-  12%  { clip-path: inset(-20% 91% -20% 0); }
-  22%  { clip-path: inset(-20% 70% -20% 0); }
-  30%  { clip-path: inset(-20% 74% -20% 0); }
-  42%  { clip-path: inset(-20% 48% -20% 0); }
-  50%  { clip-path: inset(-20% 52% -20% 0); }
-  62%  { clip-path: inset(-20% 27% -20% 0); }
-  72%  { clip-path: inset(-20% 31% -20% 0); }
-  84%  { clip-path: inset(-20% 8% -20% 0); }
-  100% { clip-path: inset(-20% 0 -20% 0); }
-}
-
-/* horizontal noise slices across the whole group (same colours as the wordmark) */
-@keyframes glitch-slice-a {
-  0%   { opacity: 1; clip-path: inset(12% 0 70% 0); transform: translateX(-0.4%); }
-  14%  { clip-path: inset(55% 0 30% 0); transform: translateX(0.5%); }
-  28%  { clip-path: inset(30% 0 52% 0); transform: translateX(-0.3%); }
-  44%  { clip-path: inset(70% 0 12% 0); transform: translateX(0.4%); }
-  60%  { clip-path: inset(8% 0 80% 0); transform: translateX(-0.5%); }
-  76%  { clip-path: inset(46% 0 40% 0); transform: translateX(0.2%); }
-  90%  { opacity: 1; clip-path: inset(62% 0 25% 0); transform: translateX(-0.2%); }
-  100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: none; }
-}
-@keyframes glitch-slice-b {
-  0%   { opacity: 1; clip-path: inset(64% 0 20% 0); transform: translateX(0.5%); }
-  18%  { clip-path: inset(20% 0 66% 0); transform: translateX(-0.4%); }
-  34%  { clip-path: inset(80% 0 6% 0); transform: translateX(0.3%); }
-  50%  { clip-path: inset(38% 0 48% 0); transform: translateX(-0.5%); }
-  66%  { clip-path: inset(4% 0 86% 0); transform: translateX(0.4%); }
-  82%  { opacity: 1; clip-path: inset(50% 0 36% 0); transform: translateX(-0.2%); }
-  100% { opacity: 0; clip-path: inset(0 0 100% 0); transform: none; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .glitch-group__main, .glitch-group__slice-a, .glitch-group__slice-b { animation: none; }
-}
+/* before the reveal starts the wordmark is hidden; while playing the canvas draws it; when done the DOM text shows */
+.glitch-group--dither .glitch-group__main { visibility: hidden; }
+.glitch-group--dither.is-playing .glitch-group__canvas { display: block; }
+.glitch-group--dither.is-done .glitch-group__main { visibility: visible; }
+.glitch-group--dither.is-done .glitch-group__canvas { display: none; }
