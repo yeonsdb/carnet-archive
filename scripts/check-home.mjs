@@ -47,7 +47,12 @@ check('H-1 reveal plays ~1.8 s (also in the production build)', glMs >= 1500 && 
 const g = page.locator('.hgallery');
 await g.scrollIntoViewIfNeeded();
 const start = await g.evaluate((el) => el.scrollLeft);
-check('H-2 gallery initial offset (≈365.8 design px)', Math.abs(start - 365.8) < 2, `scrollLeft=${start}`);
+check('H-2 gallery initial offset (≈614.15 design px)', Math.abs(start - 614.15) < 2, `scrollLeft=${start}`);
+const cutState = await g.evaluate((el) => {
+  const gr = el.getBoundingClientRect();
+  return [...el.querySelectorAll('.hgallery__item')].map((it) => { const r = it.getBoundingClientRect(); return r.right <= gr.left + 0.5 || r.left >= gr.right - 0.5 ? 'out' : r.left >= gr.left - 0.5 && r.right <= gr.right + 0.5 ? 'in' : 'CUT'; }).join(' ');
+});
+check('H-2 at rest nobody is cut at the edges: looks 02–06 fully visible, the others fully outside', cutState === 'out out in in in in in out out', cutState);
 const box = await g.boundingBox();
 const cx = box.x + box.width / 2, cy = box.y + box.height / 2;
 await page.mouse.move(cx, cy);

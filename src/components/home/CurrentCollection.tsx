@@ -12,7 +12,7 @@ import './CurrentCollection.css';
  * Looks 04 / 07 carry Figma image adjustments (exposure etc.): the adjusted versions were supplied as exports of the
  * look box itself (already cropped), so they fill the box (docs/ASSET_REQUESTS.md — supplied 2026-10-10).
  */
-const LOOKS: GalleryItem[] = [
+const LOOKS_RAW: GalleryItem[] = [
   { id: '00', d: [-365.8, 1408, 188.3, 719.6], m: [-343, 516, 83, 294], fit: [-494.67, 0, 675.58, 100], mfit: [-451.68, 0, 626.75, 100] },
   { id: '01', d: [-86.1, 1470, 257.0, 725.8], m: [-223, 534, 105, 297], fit: [-363.8, 0, 500.06, 100] },
   { id: '02', d: [215.3, 1401, 237.2, 726.3], m: [-99, 508, 97, 298], fit: [-398.21, 0, 540.86, 100] },
@@ -24,8 +24,19 @@ const LOOKS: GalleryItem[] = [
   { id: '08', d: [2009.5, 1386, 305.8, 752.8], m: [635, 493, 125, 308], fit: [-175.03, 0, 435.71, 100] },
 ];
 
-/** Gallery window (page coordinates); items span x -365.8 → 2315.3 (desktop) and -343 → 760 (mobile). */
-const GALLERY_D = { box: [0, 1313, 1920, 948], offset: 365.8, width: 2681.1 } as const;
+/**
+ * Desktop spacing (feedback 2026-10-11, as in the Figma frame): looks evenly spaced 370 design px centre to centre, look 04
+ * centred on the frame — at rest exactly looks 02–06 are visible, 01 and 07 start just outside the frame, so nobody is cut
+ * at the left / right edge. Sizes and heights (y) are unchanged; mobile keeps its Figma positions.
+ */
+const STEP_D = 370;
+const LOOKS: GalleryItem[] = LOOKS_RAW.map((it, i) => {
+  const [, y, w = 0, h] = it.d;
+  return { ...it, d: [960 + (i - 4) * STEP_D - w / 2, y, w, h] };
+});
+
+/** Gallery window (page coordinates); items span x -614.15 → 2592.9 (desktop) and -343 → 760 (mobile). */
+const GALLERY_D = { box: [0, 1313, 1920, 948], offset: 614.15, width: 3207.05 } as const;
 const GALLERY_M = { box: [0, 493, 393, 338], offset: 343, width: 1103 } as const;
 
 /** 02 / Current Collection — Desktop 1228:759 · Mobile 1228:760 */
