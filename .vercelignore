@@ -1,0 +1,8 @@
+# keep uploads small: only the source needed to build (public/ holds the optimized WebP images)
+node_modules
+dist
+assets-src
+.captures
+.claude
+docs
+*.local
