@@ -160,10 +160,82 @@ const va = await page.evaluate(() => {
   const t = [...document.querySelectorAll('.col__viewall-text')].find((e) => e.offsetParent);
   const cell = document.querySelector('.col__nav-viewall').getBoundingClientRect();
   const r = t.getBoundingClientRect();
-  return { fs: getComputedStyle(t).fontSize, dy: Math.abs((r.top + r.bottom) / 2 - (cell.top + cell.bottom) / 2) };
+  return { fs: getComputedStyle(t).fontSize, dy: Math.abs((r.top + r.bottom) / 2 - (cell.top + cell.bottom) / 2), dx: Math.abs((r.left + r.right) / 2 - (cell.left + cell.right) / 2) };
 });
-check('narrow layout: VIEW ALL 12px, vertically centred in its cell', va.fs === '12px' && va.dy < 1.5, JSON.stringify(va));
+check('narrow layout: VIEW ALL 14px, centred in its black cell', va.fs === '14px' && va.dy < 1.5 && va.dx < 1.5, JSON.stringify(va));
+const navArrows = await page.evaluate(() => {
+  const nav = document.querySelector('.col__nav').getBoundingClientRect();
+  const mid = (nav.top + nav.bottom) / 2;
+  return [...document.querySelectorAll('span.abs')].filter((s) => s.querySelector('svg') && s.offsetParent && Math.abs(s.getBoundingClientRect().top - nav.top) < nav.height)
+    .map((s) => { const r = s.getBoundingClientRect(); return +((r.top + r.bottom) / 2 - mid).toFixed(1); });
+});
+check('narrow layout: both COLLECTIONS arrows vertically centred in the bar', navArrows.length === 2 && navArrows.every((d) => Math.abs(d) < 1.5), JSON.stringify(navArrows));
 await page.setViewportSize({ width: 1920, height: 1000 });
+
+// Menu (Figma 메뉴1 / 메뉴2)
+await page.setViewportSize({ width: 1920, height: 1000 });
+await page.goto(base + '/', { waitUntil: 'networkidle' });
+await page.getByRole('button', { name: '메뉴 열기' }).click();
+const menuRows = () => page.locator('.site-menu__row').allTextContents();
+const m1 = await menuRows();
+check('menu 1: BRAND INFO / AW26 / SHOP / COLLECTIONS / STOCKISTS', m1.join('|') === 'BRAND INFO|AW26|SHOP|COLLECTIONS|STOCKISTS', m1.join('|'));
+const menuBox = await page.locator('.site-menu').boundingBox();
+check('menu 1 panel 338 x 366 at the top-left', Math.round(menuBox.width) === 338 && Math.round(menuBox.height) === 366 && menuBox.x === 0 && menuBox.y === 0, JSON.stringify(menuBox));
+await page.getByRole('button', { name: 'SHOP', exact: true }).click();
+const m2 = await menuRows();
+const shopBg = await page.locator('.site-menu__row.is-active').evaluate((e) => getComputedStyle(e).backgroundColor);
+const menuBox2 = await page.locator('.site-menu').boundingBox();
+check('menu 2: SHOP opens its sub-menu on a #831A1F box, panel 621 high',
+  m2.join('|') === 'BRAND INFO|AW26|SHOP|ALL|OUTERWEAR|TOPS|BOTTOMS|ACC|COLLECTIONS|STOCKISTS' && shopBg === ACCENT && Math.round(menuBox2.height) === 621, m2.join('|') + ' ' + shopBg + ' ' + menuBox2.height);
+const topsRow = page.locator('.site-menu__row', { hasText: /^TOPS$/ });
+await page.mouse.move(1500, 900); await page.waitForTimeout(350);
+const t0 = await topsRow.locator('.site-menu__text').evaluate((e) => getComputedStyle(e).color);
+await topsRow.hover(); await page.waitForTimeout(400);
+const t1 = await topsRow.locator('.site-menu__text').evaluate((e) => getComputedStyle(e).color);
+check('menu text hover: white -> #831A1F', t0 === 'rgb(255, 255, 255)' && t1 === ACCENT, t0 + ' -> ' + t1);
+await page.getByRole('button', { name: 'STOCKISTS', exact: true }).click();
+await page.waitForTimeout(1500);
+const st = await page.evaluate(() => ({ hash: location.hash, top: Math.round(document.getElementById('stockists').getBoundingClientRect().top),
+  active: document.querySelector('.site-menu__row.is-active')?.textContent }));
+check('menu STOCKISTS: box #831A1F, page scrolls to the section', st.hash === '#stockists' && Math.abs(st.top) < 2 && st.active === 'STOCKISTS', JSON.stringify(st));
+await page.getByRole('button', { name: 'CLOSE' }).click();
+check('menu CLOSE closes the panel', (await page.locator('.site-menu').count()) === 0);
+await page.getByRole('button', { name: '메뉴 열기' }).click();
+await page.getByRole('button', { name: 'SHOP', exact: true }).click();
+await page.getByRole('button', { name: 'OUTERWEAR', exact: true }).click();
+await page.waitForURL('**/shop');
+check('menu sub-item opens SHOP and closes the menu', page.url().endsWith('/shop') && (await page.locator('.site-menu').count()) === 0, page.url());
+
+// Brand statement: typed row by row (35 ms / character) once in view
+await page.goto(base + '/', { waitUntil: 'networkidle' });
+const typed = () => page.evaluate(() => [...document.querySelectorAll('.bp__typed')].filter((e) => e.offsetParent).map((e) => e.textContent).join('|'));
+const typedBefore = await typed();
+await page.evaluate(() => document.getElementById('brand-info').scrollIntoView({ block: 'center' }));
+await page.waitForTimeout(800);
+const typedMid = await typed();
+await page.waitForTimeout(8000);
+const typedEnd = await typed();
+check('statement types in reading order and completes',
+  typedBefore.replace(/\|/g, '') === '' && typedMid.replace(/\|/g, '').length > 0 && typedMid.length < typedEnd.length
+  && typedEnd.startsWith('THOUGH  IT  MAY  APPEAR  UNFINISHED  AT|FIRST  GLANCE,|THE  CLOSER') && typedEnd.endsWith('CORE OF THE DESIGN.'),
+  'mid "' + typedMid.slice(0, 40) + '" end "' + typedEnd.slice(-30) + '"');
+
+// LOOK frames: clicking a look opens its frame
+await page.evaluate(() => document.getElementById('aw26').scrollIntoView());
+for (const id of ['00', '04', '08']) {
+  await page.getByRole('button', { name: 'Look ' + id, exact: true }).click({ force: true });
+  const dlg = page.getByRole('dialog');
+  const name = await dlg.getAttribute('aria-label');
+  const box = await dlg.boundingBox();
+  const imgsOk = await dlg.locator('img').evaluateAll((im) => im.filter((i) => i.src.includes('look-modal')).every((i) => i.complete && i.naturalWidth > 0));
+  check('LOOK ' + id + ': frame 714 x 964 with its photos', name === 'AW26:[UNEARTH: FILE-2711] LOOK ' + id && Math.round(box.width) === 714 && Math.round(box.height) === 964 && imgsOk, name + ' ' + box.width + 'x' + box.height);
+  await page.keyboard.press('Escape');
+  check('LOOK ' + id + ': Escape closes', (await page.getByRole('dialog').count()) === 0);
+}
+const gb = await page.locator('.hgallery').boundingBox();
+await page.mouse.move(gb.x + 900, gb.y + 400); await page.mouse.down(); await page.mouse.move(gb.x + 700, gb.y + 400, { steps: 6 }); await page.mouse.up();
+await page.waitForTimeout(200);
+check('dragging the gallery does not open a LOOK frame', (await page.getByRole('dialog').count()) === 0);
 
 // NEW IN → /shop
 await page.goto(base + '/', { waitUntil: 'networkidle' });

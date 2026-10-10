@@ -1,7 +1,9 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Frame, Pic, Section, T, place } from '../../lib/artboard';
 import { Arrow } from '../ui/Arrow';
 import { HorizontalGallery, type GalleryItem } from './HorizontalGallery';
+import { LookModal } from './LookModal';
 import './CurrentCollection.css';
 
 /**
@@ -28,8 +30,10 @@ const GALLERY_M = { box: [0, 493, 393, 338], offset: 343, width: 1103 } as const
 
 /** 02 / Current Collection — Desktop 1228:759 · Mobile 1228:760 */
 export function CurrentCollection() {
+  // clicking a look opens its "AW26:[UNEARTH: FILE-2711] LOOK NN" frame (feedback 2026-10-10)
+  const [look, setLook] = useState<string | null>(null);
   return (
-    <Section d={[1080, 1292]} m={[399, 532]} label="AW26 컬렉션">
+    <Section d={[1080, 1292]} m={[399, 532]} label="AW26 컬렉션" id="aw26">
       {/* Decoration / Current Collection / Texture — 2x Figma render (rotation, flip, 40% opacity and colour adjustment baked in) */}
       <Pic src="/images/home/r-collection-texture.webp" fit="fill" d={[577, 850, 1661.73, 1445.3]} m={[40, 386, 437.02, 380.1]} className="cc__texture" />
 
@@ -49,7 +53,9 @@ export function CurrentCollection() {
         src={(it) => `/images/home/${it.src ?? `look-${it.id}`}.webp`}
         d={GALLERY_D}
         m={GALLERY_M}
+        onItemClick={setLook}
       />
+      {look && <LookModal id={look} onClose={() => setLook(null)} />}
     </Section>
   );
 }

@@ -1,18 +1,26 @@
+import { useState, type CSSProperties } from 'react';
+import { createPortal } from 'react-dom';
 import { Link } from 'react-router-dom';
-import type { CSSProperties } from 'react';
+import { SiteMenu } from './SiteMenu';
 import { Glyph, Section, place } from '../../lib/artboard';
 import './Header.css';
 
 /**
  * 00 / Header — Desktop 1115:624 · Mobile 1228:756.
- * Menu / Account / Cart have no target design yet (menu is scheduled last), so they are not interactive.
+ * Menu opens the menu panel (Figma 메뉴1 / 메뉴2). Account / Cart icons have no target design — not interactive.
  */
 export function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const menuBtn = place({ d: [52, 16, 36, 28], m: [10, 18, 30, 24] }, 'site-header__menu');
   const logo = place({ d: [959.5, 21], m: [196.5, 21], ax: 'c' }, 't f-sans w700 c-inverse site-header__logo', { '--fs': 16, '--mfs': 16 } as CSSProperties);
   return (
     <Section as="header" d={[0, 60]} m={[0, 60]} bandClassName="site-header">
       <Glyph src="/images/icons/menu.svg" d={[60, 24, 20, 12]} overflow={[4.17, 0]} />
       <Glyph src="/images/icons/menu-m.svg" m={[16, 24.89, 17.556, 10.533]} overflow={[4.75, 0]} />
+      {/* hit area around the menu icon */}
+      <button type="button" className={menuBtn.className} style={menuBtn.style} aria-label="메뉴 열기" aria-expanded={menuOpen}
+        onClick={() => setMenuOpen((o) => !o)} />
+      {menuOpen && createPortal(<SiteMenu onClose={() => setMenuOpen(false)} />, document.documentElement)}
 
       {/* the link itself is the positioned text box, so its hit area and focus ring match the wordmark */}
       <Link to="/" aria-label="CARNET-ARCHIVE 홈" {...logo}>CARNET-ARCHIVE</Link>

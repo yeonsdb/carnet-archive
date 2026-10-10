@@ -44,6 +44,7 @@
 
 /* Buy Now (black) · Add to Cart (white, black stroke); label at the Figma offset */
 .pp-btn { cursor: default; }
+.pp-btn:not([aria-disabled]) { cursor: pointer; }
 .pp-btn--buy { background: var(--color-surface-inverse); color: var(--color-text-inverse); }
 .pp-btn--cart { background: var(--color-surface-page); border: max(1px, calc(1 * var(--u))) solid var(--color-border-strong); }
 .pp-btn__label {

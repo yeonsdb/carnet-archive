@@ -24,3 +24,6 @@
 @media (hover: hover) and (pointer: fine) {
   .hgallery__item:hover { transform: scale(var(--motion-hover-scale)); z-index: 1; }
 }
+
+/* looks open their LOOK frame on click */
+.hgallery__item[role='button'] { cursor: pointer; }

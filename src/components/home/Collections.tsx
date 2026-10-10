@@ -101,7 +101,7 @@ export function Collections() {
   const brushRef = useBrushReveal();
 
   return (
-    <Section d={[5834, 1481]} m={[2477, 687]} label="Collections">
+    <Section d={[5834, 1481]} m={[2477, 687]} label="Collections" id="collections">
       <span ref={brushRef} hidden />
       <T as="h2" fs={[80, 20]} cls="f-display w600" d={[60, 6034]} m={[16, 2577]}>COLLECTIONS</T>
 
@@ -110,9 +110,9 @@ export function Collections() {
           <Pic src={img('r-ss26-detail')} fit="fill" className="col__img" d={[60, 6517, 344, 460]} m={[293, 2751, 84, 111]} alt="SS26 SAMPLING" />
 
           <NavFrame d={[60, 7036.99, 1799, 77.852]} viewAll={[1496, 7037, 364, 77.838]} viewAllText={[1825.91, 7061.32]} />
-          <SeasonItem text="AW26: [UNEARTH: FILE-2711]" textBox={[1386, 7060.64]} align="r" arrow={[1409, 7060.64, 43, 27.12]} arrowM={[248, 3034, 19, 12.16]} arrowDir="right"
+          <SeasonItem text="AW26: [UNEARTH: FILE-2711]" textBox={[1386, 7060.64]} align="r" arrow={[1409, 7060.64, 43, 27.12]} arrowM={[248, 3033.92, 19, 12.16]} arrowDir="right"
             hit={[1096, 7060.64, 356, 28.6]} hitM={[16, 3016, 269, 48]} label="AW26 컬렉션 보기" onClick={() => setSeason('AW26')} />
-          <SeasonItem text="AW25: AW25 LAMB'S HEAD AND THE SHELL" textBox={[160, 7062.61]} arrow={[94, 7062.61, 43, 27.12]} arrowM={[33, 3039, 19, 12.16]} arrowDir="left" />
+          <SeasonItem text="AW25: AW25 LAMB'S HEAD AND THE SHELL" textBox={[160, 7062.61]} arrow={[94, 7062.61, 43, 27.12]} arrowM={[33, 3033.92, 19, 12.16]} arrowDir="left" />
 
           {/* Decoration / Archive Sweep (noise effect) — 2x renders placed at their render bounds, trimmed at the frame's right
               edge (the export's grey off-frame area showed as a line; scripts/trim-frame-edge.mjs) */}
@@ -134,8 +134,8 @@ export function Collections() {
           </RotatedBox>
 
           <NavFrame d={[60, 7036, 1800, 78]} viewAll={[1496.8, 7036.16, 363.2, 77.84]} viewAllText={[1826, 7060.48]} />
-          <SeasonItem text="SS27: BRUTALIST" textBox={[1386.74, 7059.7]} align="r" arrow={[1409.75, 7059.7, 43.02, 27.17]} arrowM={[248, 3034, 19, 12.16]} arrowDir="right" />
-          <SeasonItem text="SS26: SAMPLING" textBox={[160.06, 7061.67]} arrow={[94.02, 7061.67, 43.02, 27.17]} arrowM={[33, 3034, 19, 12.16]} arrowDir="left"
+          <SeasonItem text="SS27: BRUTALIST" textBox={[1386.74, 7059.7]} align="r" arrow={[1409.75, 7059.7, 43.02, 27.17]} arrowM={[248, 3033.92, 19, 12.16]} arrowDir="right" />
+          <SeasonItem text="SS26: SAMPLING" textBox={[160.06, 7061.67]} arrow={[94.02, 7061.67, 43.02, 27.17]} arrowM={[33, 3033.92, 19, 12.16]} arrowDir="left"
             hit={[94, 7061.67, 239, 28.6]} hitM={[16, 3016, 269, 48]} label="SS26 컬렉션으로 돌아가기" onClick={() => setSeason('SS26')} />
 
           <RotatedText fs={[50, 16]} deg={[-90, 90]} cls="f-sans w600 tr-4" d={[1813, 6200, 60, 142]} m={[303, 2939, 19, 46]}>‘AW26</RotatedText>

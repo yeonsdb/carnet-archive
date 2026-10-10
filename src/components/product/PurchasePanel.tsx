@@ -2,6 +2,7 @@ import { useState, type CSSProperties } from 'react';
 import { Frame, Glyph, T, place, type PlaceProps } from '../../lib/artboard';
 import { DETAIL } from '../../data/productDetail';
 import { formatPrice } from '../../data/products';
+import { CartModal } from './CartModal';
 import './PurchasePanel.css';
 
 const MAX_QTY = 99;
@@ -9,11 +10,11 @@ const MAX_QTY = 99;
 type Size = (typeof DETAIL.sizes)[number];
 
 /** Action button whose label sits at a Figma offset inside the box (BUY IT NOW / CART). */
-function PanelButton({ label, lx, mlx, className, ...pos }: PlaceProps & { label: string; lx: [number, number]; mlx: [number, number]; className: string }) {
+function PanelButton({ label, lx, mlx, className, onClick, ...pos }: PlaceProps & { label: string; lx: [number, number]; mlx: [number, number]; className: string; onClick?: () => void }) {
   const p = place(pos, `pp-btn ${className}`, { '--lx': lx[0], '--ly': lx[1], '--mlx': mlx[0], '--mly': mlx[1] } as CSSProperties);
-  // purchase / cart flows are out of scope (decision: visual only)
+  // no onClick → visual only (BUY IT NOW: checkout not designed); CART opens the 장바구니 window
   return (
-    <button type="button" className={p.className} style={p.style} aria-disabled="true">
+    <button type="button" className={p.className} style={p.style} aria-disabled={onClick ? undefined : true} onClick={onClick}>
       <span className="pp-btn__label tr-4">{label}</span>
     </button>
   );
@@ -23,11 +24,13 @@ function PanelButton({ label, lx, mlx, className, ...pos }: PlaceProps & { label
  * Purchase panel — Product Summary (D 60,1126 1042 × 287 · M 16,489 361 × 176) and Selected Items
  * (D 1101,1126 758 × 210 · M 16,664 361 × 110).
  * Size M / L and the quantity stepper work on screen only; TOTAL follows the quantity (desktop — the mobile frame has no
- * TOTAL row). Colour swatches, remove, BUY IT NOW and CART have no designed behaviour → visual only.
+ * TOTAL row). CART opens the 장바구니 window (Figma 1282:715). Colour swatches, remove and BUY IT NOW have no designed
+ * behaviour → visual only.
  */
 export function PurchasePanel() {
   const [size, setSize] = useState<Size>('M');
   const [qty, setQty] = useState(1);
+  const [cartOpen, setCartOpen] = useState(false);
   const line = `${DETAIL.name} / ${DETAIL.color} (${size})`;
 
   const minus = place({ d: [1136, 1214, 33.858, 33.858], m: [27, 735, 18.96, 18.96] }, 'pp-step pp-step--minus');
@@ -94,7 +97,8 @@ export function PurchasePanel() {
 
       {/* BUY IT NOW runs 1px under CART (drawn after it) so no sub-pixel seam shows between the two at scaled widths */}
       <PanelButton label="BUY IT NOW" className="pp-btn--buy" d={[1102, 1335, 379, 78]} m={[16, 766, 181.262, 44.197]} lx={[134, 27]} mlx={[52, 11.88]} />
-      <PanelButton label="CART" className="pp-btn--cart" d={[1480, 1335, 379, 78]} m={[196, 766, 180.738, 44.197]} lx={[164, 27]} mlx={[73, 11.88]} />
+      <PanelButton label="CART" className="pp-btn--cart" d={[1480, 1335, 379, 78]} m={[196, 766, 180.738, 44.197]} lx={[164, 27]} mlx={[73, 11.88]} onClick={() => setCartOpen(true)} />
+      {cartOpen && <CartModal size={size} qty={qty} onClose={() => setCartOpen(false)} />}
     </>
   );
 }

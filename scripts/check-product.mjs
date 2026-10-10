@@ -117,11 +117,26 @@ check('Q&A filters: 사이즈 4 / 배송 1 / 상품 0 (empty message) / ALL 5',
 check('Q&A ALL keeps the Figma row positions', allTops === '8556,8733,8896,9057,9220', allTops);
 check('Q&A selected chip is black (aria-pressed)', (await chip('ALL').getAttribute('aria-pressed')) === 'true');
 
-// BUY / CART visual only
+// BUY IT NOW visual only; CART opens the 장바구니 window with the current selection (size L, quantity 2 here)
 const url0 = page.url();
 await page.getByRole('button', { name: 'BUY IT NOW' }).click({ force: true });
-await page.getByRole('button', { name: 'CART' }).click({ force: true });
-check('BUY IT NOW / CART are visual only (no navigation)', page.url() === url0);
+check('BUY IT NOW is visual only (no navigation, no window)', page.url() === url0 && (await page.getByRole('dialog').count()) === 0);
+await page.getByRole('button', { name: 'CART' }).click();
+const cart = page.getByRole('dialog', { name: '장바구니 담기' });
+const cartBox = await cart.boundingBox();
+const cartText = (await cart.textContent()).replace(/\s+/g, ' ');
+check('CART opens the 944 x 707 cart window', Math.round(cartBox.width) === 944 && Math.round(cartBox.height) === 707, JSON.stringify(cartBox));
+check('cart shows the selected option, quantity and line total', cartText.includes('총 2개') && cartText.includes('[옵션] CHARCOAL (L) / 2개') && cartText.includes('1,740,000원'), cartText.slice(0, 120));
+await cart.getByRole('button', { name: '쇼핑 계속하기' }).click();
+check('쇼핑 계속하기 closes the cart window', (await page.getByRole('dialog').count()) === 0 && page.url() === url0);
+await page.getByRole('button', { name: 'CART' }).click();
+await page.keyboard.press('Escape');
+check('Escape closes the cart window', (await page.getByRole('dialog').count()) === 0);
+
+// Breadcrumb (desktop): HOME / SHOP / OUTER links + current product
+const crumbs = await page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link').evaluateAll((as) => as.map((a) => a.textContent + '>' + a.getAttribute('href')));
+const crumbTop = await page.getByRole('navigation', { name: 'Breadcrumb' }).getByRole('link', { name: 'HOME' }).evaluate((e) => Math.round(e.getBoundingClientRect().top + scrollY));
+check('breadcrumb HOME / SHOP / OUTER at y 101', crumbs.join(' ') === 'HOME>/ SHOP>/shop OUTER>/shop' && crumbTop === 101, crumbs.join(' ') + ' y' + crumbTop);
 
 // tabs → anchor scroll
 for (const [label, id] of [['SIZE GUIDE', 'size-guide'], ['상품 문의', 'product-inquiry'], ['구매안내', 'purchase-guide'], ['상품 상세정보', 'product-info']]) {

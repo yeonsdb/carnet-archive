@@ -31,7 +31,7 @@ function StockistRow({ index, name, city, dy, my }: { index: number; name: strin
 /** 07 / Stockists — Desktop 1228:761 · Mobile 1228:762. "VIEW ALL" has no target — visual only. */
 export function Stockists() {
   return (
-    <Section d={[7315, 897]} m={[3164, 588]} label="Stockists">
+    <Section d={[7315, 897]} m={[3164, 588]} label="Stockists" id="stockists">
       <Pic src="/images/home/r-stockists.webp" fit="fill" d={[60, 7451, 900, 511]} m={[16, 3198, 361, 205]} />
       <T as="h2" fs={[80, 20]} cls="f-display w600" d={[60, 7315]} m={[16, 3164]}>STOCKISTS</T>
 

@@ -6,3 +6,8 @@
 .bp__fill { background: var(--color-surface-inverse); }
 .bp__line { border: max(1px, calc(1 * var(--u))) solid var(--color-border-strong); }
 .bp__statement-m { white-space: pre-wrap; }
+
+/* typed statement (35 ms per character) */
+.bp__typed { pointer-events: none; }
+/* not-yet-typed part keeps its space so the right-aligned mobile block does not reflow while typing */
+.bp__rest { visibility: hidden; }

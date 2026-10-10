@@ -13,7 +13,7 @@ type Track = {
   width: number;
 };
 
-type Props = { label: string; items: GalleryItem[]; src: (item: GalleryItem) => string; d: Track; m: Track };
+type Props = { label: string; items: GalleryItem[]; src: (item: GalleryItem) => string; d: Track; m: Track; onItemClick?: (id: string) => void };
 
 const NARROW = '(max-width: 1279.98px)';
 
@@ -24,7 +24,7 @@ const NARROW = '(max-width: 1279.98px)';
  *   now scrolls the page as usual). Touch: native horizontal swipe. Hover enlarges the hovered look (fine pointers only).
  * - Looks beyond the layout edge are cut off at the layout edge (as in the PRODUCT gallery; feedback 2026-10-10).
  */
-export function HorizontalGallery({ label, items, src, d, m }: Props) {
+export function HorizontalGallery({ label, items, src, d, m, onItemClick }: Props) {
   const ref = useRef<HTMLDivElement>(null);
 
   // Start at the Figma composition. The position is kept in design px, so it survives viewport resizes
@@ -106,6 +106,7 @@ export function HorizontalGallery({ label, items, src, d, m }: Props) {
             key={it.id}
             src={src(it)}
             alt={`Look ${it.id}`}
+            onClick={onItemClick ? () => onItemClick(it.id) : undefined}
             fit={it.fit}
             mfit={it.mfit}
             flipX={it.flipX}

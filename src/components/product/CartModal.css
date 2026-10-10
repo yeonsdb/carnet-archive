@@ -1,0 +1,33 @@
+/* 1px black frame (children are placed inside it, as in Figma) */
+.cart.modal__frame { border: max(1px, calc(1 * var(--ms))) solid var(--color-border-strong); }
+.cart__bar { background: var(--color-surface-inverse); }
+.cart__sq { display: block; }
+.cart__sq--fill { background: var(--color-text-inverse); }
+.cart__sq--line { border: max(1px, calc(1 * var(--ms))) solid var(--color-border-inverse); }
+.cart__head { font-family: var(--font-sans); font-weight: 400; letter-spacing: -0.04em; color: var(--color-text-inverse); }
+.cart__head--title { font-weight: 600; }
+.cart__x { cursor: pointer; }
+.cart__x > img { position: absolute; max-width: none; pointer-events: none; }
+
+/* item meta: name Medium 14 / 130% (wraps at 268), option Regular 14 #8B8B8B, gap 4; price Regular 16, 14 below */
+.cart__meta { display: flex; flex-direction: column; gap: calc(14 * var(--ms)); }
+.cart__meta-top { display: flex; flex-direction: column; gap: calc(4 * var(--ms)); }
+.cart__meta p { line-height: 1.3; }
+.cart__name { white-space: normal !important; font-weight: 500; letter-spacing: -0.023em; }
+.cart__option { font-weight: 400; letter-spacing: -0.04em; color: var(--color-text-muted); }
+.cart__price { font-weight: 400; letter-spacing: -0.04em; }
+
+.cart__pg { display: flex; align-items: center; justify-content: center; }
+.cart__pg > img { width: 100%; height: 100%; }
+.cart__pg--prev > img { scale: -1 1; }
+.cart__pg--current { border: max(1px, calc(1 * var(--ms))) solid var(--color-border-strong); font-weight: 600; letter-spacing: -0.04em; }
+
+/* 구매하기 (black) · 장바구니 이동 · 쇼핑 계속하기 (1px black frame), SemiBold 16 */
+.cart__btn {
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 600; letter-spacing: -0.04em;
+  background: var(--color-surface-page); color: var(--color-text-primary);
+  border: max(1px, calc(1 * var(--ms))) solid var(--color-border-strong);
+}
+.cart__btn--buy { background: var(--color-surface-inverse); color: var(--color-text-inverse); border: 0; }
+.cart__btn[aria-disabled='true'] { cursor: default; }

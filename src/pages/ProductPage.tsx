@@ -2,6 +2,7 @@ import { Navigate, useParams } from 'react-router-dom';
 import { Section } from '../lib/artboard';
 import { productBySlug } from '../data/products';
 import { ProductGallery } from '../components/product/ProductGallery';
+import { Breadcrumb } from '../components/product/Breadcrumb';
 import { PurchasePanel } from '../components/product/PurchasePanel';
 import { SectionTabs } from '../components/product/SectionTabs';
 import { ProductStory } from '../components/product/ProductStory';
@@ -23,6 +24,7 @@ export function ProductPage() {
     <main className="pdp">
       <Section d={[60, 1066]} m={[60, 429]} label="상품 이미지">
         <ProductGallery />
+        <Breadcrumb />
       </Section>
       <Section d={[1126, 537]} m={[489, 383]} label="구매 정보">
         <PurchasePanel />

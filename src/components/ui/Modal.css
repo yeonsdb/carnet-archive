@@ -1,0 +1,23 @@
+/* full-screen click catcher (transparent: no backdrop in the design) */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* the frame keeps its Figma size, scaled down to fit (16px margin) */
+.modal__frame {
+  --ms: min(1px, calc((100vw - 32px) / var(--mw)), calc((100dvh - 32px) / var(--mh)));
+  position: relative;
+  width: calc(var(--mw) * var(--ms));
+  height: calc(var(--mh) * var(--ms));
+  background: var(--color-surface-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-sans);
+  outline: none;
+}
+.modal__frame p, .modal__frame span { white-space: nowrap; line-height: normal; }
+.modal__img { overflow: hidden; }
+.modal__img > img { position: absolute; max-width: none; pointer-events: none; user-select: none; }

@@ -1,0 +1,8 @@
+.look__bar { background: var(--color-surface-inverse); }
+.look__sq { display: block; }
+.look__sq--fill { background: var(--color-text-inverse); }
+.look__sq--line { border: max(1px, calc(1 * var(--ms))) solid var(--color-border-inverse); }
+/* IBM Plex Mono Medium 16, white */
+.look__title { font-family: var(--font-mono); font-weight: 500; color: var(--color-text-inverse); }
+.look__close { background: var(--color-surface-inverse); cursor: pointer; }
+.look__close > img { position: absolute; max-width: none; pointer-events: none; }

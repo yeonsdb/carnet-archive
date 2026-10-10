@@ -1,4 +1,4 @@
-import type { CSSProperties, ElementType, ReactNode } from 'react';
+import type { CSSProperties, ElementType, KeyboardEvent, ReactNode } from 'react';
 
 /**
  * Artboard primitives.
@@ -40,13 +40,15 @@ type SectionProps = {
   bandClassName?: string;
   className?: string;
   label?: string;
+  /** anchor id (menu / hash navigation) */
+  id?: string;
   children: ReactNode;
 };
 
-export function Section({ d, m, as: Tag = 'section', bandClassName = '', className = '', label, children }: SectionProps) {
+export function Section({ d, m, as: Tag = 'section', bandClassName = '', className = '', label, id, children }: SectionProps) {
   const style = { '--st': d[0], '--sh': d[1], '--mst': m[0], '--msh': m[1] } as CSSProperties;
   return (
-    <Tag className={`band ${bandClassName}`.trim()} aria-label={label}>
+    <Tag id={id} className={`band ${bandClassName}`.trim()} aria-label={label}>
       <div className={`section ${className}`.trim()} style={style}>
         {children}
       </div>
@@ -82,9 +84,11 @@ type PicProps = PlaceProps & {
   className?: string;
   imgClassName?: string;
   loading?: 'lazy' | 'eager';
+  /** makes the image a button (Enter / Space too); `alt` is then its accessible name */
+  onClick?: () => void;
 };
 
-export function Pic({ src, alt = '', fit, mfit, flipX, className = '', imgClassName, loading = 'lazy', ...pos }: PicProps) {
+export function Pic({ src, alt = '', fit, mfit, flipX, className = '', imgClassName, loading = 'lazy', onClick, ...pos }: PicProps) {
   const crop = typeof fit === 'string' ? undefined : fit;
   const fitCls = typeof fit === 'string' ? `fit-${fit}` : 'crop';
   const style: Record<string, string> = {};
@@ -92,8 +96,12 @@ export function Pic({ src, alt = '', fit, mfit, flipX, className = '', imgClassN
   if (mfit) Object.assign(style, cropVars('m', mfit));
   const p = place(pos, `media ${fitCls} ${flipX ? 'flip-x' : ''} ${className}`, style as CSSProperties);
   return (
-    <div className={p.className} style={p.style}>
-      <img src={src} alt={alt} loading={loading} decoding="async" className={imgClassName} draggable={false} />
+    <div className={p.className} style={p.style}
+      {...(onClick ? {
+        role: 'button', tabIndex: 0, 'aria-label': alt || undefined, onClick,
+        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onClick(); } },
+      } : {})}>
+      <img src={src} alt={onClick ? '' : alt} loading={loading} decoding="async" className={imgClassName} draggable={false} />
     </div>
   );
 }
