@@ -2,6 +2,7 @@ import { useEffect } from 'react';
 import { BrowserRouter, Navigate, Outlet, Route, Routes, useLocation } from 'react-router-dom';
 import { Header } from './components/layout/Header';
 import { Footer } from './components/layout/Footer';
+import { SiteCursor } from './components/layout/SiteCursor';
 import { HomePage } from './pages/HomePage';
 import { ShopPage } from './pages/ShopPage';
 import { ProductPage } from './pages/ProductPage';
@@ -16,6 +17,7 @@ function SiteLayout() {
   return (
     <>
       <ScrollToTop />
+      <SiteCursor />
       <Header />
       <Outlet />
       <Footer />

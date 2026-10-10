@@ -135,14 +135,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 }
 
 /*
- * Site cursor — Figma "mouse cursor" (1289:1212) everywhere, "mouse cursor1" (1289:1214, #831A1F) over photos.
- * 84 × 84 as designed, hot spot at the star's centre. SVG first, PNG fallback, then the system cursor.
- * !important: it replaces every per-element cursor (pointer / grab / default) so the star is used site-wide.
+ * Site cursor — drawn by <SiteCursor> (black / #831A1F Figma stars, see SiteCursor.tsx), so the system cursor is hidden.
+ * Before it mounts (and on browsers without JS) the black star is the CSS cursor; touch devices are unaffected.
  */
-html, html * {
-  cursor: url('/images/ui/cursor.svg') 40 42, url('/images/ui/cursor.png') 40 42, auto !important;
-}
-html .media, html .media *, html .pcard__media, html .pcard__media *, html .swap__hit,
-html .modal__img, html .modal__img *, html .hgallery__item, html .hgallery__item * {
-  cursor: url('/images/ui/cursor-image.svg') 40 42, url('/images/ui/cursor-image.png') 40 42, pointer !important;
-}
+html, html * { cursor: url('/images/ui/cursor.svg') 39 41, url('/images/ui/cursor.png') 39 41, auto; }
+html.custom-cursor, html.custom-cursor * { cursor: none !important; }

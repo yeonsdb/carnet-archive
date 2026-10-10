@@ -1,0 +1,8 @@
+.site-cursor {
+  position: fixed; left: 0; top: 0; width: 84px; height: 84px;
+  z-index: 2147483647; pointer-events: none; will-change: transform;
+}
+.site-cursor[data-visible='false'] { visibility: hidden; }
+.site-cursor__img { position: absolute; inset: 0; display: block; }
+.site-cursor[data-variant='black'] .site-cursor__img--red,
+.site-cursor[data-variant='red'] .site-cursor__img--black { visibility: hidden; }

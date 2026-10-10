@@ -120,6 +120,9 @@ check('Q&A selected chip is black (aria-pressed)', (await chip('ALL').getAttribu
 // BUY IT NOW visual only; CART opens the 장바구니 window with the current selection (size L, quantity 2 here)
 const url0 = page.url();
 await page.getByRole('button', { name: 'BUY IT NOW' }).click({ force: true });
+const starOn = async (loc) => { await loc.hover({ force: true }); await page.waitForTimeout(60); return page.locator('.site-cursor').evaluate((c) => c.dataset.variant); };
+const cCart = await starOn(page.getByRole('button', { name: 'CART' })), cBuy = await starOn(page.getByRole('button', { name: 'BUY IT NOW' }));
+check('cursor: #831A1F star on CART (clickable), black star on visual-only BUY IT NOW', cCart === 'red' && cBuy === 'black', cCart + ' | ' + cBuy);
 check('BUY IT NOW is visual only (no navigation, no window)', page.url() === url0 && (await page.getByRole('dialog').count()) === 0);
 await page.getByRole('button', { name: 'CART' }).click();
 const cart = page.getByRole('dialog', { name: '장바구니 담기' });
