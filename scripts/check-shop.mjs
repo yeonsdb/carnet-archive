@@ -71,10 +71,11 @@ const tw = page.locator('.typewriter');
 await tw.scrollIntoViewIfNeeded();
 await page.waitForFunction(() => document.querySelector('.typewriter')?.textContent?.endsWith('RECONSTRUCTION...'), null, { timeout: 8000 });
 const typed = await tw.textContent();
-const cursorEarly = await page.locator('.typewriter__cursor').evaluate((el) => getComputedStyle(el).visibility);
-await page.waitForTimeout(1200);
-const cursorVis = await page.locator('.typewriter__cursor').evaluate((el) => getComputedStyle(el).visibility);
-check('S-4 typewriter completes, cursor hidden until +1000ms then shown', typed?.endsWith('RECONSTRUCTION...') && cursorEarly === 'hidden' && cursorVis === 'visible', `${cursorEarly} → ${cursorVis}`);
+await page.waitForTimeout(100);
+const cursorNow = await page.locator('.typewriter__cursor').evaluate((el) => getComputedStyle(el).visibility);
+const seen = new Set([cursorNow]);
+for (let k = 0; k < 8; k++) { await page.waitForTimeout(100); seen.add(await page.locator('.typewriter__cursor').evaluate((el) => getComputedStyle(el).visibility)); }
+check('S-4 typewriter completes, black block shows right away and blinks (500 ms)', typed?.endsWith('RECONSTRUCTION...') && cursorNow === 'visible' && seen.has('hidden'), cursorNow + ' / ' + [...seen].join(','));
 
 // card → product route
 await desktopCards.first().locator('.pcard__media').click();

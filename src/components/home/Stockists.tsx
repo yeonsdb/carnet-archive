@@ -3,6 +3,9 @@ import { Arrow } from '../ui/Arrow';
 import { RotatedText } from '../ui/Rotated';
 import './Stockists.css';
 
+/** desktop row tops (Figma, updated 2026-10-10): each row centred between its dividers */
+const ROW_Y = [7486, 7588, 7689, 7792, 7894];
+
 const STOCKISTS = [
   { name: 'SAMPLAS', city: 'SEOUL' },
   { name: 'GALLERIA DEPT EAST : G.STREET 494', city: 'SEOUL' },
@@ -44,7 +47,7 @@ export function Stockists() {
 
       <ul className="stockists__list">
         {STOCKISTS.map((s, i) => (
-          <StockistRow key={s.name} index={i + 1} name={s.name} city={s.city} dy={7486 + i * 101} my={3420 + i * 50} />
+          <StockistRow key={s.name} index={i + 1} name={s.name} city={s.city} dy={ROW_Y[i]} my={3420 + i * 50} />
         ))}
       </ul>
 
