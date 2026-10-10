@@ -7,18 +7,18 @@ import './CurrentCollection.css';
 /**
  * Image / Look 00–08 — positions from Desktop 1124:12550 and Mobile 1195:1092 (page coordinates).
  * Crops come from each fill's Figma imageTransform [a, tx, d, ty]: width 100/a %, left −tx/a %, height 100/d %, top −ty/d %.
- * Looks 04 / 07 carry Figma image adjustments (exposure etc.) that cannot be exported with transparency; their original
- * images are used as-is until the adjusted assets are supplied (docs/ASSET_REQUESTS.md).
+ * Looks 04 / 07 carry Figma image adjustments (exposure etc.): the adjusted versions were supplied as exports of the
+ * look box itself (already cropped), so they fill the box (docs/ASSET_REQUESTS.md — supplied 2026-10-10).
  */
 const LOOKS: GalleryItem[] = [
   { id: '00', d: [-365.8, 1408, 188.3, 719.6], m: [-343, 516, 83, 294], fit: [-494.67, 0, 675.58, 100], mfit: [-451.68, 0, 626.75, 100] },
   { id: '01', d: [-86.1, 1470, 257.0, 725.8], m: [-223, 534, 105, 297], fit: [-363.8, 0, 500.06, 100] },
   { id: '02', d: [215.3, 1401, 237.2, 726.3], m: [-99, 508, 97, 298], fit: [-398.21, 0, 540.86, 100] },
   { id: '03', d: [504.0, 1470, 246.3, 726.2], m: [19, 534, 101, 297], fit: [-218.62, -2.12, 543.52, 104.24], flipX: true },
-  { id: '04', d: [793.7, 1401, 260.7, 726.0], m: [137, 508, 107, 298], fit: [-192.59, -1.12, 498.16, 101.12] },
+  { id: '04', d: [793.7, 1401, 260.7, 726.0], m: [137, 508, 107, 298], fit: 'fill', src: 'look-04-adjusted' },
   { id: '05', d: [1082.4, 1470, 281.6, 725.5], m: [256, 534, 115, 297], fit: [-186.61, 0, 455.59, 100], flipX: true },
   { id: '06', d: [1453.6, 1401, 222.8, 726.4], m: [407, 508, 92, 298], fit: [-408.73, 0, 577.43, 100] },
-  { id: '07', d: [1693.5, 1470, 267.0, 725.9], m: [506, 534, 109, 297], fit: [-33.56, 0, 481.12, 100] },
+  { id: '07', d: [1693.5, 1470, 267.0, 725.9], m: [506, 534, 109, 297], fit: 'fill', src: 'look-07-adjusted' },
   { id: '08', d: [2009.5, 1386, 305.8, 752.8], m: [635, 493, 125, 308], fit: [-175.03, 0, 435.71, 100] },
 ];
 

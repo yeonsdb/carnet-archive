@@ -32,8 +32,8 @@ export function ProductCard({ product, className = '', style }: { product: Produ
           <img src={img('card-bg')} alt="" loading="lazy" decoding="async" draggable={false}
             style={{ left: `${CARD_BG_CROP[0]}%`, top: `${CARD_BG_CROP[1]}%`, width: `${CARD_BG_CROP[2]}%`, height: `${CARD_BG_CROP[3]}%` }} />
         </span>
-        <Layer layer={product.model} src={img(`model-${product.id}`)} className="pcard__model" />
-        <Layer layer={product.cutout} src={img(`cutout-${product.id}`)} className="pcard__cutout" />
+        <Layer layer={product.model} src={img(product.model.src ?? `model-${product.id}`)} className="pcard__model" />
+        <Layer layer={product.cutout} src={img(product.cutout.src ?? `cutout-${product.id}`)} className="pcard__cutout" />
       </Link>
       <div className="pcard__meta">
         <div className="pcard__info">
