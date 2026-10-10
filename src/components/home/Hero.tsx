@@ -14,7 +14,8 @@ export function Hero() {
     <Section d={[60, 1020]} m={[60, 339]} label="CARNET-ARCHIVE" full>
       {/* desktop and mobile use different photos (feedback 2026-10-10); each is preloaded only for its own width (index.html) and
           the hidden one is never fetched (lazy + display: none) */}
-      <Pic src="/images/home/hero.webp" fit="cover" className="hero__img" d={[0, 0, 1920, 1080]} />
+      {/* desktop photo starts right under the header (y 60, not under it) so the raised hand is not cut (feedback 2026-10-11) */}
+      <Pic src="/images/home/hero.webp" fit="cover" className="hero__img" d={[0, 60, 1920, 1020]} />
       <Pic src="/images/home/hero-m.webp" fit="cover" m={[-133, 60, 602, 339]} />
       <h1 className="sr-only">CARNET-ARCHIVE</h1>
       {/* Wordmark / Reveal=Left To Right Glitch (D 1213:4240 · M 1195:967–969 bounds): one reveal for the whole group */}

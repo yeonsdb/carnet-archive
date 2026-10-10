@@ -7,6 +7,8 @@
 /* desktop full width (see Hero.tsx). The wordmark layer is re-based on its box (x 60), hence the 60 offsets. */
 @media (min-width: 1280px) {
   .section .hero__img { left: 0; width: 100%; }
+  /* wider than the photo (> ~2380px): crop the bottom, keep the hand at the top */
+  .section .hero__img > img { object-position: 50% 0; }
   .section .hero__wordmark { width: calc(100% - 120 * var(--u)); }
   .section .hero__sep { left: calc(50% - 51 * var(--u)); }
   .section .hero__archive { left: calc(100% - 757 * var(--u)); }
