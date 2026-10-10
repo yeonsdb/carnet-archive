@@ -1,8 +1,10 @@
-/* panel pinned to the layout's top-left corner (over the header's left part), 338 design px wide */
+/* panel pinned to the browser's top-left corner (over the header's left part), 338 design px wide.
+   --edge: x of the CLOSE icon / labels — 60 design px; on desktop exactly 60px, like the header menu icon. */
 .site-menu {
   position: fixed;
   top: 0;
-  left: max(0px, calc((100cqw - var(--artboard) * var(--u)) / 2));
+  left: 0;
+  --edge: calc(60 * var(--u));
   z-index: 90;
   width: calc(338 * var(--u));
   background: var(--color-surface-inverse);
@@ -42,4 +44,8 @@
   .site-menu__row--main .site-menu__text { font-size: max(7px, calc(24 * var(--u))); }
   .site-menu__row--sub .site-menu__text { font-size: max(7px, calc(16 * var(--u))); }
   .site-menu__text--close { font-size: max(7px, calc(14 * var(--u))); }
+}
+
+@media (min-width: 1280px) {
+  .site-menu { --edge: 60px; }
 }

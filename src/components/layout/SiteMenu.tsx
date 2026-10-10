@@ -27,6 +27,8 @@ function layout(shopOpen: boolean) {
 }
 
 const px = (v: number) => `calc(${v} * var(--u))`;
+/** x measured from the menu edge line (design x 60 = --edge) */
+const ex = (v: number) => `calc(var(--edge) + ${v - 60} * var(--u))`;
 
 /**
  * Menu panel — Figma 메뉴1 (1287:919, closed SHOP) / 메뉴2 (1287:832, SHOP open), 338 wide, top-left over the header.
@@ -60,8 +62,8 @@ export function SiteMenu({ onClose }: { onClose: () => void }) {
   return (
     <nav ref={ref} className="site-menu" aria-label="메뉴" style={{ height: px(height) } as CSSProperties}>
       <button type="button" className="site-menu__close" onClick={onClose}>
-        <img src="/images/ui/close-menu.svg" alt="" style={{ left: px(60.75), top: px(26.63), width: px(8.28), height: px(7.74) }} />
-        <span className="site-menu__text site-menu__text--close" style={{ left: px(79), top: px(22) }}>CLOSE</span>
+        <img src="/images/ui/close-menu.svg" alt="" style={{ left: ex(60.75), top: px(26.63), width: px(8.28), height: px(7.74) }} />
+        <span className="site-menu__text site-menu__text--close" style={{ left: ex(79), top: px(22) }}>CLOSE</span>
       </button>
       {rows.map((r) => {
         const isActive = r.kind === 'main' && r.key === active;
@@ -74,7 +76,7 @@ export function SiteMenu({ onClose }: { onClose: () => void }) {
             aria-expanded={r.key === 'shop' ? active === 'shop' : undefined}
             onClick={() => (r.kind === 'main' ? pick(r.key as Key) : (navigate('/shop'), onClose()))}
           >
-            <span className="site-menu__text" style={{ left: px(60), top: px(16) }}>{r.label}</span>
+            <span className="site-menu__text" style={{ left: ex(60), top: px(16) }}>{r.label}</span>
           </button>
         );
       })}
