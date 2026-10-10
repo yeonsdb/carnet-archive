@@ -22,16 +22,18 @@ function layout(shopOpen: boolean) {
     y += 60;
     if (m.key === 'shop' && shopOpen) for (const s of SHOP_SUB) { rows.push({ kind: 'sub', key: s, label: s, y, h: 51 }); y += 51; }
   }
-  return { rows, height: y + 7 }; // 메뉴1 366 / 메뉴2 621
+  // logo 33 below the last row, frame ends 19 below it (메뉴1 446 / 메뉴2 701)
+  return { rows, logoY: y + 33, height: y + 87 };
 }
 
 const px = (v: number) => `calc(${v} * var(--u))`;
 
 /**
  * Menu panel — Figma 메뉴1 (1287:919, closed SHOP) / 메뉴2 (1287:832, SHOP open), 338 wide, top-left over the header.
- * - SHOP opens / closes its sub-menu (ALL · OUTERWEAR · TOPS · BOTTOMS · ACC); the active main item's box is #831A1F.
- * - BRAND INFO · AW26 · COLLECTIONS · STOCKISTS: box turns #831A1F and the page scrolls to that HOME section.
- * - Sub-menu items open SHOP (one product list) and close the menu. ALL is shown in #831A1F as designed.
+ * - Every main item turns its box #831A1F and scrolls HOME to its section; SHOP also opens / closes its sub-menu
+ *   (ALL · OUTERWEAR · TOPS · BOTTOMS · ACC).
+ * - Sub-menu items open SHOP (one product list) and close the menu.
+ * - Logo (35 × 35) at the bottom right, 33 below the last row.
  * - Every text turns #831A1F on hover (except on the #831A1F box itself), white again when the cursor leaves.
  * - CLOSE, Escape or a click outside the panel closes it.
  */
@@ -39,7 +41,7 @@ export function SiteMenu({ onClose }: { onClose: () => void }) {
   const [active, setActive] = useState<Key | null>(null);
   const navigate = useNavigate();
   const ref = useRef<HTMLElement>(null);
-  const { rows, height } = layout(active === 'shop');
+  const { rows, logoY, height } = layout(active === 'shop');
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClose(); };
@@ -51,8 +53,7 @@ export function SiteMenu({ onClose }: { onClose: () => void }) {
   }, [onClose]);
 
   const pick = (key: Key) => {
-    if (key === 'shop') { setActive((a) => (a === 'shop' ? null : 'shop')); return; }
-    setActive(key);
+    setActive((a) => (key === 'shop' && a === 'shop' ? null : key));
     navigate(`/#${key}`);
   };
 
@@ -68,7 +69,7 @@ export function SiteMenu({ onClose }: { onClose: () => void }) {
           <button
             key={`${r.kind}-${r.key}`}
             type="button"
-            className={`site-menu__row site-menu__row--${r.kind}${isActive ? ' is-active' : ''}${r.kind === 'sub' && r.key === 'ALL' ? ' is-current' : ''}`}
+            className={`site-menu__row site-menu__row--${r.kind}${isActive ? ' is-active' : ''}`}
             style={{ top: px(r.y), height: px(r.h) }}
             aria-expanded={r.key === 'shop' ? active === 'shop' : undefined}
             onClick={() => (r.kind === 'main' ? pick(r.key as Key) : (navigate('/shop'), onClose()))}
@@ -77,6 +78,10 @@ export function SiteMenu({ onClose }: { onClose: () => void }) {
           </button>
         );
       })}
+      {/* logo — Figma image 11 / 12 (CROP: width 158.42 %, left −29.21 %, height 114.19 %, top −11.69 %) */}
+      <span className="site-menu__logo" style={{ left: px(281), top: px(logoY), width: px(35), height: px(35) }} aria-hidden="true">
+        <img src="/images/ui/menu-logo.webp" alt="" style={{ left: '-29.21%', top: '-11.69%', width: '158.42%', height: '114.19%' }} />
+      </span>
     </nav>
   );
 }

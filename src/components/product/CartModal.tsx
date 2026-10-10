@@ -45,9 +45,12 @@ export function CartModal({ size, qty, onClose }: { size: string; qty: number; o
       <span className="cart__pg cart__pg--current" style={{ ...mbox(455, 585, 34, 34), ...mfs(16) }} aria-label="1 페이지">1</span>
       <span className="cart__pg" style={mbox(499, 585, 34, 34)} aria-hidden="true"><img src="/images/ui/pager-next.svg" alt="" /></span>
 
-      <button type="button" className="cart__btn cart__btn--buy" style={{ ...mbox(-1, 649, 315, 57), ...mfs(16) }} aria-disabled="true">구매하기</button>
-      <button type="button" className="cart__btn" style={{ ...mbox(314, 650, 314, 55), ...mfs(16) }} aria-disabled="true">장바구니 이동</button>
-      <button type="button" className="cart__btn" style={{ ...mbox(629, 650, 313, 55), ...mfs(16) }} onClick={onClose}>쇼핑 계속하기</button>
+      {/* bottom row: spans the whole frame (over its 1px border) so the three boxes share edges with no gap */}
+      <div className="cart__actions" style={mbox(-1, 649, 944, 57)}>
+        <button type="button" className="cart__btn cart__btn--buy" style={mfs(16)} aria-disabled="true">구매하기</button>
+        <button type="button" className="cart__btn" style={mfs(16)} aria-disabled="true">장바구니 이동</button>
+        <button type="button" className="cart__btn" style={mfs(16)} onClick={onClose}>쇼핑 계속하기</button>
+      </div>
     </Modal>
   );
 }

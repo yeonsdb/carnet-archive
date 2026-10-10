@@ -20,7 +20,7 @@ const LINES: [string, number, number][] = [
 const STATEMENT_M =
   'THOUGH  IT  MAY  APPEAR  UNFINISHED  AT FIRST  GLANCE,THE  CLOSER  YOU  LOOK,THE  MORE  ITS  REFINEMENT REVEEALS ITSELF. THIS SUBTLE TENSION AND BALANCE LIE AT THE CORE OF THE DESIGN.';
 
-const TYPE_MS = 35; // feedback 2026-10-10: typed line by line, left → right, 35 ms per character
+const TYPE_MS = 20; // typed line by line, left → right; 35 → 20 ms per character (feedback 2026-10-10: faster)
 
 /** desktop segments in reading order (row by row, left to right) */
 const ORDER = [...LINES].sort((a, b) => a[2] - b[2] || a[1] - b[1]);

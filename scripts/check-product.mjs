@@ -127,6 +127,12 @@ const cartBox = await cart.boundingBox();
 const cartText = (await cart.textContent()).replace(/\s+/g, ' ');
 check('CART opens the 944 x 707 cart window', Math.round(cartBox.width) === 944 && Math.round(cartBox.height) === 707, JSON.stringify(cartBox));
 check('cart shows the selected option, quantity and line total', cartText.includes('총 2개') && cartText.includes('[옵션] CHARCOAL (L) / 2개') && cartText.includes('1,740,000원'), cartText.slice(0, 120));
+const row = await cart.locator('.cart__btn').evaluateAll((bs) => bs.map((b) => b.getBoundingClientRect()).map((r) => [r.left, r.right, r.top, r.bottom]));
+const frameR = await cart.evaluate((e) => { const r = e.getBoundingClientRect(); return [r.left, r.right, r.bottom]; });
+const seams = [row[1][0] - row[0][1], row[2][0] - row[1][1]];
+check('cart buttons: one row, no gaps, flush with the frame edges',
+  seams.every((s) => s <= 0.01 && s >= -1.01) && Math.abs(row[0][0] - frameR[0]) < 0.5 && Math.abs(row[2][1] - frameR[1]) < 0.5 && row.every((r) => Math.abs(r[3] - frameR[2]) < 0.5 && Math.abs(r[2] - row[0][2]) < 0.5),
+  JSON.stringify({ seams, row, frameR }));
 await cart.getByRole('button', { name: '쇼핑 계속하기' }).click();
 check('쇼핑 계속하기 closes the cart window', (await page.getByRole('dialog').count()) === 0 && page.url() === url0);
 await page.getByRole('button', { name: 'CART' }).click();

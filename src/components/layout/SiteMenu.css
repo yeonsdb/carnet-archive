@@ -31,7 +31,8 @@
 .site-menu__row--main .site-menu__text { font-family: var(--font-display); font-weight: 500; font-size: max(9px, calc(24 * var(--u))); }
 .site-menu__row--sub .site-menu__text { font-family: var(--font-sans); font-weight: 400; letter-spacing: -0.04em; font-size: max(9px, calc(16 * var(--u))); }
 .site-menu__text--close { font-family: var(--font-sans); font-weight: 400; letter-spacing: -0.04em; font-size: max(9px, calc(14 * var(--u))); }
-.site-menu__row.is-current .site-menu__text { color: var(--color-accent-brand); }
+.site-menu__logo { position: absolute; overflow: hidden; pointer-events: none; }
+.site-menu__logo > img { position: absolute; max-width: none; }
 
 @media (hover: hover) and (pointer: fine) {
   .site-menu__close:hover .site-menu__text,

@@ -180,13 +180,24 @@ const menuRows = () => page.locator('.site-menu__row').allTextContents();
 const m1 = await menuRows();
 check('menu 1: BRAND INFO / AW26 / SHOP / COLLECTIONS / STOCKISTS', m1.join('|') === 'BRAND INFO|AW26|SHOP|COLLECTIONS|STOCKISTS', m1.join('|'));
 const menuBox = await page.locator('.site-menu').boundingBox();
-check('menu 1 panel 338 x 366 at the top-left', Math.round(menuBox.width) === 338 && Math.round(menuBox.height) === 366 && menuBox.x === 0 && menuBox.y === 0, JSON.stringify(menuBox));
+check('menu 1 panel 338 x 446 (with logo) at the top-left', Math.round(menuBox.width) === 338 && Math.round(menuBox.height) === 446 && menuBox.x === 0 && menuBox.y === 0, JSON.stringify(menuBox));
 await page.getByRole('button', { name: 'SHOP', exact: true }).click();
 const m2 = await menuRows();
 const shopBg = await page.locator('.site-menu__row.is-active').evaluate((e) => getComputedStyle(e).backgroundColor);
 const menuBox2 = await page.locator('.site-menu').boundingBox();
-check('menu 2: SHOP opens its sub-menu on a #831A1F box, panel 621 high',
-  m2.join('|') === 'BRAND INFO|AW26|SHOP|ALL|OUTERWEAR|TOPS|BOTTOMS|ACC|COLLECTIONS|STOCKISTS' && shopBg === ACCENT && Math.round(menuBox2.height) === 621, m2.join('|') + ' ' + shopBg + ' ' + menuBox2.height);
+await page.waitForTimeout(1200);
+const shopTop = await page.evaluate(() => ({ hash: location.hash, top: Math.round(document.getElementById('shop').getBoundingClientRect().top) }));
+check('menu SHOP scrolls HOME to its SHOP section', shopTop.hash === '#shop' && Math.abs(shopTop.top) < 2, JSON.stringify(shopTop));
+const logo = await page.locator('.site-menu__logo').boundingBox();
+check('menu logo 35 x 35 at the bottom right (x 281)', Math.round(logo.width) === 35 && Math.round(logo.x) === 281 && Math.round(logo.y) === 647, JSON.stringify(logo));
+check('menu 2: SHOP opens its sub-menu on a #831A1F box, panel 701 high',
+  m2.join('|') === 'BRAND INFO|AW26|SHOP|ALL|OUTERWEAR|TOPS|BOTTOMS|ACC|COLLECTIONS|STOCKISTS' && shopBg === ACCENT && Math.round(menuBox2.height) === 701, m2.join('|') + ' ' + shopBg + ' ' + menuBox2.height);
+const allRow = page.locator('.site-menu__row', { hasText: /^ALL$/ });
+await page.mouse.move(1500, 900); await page.waitForTimeout(350);
+const allC0 = await allRow.locator('.site-menu__text').evaluate((e) => getComputedStyle(e).color);
+await allRow.hover(); await page.waitForTimeout(400);
+const allC1 = await allRow.locator('.site-menu__text').evaluate((e) => getComputedStyle(e).color);
+check('menu ALL: white, #831A1F on hover', allC0 === 'rgb(255, 255, 255)' && allC1 === ACCENT, allC0 + ' -> ' + allC1);
 const topsRow = page.locator('.site-menu__row', { hasText: /^TOPS$/ });
 await page.mouse.move(1500, 900); await page.waitForTimeout(350);
 const t0 = await topsRow.locator('.site-menu__text').evaluate((e) => getComputedStyle(e).color);
@@ -227,7 +238,10 @@ for (const id of ['00', '04', '08']) {
   const dlg = page.getByRole('dialog');
   const name = await dlg.getAttribute('aria-label');
   const box = await dlg.boundingBox();
+  await page.waitForFunction(() => [...document.querySelectorAll('.modal img')].every((i) => i.complete), null, { timeout: 8000 }).catch(() => {});
   const imgsOk = await dlg.locator('img').evaluateAll((im) => im.filter((i) => i.src.includes('look-modal')).every((i) => i.complete && i.naturalWidth > 0));
+  const outline = await page.locator('.look.modal__frame').evaluate((e) => { const s = getComputedStyle(e, '::after'); return s.borderTopWidth + ' ' + s.borderTopStyle + ' ' + s.borderTopColor; });
+  check('LOOK ' + id + ': 1px black outline', outline === '1px solid rgb(0, 0, 0)', outline);
   check('LOOK ' + id + ': frame 714 x 964 with its photos', name === 'AW26:[UNEARTH: FILE-2711] LOOK ' + id && Math.round(box.width) === 714 && Math.round(box.height) === 964 && imgsOk, name + ' ' + box.width + 'x' + box.height);
   await page.keyboard.press('Escape');
   check('LOOK ' + id + ': Escape closes', (await page.getByRole('dialog').count()) === 0);

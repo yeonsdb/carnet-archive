@@ -13,7 +13,7 @@ const img = (name: string) => `/images/home/${name}.webp`;
  */
 export function ShopCategories() {
   return (
-    <Section d={[2865, 2199]} m={[1161, 1107]} label="Shop categories">
+    <Section d={[2865, 2199]} m={[1161, 1107]} label="Shop categories" id="shop">
       {/* Category Card / Bottoms */}
       <HoverSwap to="/shop"
         base={{ src: img('r-cat-bottoms-default'), fit: 'fill', d: [545, 3875, 465, 357], m: [201, 1733.52, 175.878, 135.216], alt: 'BOTTOMS' }}

@@ -22,12 +22,17 @@
 .cart__pg--prev > img { scale: -1 1; }
 .cart__pg--current { border: max(1px, calc(1 * var(--ms))) solid var(--color-border-strong); font-weight: 600; letter-spacing: -0.04em; }
 
-/* 구매하기 (black) · 장바구니 이동 · 쇼핑 계속하기 (1px black frame), SemiBold 16 */
+/* 구매하기 (black) · 장바구니 이동 · 쇼핑 계속하기 (1px black frame), SemiBold 16 — 315 + 315 + 315 − 1 (shared edge) = 944 */
+.cart__actions { display: flex; }
 .cart__btn {
+  flex: none;
+  width: calc(315 * var(--ms));
+  height: 100%;
   display: flex; align-items: center; justify-content: center;
   font-weight: 600; letter-spacing: -0.04em;
   background: var(--color-surface-page); color: var(--color-text-primary);
   border: max(1px, calc(1 * var(--ms))) solid var(--color-border-strong);
 }
-.cart__btn--buy { background: var(--color-surface-inverse); color: var(--color-text-inverse); border: 0; }
+.cart__btn--buy { background: var(--color-surface-inverse); color: var(--color-text-inverse); border-color: var(--color-surface-inverse); }
+.cart__btn + .cart__btn + .cart__btn { margin-left: calc(-1 * max(1px, calc(1 * var(--ms)))); flex: 1 1 auto; width: auto; }
 .cart__btn[aria-disabled='true'] { cursor: default; }
