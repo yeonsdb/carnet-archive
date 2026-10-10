@@ -119,6 +119,18 @@ for (const w of [2560, 1920, 1440]) {
     near(g.heroL) && near(g.heroW) && near(g.heroH) && near(g.carnetL) && near(g.sepC) && near(g.archiveL) && g.sw === 0, JSON.stringify(g));
 }
 
+// Hero photo: desktop hero.webp, mobile (narrow) hero-m.webp; each width shows and downloads only its own photo
+for (const w of [1920, 393]) {
+  const p2 = await browser.newPage({ viewport: { width: w, height: 900 } });
+  const got = [];
+  p2.on('request', (r) => { const m = r.url().match(/\/images\/home\/(hero(?:-m)?\.webp)/); if (m) got.push(m[1]); });
+  await p2.goto(base + '/', { waitUntil: 'networkidle' });
+  const shown = await p2.evaluate(() => [...document.querySelectorAll('img')].filter((i) => /\/hero(-m)?\.webp/.test(i.src) && i.getBoundingClientRect().width > 0 && i.complete && i.naturalWidth > 0).map((i) => i.src.split('/').pop()));
+  const want = w === 1920 ? 'hero.webp' : 'hero-m.webp';
+  check(`hero ${w}px: shows ${want} only, the other photo is not downloaded`, shown.join() === want && [...new Set(got)].join() === want, `shown ${shown} / requested ${[...new Set(got)]}`);
+  await p2.close();
+}
+
 check('no runtime errors / failed requests', errors.length === 0, errors.slice(0, 5).join(' | '));
 await browser.close();
 for (const r of results) console.log(`${r.ok ? 'PASS' : 'FAIL'}  ${r.name}${r.detail ? `  (${r.detail})` : ''}`);
