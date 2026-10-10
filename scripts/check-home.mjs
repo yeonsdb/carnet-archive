@@ -27,6 +27,21 @@ const anim = await page.evaluate(() => {
 });
 check('H-1 one dither reveal for the whole wordmark (CARNET + line + ARCHIVE), DOM text shown at the end',
   anim.groups === 1 && anim.parts === 'CARNET|line|ARCHIVE' && anim.visible === 'visible' && anim.canvas === 'none', JSON.stringify(anim));
+// duration: --motion-glitch-duration 1800ms (the production CSS minifier writes it as 1.8s — must still play ~1.8 s)
+await page.addInitScript(() => {
+  const g = (window.__glitch = {});
+  new MutationObserver(() => {
+    const el = document.querySelector('.glitch-group');
+    if (!el) return;
+    if (el.classList.contains('is-playing') && !g.play) g.play = performance.now();
+    if (el.classList.contains('is-done') && !g.done) g.done = performance.now();
+  }).observe(document, { subtree: true, childList: true, attributes: true });
+});
+await page.reload({ waitUntil: 'networkidle' });
+await page.waitForSelector('.glitch-group.is-done', { timeout: 6000 });
+const gl = await page.evaluate(() => window.__glitch);
+const glMs = Math.round(gl.done - gl.play);
+check('H-1 reveal plays ~1.8 s (also in the production build)', glMs >= 1500 && glMs <= 2600, glMs + 'ms');
 
 // H-2 gallery: opens at the Figma composition; mouse drag scrolls it; the wheel scrolls the page (not the gallery)
 const g = page.locator('.hgallery');

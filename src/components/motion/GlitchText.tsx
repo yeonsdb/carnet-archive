@@ -23,6 +23,9 @@ const rand = (i: number) => {
   return s - Math.floor(s);
 };
 
+/** CSS time → ms. The production CSS minifier rewrites 1800ms as 1.8s, so both units must be read. */
+const toMs = (v: string) => { const s = v.trim(); return parseFloat(s) * (s.endsWith('ms') ? 1 : s.endsWith('s') ? 1000 : 1); };
+
 export function GlitchGroup({ d, m, children }: Props) {
   const box = place({ d, m }, 'glitch-group');
   const rebase = { '--st': d[1], '--ox': d[0], '--mst': m[1], '--mox': m[0] } as CSSProperties;
@@ -73,7 +76,7 @@ export function GlitchGroup({ d, m, children }: Props) {
       // 2. split into square cells and keep only cells that contain ink (block = ink bounds inside the cell)
       const size = Math.max(3, Math.round(fontPx * 0.09)); // block ≈ 9% of the letter size (feedback: smaller than 16%)
       const px = actx.getImageData(0, 0, art.width, art.height).data;
-      const D = parseFloat(getComputedStyle(root).getPropertyValue('--motion-glitch-duration')) || 1400;
+      const D = toMs(getComputedStyle(root).getPropertyValue('--motion-glitch-duration')) || 1800;
       const cells: Cell[] = [];
       let i = 0;
       for (let cy = 0; cy < H; cy += size) {
