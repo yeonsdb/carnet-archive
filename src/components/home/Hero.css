@@ -3,3 +3,11 @@
 @media (max-width: 1279.98px) {
   .hero__separator { border-top-width: max(1px, calc(1 * var(--u))); }
 }
+
+/* desktop full width (see Hero.tsx). The wordmark layer is re-based on its box (x 60), hence the 60 offsets. */
+@media (min-width: 1280px) {
+  .section .hero__img { left: 0; width: 100%; }
+  .section .hero__wordmark { width: calc(100% - 120 * var(--u)); }
+  .section .hero__sep { left: calc(50% - 51 * var(--u)); }
+  .section .hero__archive { left: calc(100% - 757 * var(--u)); }
+}

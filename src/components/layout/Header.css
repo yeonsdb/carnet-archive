@@ -1,2 +1,9 @@
 .site-header { background: var(--color-surface-inverse); }
 .site-header__menu { z-index: 1; cursor: pointer; }
+
+/* desktop: edges at 60px from the browser edges, logo at the window centre (sizes keep the 1920 design scale) */
+@media (min-width: 1280px) {
+  .site-header .site-header__l { left: calc(60px + (var(--x) - 60) * var(--u)); }
+  .site-header .site-header__r { left: calc(100% - 60px - (1860 - var(--x)) * var(--u)); }
+  .site-header .site-header__logo { left: 50%; }
+}

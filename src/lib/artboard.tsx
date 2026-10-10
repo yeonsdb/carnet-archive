@@ -42,14 +42,16 @@ type SectionProps = {
   label?: string;
   /** anchor id (menu / hash navigation) */
   id?: string;
+  /** desktop: the slice spans the whole browser width instead of the centred 1920 frame (Header, Hero) */
+  full?: boolean;
   children: ReactNode;
 };
 
-export function Section({ d, m, as: Tag = 'section', bandClassName = '', className = '', label, id, children }: SectionProps) {
+export function Section({ d, m, as: Tag = 'section', bandClassName = '', className = '', label, id, full, children }: SectionProps) {
   const style = { '--st': d[0], '--sh': d[1], '--mst': m[0], '--msh': m[1] } as CSSProperties;
   return (
     <Tag id={id} className={`band ${bandClassName}`.trim()} aria-label={label}>
-      <div className={`section ${className}`.trim()} style={style}>
+      <div className={`section${full ? ' section--full' : ''} ${className}`.trim()} style={style}>
         {children}
       </div>
     </Tag>

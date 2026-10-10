@@ -13,7 +13,7 @@ import './GlitchText.css';
  * `d` / `m` = the group's box (page coordinates). Children keep their own page coordinates:
  * the inner layer re-bases them on the box (--st/--ox), so they render exactly where they were.
  */
-type Props = { d: Box; m: Box; children: ReactNode };
+type Props = { d: Box; m: Box; className?: string; children: ReactNode };
 
 type Cell = { x: number; y: number; w: number; h: number; start: number; settle: number; seed: number };
 
@@ -26,8 +26,8 @@ const rand = (i: number) => {
 /** CSS time → ms. The production CSS minifier rewrites 1800ms as 1.8s, so both units must be read. */
 const toMs = (v: string) => { const s = v.trim(); return parseFloat(s) * (s.endsWith('ms') ? 1 : s.endsWith('s') ? 1000 : 1); };
 
-export function GlitchGroup({ d, m, children }: Props) {
-  const box = place({ d, m }, 'glitch-group');
+export function GlitchGroup({ d, m, className = '', children }: Props) {
+  const box = place({ d, m }, `glitch-group ${className}`.trim());
   const rebase = { '--st': d[1], '--ox': d[0], '--mst': m[1], '--mox': m[0] } as CSSProperties;
   const rootRef = useRef<HTMLDivElement>(null);
   const layerRef = useRef<HTMLDivElement>(null);

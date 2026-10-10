@@ -91,6 +91,34 @@ for (const pg of PAGES) {
   }
 }
 
+// Desktop Header + Hero span the browser width: menu icon 60px from the left, cart 60px from the right, logo centred,
+// hero image full width (height 1080 × scale), wordmark CARNET 60 left / separator centred / ARCHIVE 60 right
+for (const w of [2560, 1920, 1440]) {
+  await page.setViewportSize({ width: w, height: 1100 });
+  await page.goto(base + '/', { waitUntil: 'networkidle' });
+  await page.waitForSelector('.glitch-group.is-done', { timeout: 6000 });
+  const g = await page.evaluate(() => {
+    const vw = document.documentElement.clientWidth, u = Math.min(vw, 1920) / 1920;
+    const R = (e) => e.getBoundingClientRect();
+    const vis = (s) => [...document.querySelectorAll(s)].find((e) => R(e).width > 0);
+    const glyphs = [...document.querySelectorAll('.site-header .glyph')].filter((e) => R(e).width > 0).map(R);
+    const ink = (e) => { const r = document.createRange(); r.selectNodeContents(e); return r.getBoundingClientRect(); };
+    const logo = R(document.querySelector('.site-header__logo')), hero = R(vis('.hero__img')), sep = R(vis('.hero__sep'));
+    return {
+      menuL: glyphs[0].left, cartR: vw - glyphs[2].right, gap: glyphs[2].left - glyphs[1].right, gapDesign: 21 * u,
+      logoC: logo.left + logo.width / 2 - vw / 2, header: R(document.querySelector('.site-header .section')).width - vw,
+      heroL: hero.left, heroW: hero.width - vw, heroH: hero.height - 1080 * u,
+      carnetL: R(vis('.hero__carnet')).left - 60 * u, sepC: sep.left + sep.width / 2 - vw / 2,
+      archiveL: R(vis('.hero__archive')).left - (vw - 817 * u), sw: document.documentElement.scrollWidth - vw,
+    };
+  });
+  const near = (v) => Math.abs(v) < 0.6;
+  check(`desktop ${w}: header full width, menu 60px / cart 60px from the edges, logo centred, icon gap as designed`,
+    near(g.header) && near(g.menuL - 60) && near(g.cartR - 60) && near(g.logoC) && near(g.gap - g.gapDesign), JSON.stringify(g));
+  check(`desktop ${w}: hero image full width (height as designed), wordmark 60 / centre / 60, no horizontal scroll`,
+    near(g.heroL) && near(g.heroW) && near(g.heroH) && near(g.carnetL) && near(g.sepC) && near(g.archiveL) && g.sw === 0, JSON.stringify(g));
+}
+
 check('no runtime errors / failed requests', errors.length === 0, errors.slice(0, 5).join(' | '));
 await browser.close();
 for (const r of results) console.log(`${r.ok ? 'PASS' : 'FAIL'}  ${r.name}${r.detail ? `  (${r.detail})` : ''}`);

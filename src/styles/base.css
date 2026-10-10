@@ -48,6 +48,8 @@ button { font: inherit; color: inherit; background: none; border: 0; padding: 0;
 
 @media (min-width: 1280px) {
   .hide-d { display: none !important; }
+  /* full-bleed slice: as wide as the browser; children placed against its edges by their own rules (Header, Hero) */
+  .section--full { width: 100%; }
 }
 @media (max-width: 1279.98px) {
   .section { height: calc(var(--msh) * var(--u)); }
