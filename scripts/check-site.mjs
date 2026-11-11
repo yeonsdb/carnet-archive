@@ -9,7 +9,7 @@ const settle = async (p) => { let last = -1; for (let i = 0; i < 40; i++) { cons
 
 const PAGES = [
   { path: '/', name: 'HOME', h: { 1920: 8812, 393: 4028 } },
-  { path: '/shop', name: 'SHOP', h: { 1920: 6376, 393: 4097 } },
+  { path: '/shop', name: 'SHOP', h: { 1920: 6338, 393: 4097 } },
   { path: '/product/paper-crustacean-padded-short-bomber-jacket', name: 'PRODUCT', h: { 1920: 11639, 393: 4704 } },
 ];
 const WIDTHS = [1920, 1440, 1280, 1279, 1024, 768, 393, 360];

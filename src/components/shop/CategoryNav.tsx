@@ -3,15 +3,15 @@ import './CategoryNav.css';
 
 export type CategoryKey = 'all' | 'outerwear';
 
-/** Navigation / Shop Categories — Desktop 1228:764 · Mobile 1228:765 (component set 1124:12447). */
+/** Navigation / Shop Categories — Desktop 2265:6163 (Shop 1921, rows 49 apart) · Mobile 1228:765 (component set 1124:12447). */
 const ITEMS: { key: CategoryKey | 'bottoms' | 'tops' | 'acc'; label: string; dy: number; my: number; mh: number; active: boolean }[] = [
   // ALL is not clickable (feedback 2026-10-10) — colour change on hover only; OUTERWEAR (all products) is the list
-  { key: 'all', label: 'ALL', dy: 273, my: 117, mh: 27, active: false },
-  { key: 'outerwear', label: 'OUTERWEAR', dy: 326, my: 145.15, mh: 27.516, active: true },
+  { key: 'all', label: 'ALL', dy: 243, my: 117, mh: 27, active: false },
+  { key: 'outerwear', label: 'OUTERWEAR', dy: 292, my: 145.15, mh: 27.516, active: true },
   // no products in these categories (empty state not designed) → not clickable, colour change on hover only
-  { key: 'bottoms', label: 'BOTTOMS', dy: 379, my: 174, mh: 27, active: false },
-  { key: 'tops', label: 'TOPS', dy: 432, my: 202, mh: 28, active: false },
-  { key: 'acc', label: 'ACC', dy: 485, my: 231, mh: 27, active: false },
+  { key: 'bottoms', label: 'BOTTOMS', dy: 341, my: 174, mh: 27, active: false },
+  { key: 'tops', label: 'TOPS', dy: 390, my: 202, mh: 28, active: false },
+  { key: 'acc', label: 'ACC', dy: 439, my: 231, mh: 27, active: false },
 ];
 
 /**

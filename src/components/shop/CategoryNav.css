@@ -35,7 +35,8 @@
    Bold 30 → Pretendard 700 (font policy). Mobile keeps the 393 frame (Bold / Heavy → 700 / 800). */
 @media (min-width: 1280px) {
   .catlink__label { font-weight: 600; }
-  .catlink.is-selected .catlink__label { font-weight: 700; }
+  /* Pretendard 700 baseline matched to the Helvetica Bold text (measured: 2px higher than the 800 line box) */
+  .catlink.is-selected .catlink__label { font-weight: 700; top: calc(9 * var(--u)); }
 }
 
 @media (max-width: 1279.98px) {

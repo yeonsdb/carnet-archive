@@ -31,7 +31,7 @@ export function SortDropdown({ value, onChange }: { value: SortKey; onChange: (k
     return () => { document.removeEventListener('pointerdown', onDown); document.removeEventListener('keydown', onKey); };
   }, [open]);
 
-  const p = place({ d: [1754, 584, 106, open ? 225 : 30], m: [293, 288, 84, open ? 178.3 : 30] }, `sort${open ? ' is-open' : ''}`);
+  const p = place({ d: [1754, 545, 106, open ? 225 : 30], m: [293, 288, 84, open ? 178.3 : 30] }, `sort${open ? ' is-open' : ''}`);
   return (
     <div ref={root} className={p.className} style={p.style}>
       <button type="button" className="sort__trigger" aria-haspopup="listbox" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
