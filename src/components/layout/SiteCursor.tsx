@@ -10,7 +10,7 @@ import './SiteCursor.css';
 const RED = [
   '.media', '.pcard__media', '.swap__hit', '.modal__img', '.hgallery__item',
   'a[href]', '.hover-group--link .hover-accent', '.hover-target', '.stockist', '.catlink__btn',
-  '.site-menu__row', '.site-menu__close', '.sort__option:not(.is-disabled)',
+  '.site-menu__row', '.site-menu__close', '.hgallery-bar', '.sort__option:not(.is-disabled)',
   ":is(button, [role='button'], [role='radio'], [role='option'], [role='tab']):not([aria-disabled='true']):not(:disabled)",
 ].join(', ');
 

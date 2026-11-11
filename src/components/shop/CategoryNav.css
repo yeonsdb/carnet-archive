@@ -31,6 +31,13 @@
   transition: color var(--motion-hover-duration) var(--motion-ease-out);
 }
 
+/* Desktop (Figma Shop 1921, 2265:6163): ALL / BOTTOMS / TOPS / ACC Pretendard SemiBold 30; selected OUTERWEAR Helvetica Neue
+   Bold 30 → Pretendard 700 (font policy). Mobile keeps the 393 frame (Bold / Heavy → 700 / 800). */
+@media (min-width: 1280px) {
+  .catlink__label { font-weight: 600; }
+  .catlink.is-selected .catlink__label { font-weight: 700; }
+}
+
 @media (max-width: 1279.98px) {
   .catlink__label { font-size: max(7px, calc(16 * var(--u))); }
   .catlink.is-selected .catlink__label { left: calc(8.63 * var(--u)); top: calc(6.1 * var(--u)); }

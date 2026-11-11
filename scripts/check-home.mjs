@@ -47,12 +47,21 @@ check('H-1 reveal plays ~1.8 s (also in the production build)', glMs >= 1500 && 
 const g = page.locator('.hgallery');
 await g.scrollIntoViewIfNeeded();
 const start = await g.evaluate((el) => el.scrollLeft);
-check('H-2 gallery initial offset (≈614.15 design px)', Math.abs(start - 614.15) < 2, `scrollLeft=${start}`);
+check('H-2 gallery initial offset (≈672.95 design px)', Math.abs(start - 672.95) < 2, `scrollLeft=${start}`);
 const cutState = await g.evaluate((el) => {
   const gr = el.getBoundingClientRect();
   return [...el.querySelectorAll('.hgallery__item')].map((it) => { const r = it.getBoundingClientRect(); return r.right <= gr.left + 0.5 || r.left >= gr.right - 0.5 ? 'out' : r.left >= gr.left - 0.5 && r.right <= gr.right + 0.5 ? 'in' : 'CUT'; }).join(' ');
 });
 check('H-2 at rest nobody is cut at the edges: looks 02–06 fully visible, the others fully outside', cutState === 'out out in in in in in out out', cutState);
+// H-2 scrollbar (Figma 1923, 2265:5939): 618 × 4 track at x 651 / y 2277, 208.78 × 2 thumb centred at rest
+const bar0 = await page.evaluate(() => {
+  const tr = document.querySelector('.hgallery-bar').getBoundingClientRect(), th = document.querySelector('.hgallery-bar__thumb').getBoundingClientRect();
+  const gal = document.querySelector('.hgallery').getBoundingClientRect();
+  return { tw: tr.width, th: tr.height, tx: tr.left - gal.left, ty: tr.top - gal.top, mw: th.width, mh: th.height, mx: th.left - tr.left, my: th.top - tr.top };
+});
+check('H-2 scrollbar: track 618 × 4 under the gallery, thumb 208.78 × 2 centred at rest',
+  Math.abs(bar0.tw - 618) < 0.6 && Math.abs(bar0.th - 4) < 0.6 && Math.abs(bar0.tx - 651) < 0.6 && Math.abs(bar0.ty - 964) < 0.6
+  && Math.abs(bar0.mw - 208.78) < 0.6 && Math.abs(bar0.mh - 2) < 0.6 && Math.abs(bar0.mx - 204.61) < 0.6 && Math.abs(bar0.my - 1) < 0.6, JSON.stringify(bar0));
 const box = await g.boundingBox();
 const cx = box.x + box.width / 2, cy = box.y + box.height / 2;
 await page.mouse.move(cx, cy);
@@ -76,6 +85,18 @@ await page.waitForTimeout(400);
 const pageY1 = await page.evaluate(() => scrollY);
 const afterWheel = await g.evaluate((el) => el.scrollLeft);
 check('H-2 wheel over the gallery scrolls the page, not the gallery', pageY1 > pageY0 && afterWheel === afterDrag, `pageY ${pageY0}→${pageY1}, scrollLeft ${afterDrag}→${afterWheel}`);
+{
+  // dragging the thumb to the track end scrolls the gallery to its end; the thumb follows the gallery scroll
+  await g.scrollIntoViewIfNeeded();
+  const tr = await page.locator('.hgallery-bar').boundingBox();
+  await page.mouse.move(tr.x + tr.width / 2, tr.y + 2); await page.mouse.down();
+  await page.mouse.move(tr.x + tr.width + 40, tr.y + 2, { steps: 5 }); await page.mouse.up();
+  const end = await g.evaluate((el) => [Math.round(el.scrollLeft), el.scrollWidth - el.clientWidth]);
+  const thumbEnd = await page.evaluate(() => { const a = document.querySelector('.hgallery-bar').getBoundingClientRect(), b = document.querySelector('.hgallery-bar__thumb').getBoundingClientRect(); return Math.round(a.right - b.right); });
+  await g.evaluate((el) => { el.scrollLeft = 0; }); await page.waitForTimeout(100);
+  const thumbStart = await page.evaluate(() => { const a = document.querySelector('.hgallery-bar').getBoundingClientRect(), b = document.querySelector('.hgallery-bar__thumb').getBoundingClientRect(); return Math.round(b.left - a.left); });
+  check('H-2 scrollbar: dragging the thumb scrolls the gallery; the thumb follows the gallery scroll', Math.abs(end[0] - end[1]) <= 1 && thumbEnd === 0 && thumbStart === 0, JSON.stringify({ end, thumbEnd, thumbStart }));
+}
 
 // H-3 look hover enlarges
 const look = page.locator('.hgallery__item').nth(4);

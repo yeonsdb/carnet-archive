@@ -13,7 +13,10 @@ type Track = {
   width: number;
 };
 
-type Props = { label: string; items: GalleryItem[]; src: (item: GalleryItem) => string; d: Track; m: Track; onItemClick?: (id: string) => void };
+/** desktop scrollbar under the gallery: track box (page coordinates) and thumb width (design px) */
+type Bar = { d: Box; thumb: number };
+
+type Props = { label: string; items: GalleryItem[]; src: (item: GalleryItem) => string; d: Track; m: Track; bar?: Bar; onItemClick?: (id: string) => void };
 
 const NARROW = '(max-width: 1279.98px)';
 
@@ -23,9 +26,52 @@ const NARROW = '(max-width: 1279.98px)';
  * - Mouse: drag with the cursor to scroll (feedback 2026-10-10 — replaces the wheel → horizontal mapping of Q8; the wheel
  *   now scrolls the page as usual). Touch: native horizontal swipe. Hover enlarges the hovered look (fine pointers only).
  * - Looks beyond the layout edge are cut off at the layout edge (as in the PRODUCT gallery; feedback 2026-10-10).
+ * - Desktop scrollbar (Figma 1923, 2265:5939): the thumb follows the scroll position; dragging the thumb or pressing the
+ *   track scrolls the gallery.
  */
-export function HorizontalGallery({ label, items, src, d, m, onItemClick }: Props) {
+export function HorizontalGallery({ label, items, src, d, m, bar, onItemClick }: Props) {
   const ref = useRef<HTMLDivElement>(null);
+  const barRef = useRef<HTMLDivElement>(null);
+  const thumbRef = useRef<HTMLSpanElement>(null);
+
+  // scrollbar: thumb position = scroll progress; pointer on the track scrolls (thumb centred under the pointer)
+  useEffect(() => {
+    const el = ref.current, track = barRef.current, thumb = thumbRef.current;
+    if (!el || !track || !thumb || !bar) return;
+    const free = 1 - bar.thumb / (bar.d[2] ?? 1); // share of the track the thumb can travel
+    const sync = () => {
+      const max = el.scrollWidth - el.clientWidth;
+      const p = max > 0 ? el.scrollLeft / max : 0;
+      thumb.style.left = `${p * free * 100}%`;
+      track.setAttribute('aria-valuenow', String(Math.round(p * 100)));
+    };
+    let id = -1;
+    const seek = (clientX: number) => {
+      const r = track.getBoundingClientRect();
+      const t = r.width * (1 - free);
+      const p = Math.min(1, Math.max(0, (clientX - r.left - t / 2) / (r.width - t)));
+      el.scrollLeft = p * (el.scrollWidth - el.clientWidth);
+    };
+    const onDown = (e: PointerEvent) => { if (e.button !== 0) return; id = e.pointerId; track.setPointerCapture(id); el.dispatchEvent(new Event('pointerdown')); seek(e.clientX); };
+    const onMove = (e: PointerEvent) => { if (e.pointerId === id) seek(e.clientX); };
+    const onUp = (e: PointerEvent) => { if (e.pointerId === id) id = -1; };
+    el.addEventListener('scroll', sync, { passive: true });
+    const ro = new ResizeObserver(sync);
+    ro.observe(el);
+    track.addEventListener('pointerdown', onDown);
+    track.addEventListener('pointermove', onMove);
+    track.addEventListener('pointerup', onUp);
+    track.addEventListener('pointercancel', onUp);
+    sync();
+    return () => {
+      el.removeEventListener('scroll', sync);
+      ro.disconnect();
+      track.removeEventListener('pointerdown', onDown);
+      track.removeEventListener('pointermove', onMove);
+      track.removeEventListener('pointerup', onUp);
+      track.removeEventListener('pointercancel', onUp);
+    };
+  }, [bar]);
 
   // Start at the Figma composition. The position is kept in design px, so it survives viewport resizes
   // (the browser may reset scrollLeft while relaying out); only user-driven scrolling changes it.
@@ -98,7 +144,10 @@ export function HorizontalGallery({ label, items, src, d, m, onItemClick }: Prop
     '--st': d.box[1], '--mst': m.box[1],
   } as CSSProperties;
 
+  const barBox = bar ? place({ d: bar.d }, 'hgallery-bar') : null;
+
   return (
+    <>
     <div ref={ref} className={scroller.className} style={scroller.style} tabIndex={0} role="region" aria-label={label}>
       <div className="hgallery__track" style={trackStyle}>
         {items.map((it) => (
@@ -117,5 +166,12 @@ export function HorizontalGallery({ label, items, src, d, m, onItemClick }: Prop
         ))}
       </div>
     </div>
+    {bar && barBox && (
+      <div ref={barRef} className={barBox.className} style={barBox.style} role="scrollbar" aria-orientation="horizontal"
+        aria-label={`${label} 스크롤`} aria-valuemin={0} aria-valuemax={100} aria-valuenow={50}>
+        <span ref={thumbRef} className="hgallery-bar__thumb" style={{ width: `${(bar.thumb / (bar.d[2] ?? 1)) * 100}%` }} />
+      </div>
+    )}
+    </>
   );
 }

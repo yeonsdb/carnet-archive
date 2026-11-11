@@ -35,8 +35,13 @@ const LOOKS: GalleryItem[] = LOOKS_RAW.map((it, i) => {
   return { ...it, d: [960 + (i - 4) * STEP_D - w / 2, y, w, h] };
 });
 
-/** Gallery window (page coordinates); items span x -614.15 → 2592.9 (desktop) and -343 → 760 (mobile). */
-const GALLERY_D = { box: [0, 1313, 1920, 948], offset: 614.15, width: 3207.05 } as const;
+/**
+ * Gallery window (page coordinates); items span x -614.15 → 2592.9 (desktop) and -343 → 760 (mobile).
+ * Desktop scroll range is symmetric around the rest position (672.95 either side: 58.8 of space before look 00), so the
+ * scrollbar thumb sits exactly at the centre of its track at rest, as in Figma 1923.
+ */
+const GALLERY_D = { box: [0, 1313, 1920, 948], offset: 672.95, width: 3265.9 } as const;
+const GALLERY_BAR = { d: [651, 2277, 618, 4], thumb: 208.78 } as const;
 const GALLERY_M = { box: [0, 493, 393, 338], offset: 343, width: 1103 } as const;
 
 /** 02 / Current Collection — Desktop 1228:759 · Mobile 1228:760 */
@@ -64,6 +69,7 @@ export function CurrentCollection() {
         src={(it) => `/images/home/${it.src ?? `look-${it.id}`}.webp`}
         d={GALLERY_D}
         m={GALLERY_M}
+        bar={GALLERY_BAR}
         onItemClick={setLook}
       />
       {look && <LookModal id={look} onClose={() => setLook(null)} />}
